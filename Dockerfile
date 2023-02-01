@@ -33,8 +33,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 #CMD chown -R www-data:www-data /var/www/html/ \
 #    chmod -R 755 /var/www/html/
 
-#ENV COMPOSER_ALLOW_SUPERUSER=1
-#CMD bash -c "composer install --no-interaction --ignore-platform-reqs"
+ENV COMPOSER_ALLOW_SUPERUSER=1
+CMD bash -c "composer install --no-interaction --ignore-platform-reqs"
 
 
 EXPOSE 80 443
