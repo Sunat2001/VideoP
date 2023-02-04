@@ -15,7 +15,7 @@ class SerialResource extends JsonResource
             'description' => $this->description,
             'image_cover' => $this->image_cover,
             'rate' => $this->rate,
-            'attributes' => $this->attributeValues,
+            'attributes' => $this->whenLoaded('attributeValues'),
         ];
     }
 }
