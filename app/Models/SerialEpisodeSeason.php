@@ -53,7 +53,7 @@ class SerialEpisodeSeason extends Model
 
     public function serialEpisodes(): HasMany
     {
-        return $this->hasMany(SerialEpisode::class);
+        return $this->hasMany(SerialEpisode::class, 'season_id');
     }
 
 

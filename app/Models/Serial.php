@@ -61,6 +61,11 @@ class Serial extends Model
         return $this->hasMany(SerialEpisode::class);
     }
 
+    public function serialEpisodeSeasons(): HasMany
+    {
+        return $this->hasMany(SerialEpisodeSeason::class);
+    }
+
     public function serialEpisodeVideos(): HasMany
     {
         return $this->hasMany(SerialEpisodeVideo::class);

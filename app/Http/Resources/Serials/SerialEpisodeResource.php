@@ -14,8 +14,8 @@ class SerialEpisodeResource extends JsonResource
             'description' => $this->description,
             'serial_number' => $this->serial_number,
             'rate' => $this->rate,
-            'serial' => new SerialResource($this->serial),
-            'season' => new SerialEpisodeSeasonResource($this->season),
+            'serial' => new SerialResource($this->whenLoaded('serial')),
+            'season' => new SerialEpisodeSeasonResource($this->whenLoaded('season')),
             'serial_video' => SerialEpisodeVideoResource::collection($this->whenLoaded('serialEpisodeVideos')),
         ];
     }

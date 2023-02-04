@@ -13,9 +13,7 @@ class SerialEpisodeVideoResource extends JsonResource
             'video_url' => $this->video_url,
             'format' => $this->format,
             'quality' => $this->quality,
-            'episode' => new SerialEpisodeResource($this->serialEpisode),
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'episode' => new SerialEpisodeResource($this->whenLoaded('serialEpisode')),
         ];
     }
 }
