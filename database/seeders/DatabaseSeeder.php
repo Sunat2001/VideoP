@@ -23,23 +23,21 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-//        \App\Models\User::factory()->create([
-//            'name' => 'Test User',
-//            'email' => 'test@example.com',
-//        ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+        ]);
 
         $this->call([
-//            AttributeSeeder::class,
+            AttributeSeeder::class,
             AttributeValueSeeder::class,
         ]);
 
-//        Attribute::factory(30)->create();
-//        AttributeValue::factory(30)->create();
-//        Serial::factory(30)->create();
-//        SerialEpisodeSeason::factory(30)->create();
-//        SerialEpisode::factory(30)->create();
-//        SerialEpisodeVideo::factory(30)->create();
-//
-//        Review::factory(5)->create();
+        Serial::factory(30)->create();
+        SerialEpisodeSeason::factory(30)->create();
+        SerialEpisode::factory(30)->create();
+        SerialEpisodeVideo::factory(30)->create();
+
+        Review::factory(5)->create();
     }
 }
