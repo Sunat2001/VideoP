@@ -27,7 +27,7 @@ class SerialEpisodeFactory extends Factory
                 'ru' => $this->faker->text,
                 'en' => $this->faker->text,
             ],
-            'rate' => $this->faker->randomFloat(2, 0, 10),
+            'rate' => $this->faker->randomFloat(2, 0, 9),
             'serial_number' => $this->faker->randomNumber(2),
             'serial_id' => Serial::query()->inRandomOrder()->first()->id,
             'season_id' => SerialEpisodeSeason::query()->inRandomOrder()->first()->id,

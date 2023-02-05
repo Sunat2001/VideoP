@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('video_url');
             $table->enum('quality', ['120', '240', '360', '480', '720', '1080']);
             $table->string('format');
+            $table->string('duration');
             $table->foreignId('serial_episode_id')->constrained('serial_episodes')->onDelete('CASCADE');
             $table->timestamps();
         });

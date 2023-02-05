@@ -26,7 +26,7 @@ class SerialFactory extends Factory
                 'en' => $this->faker->text,
             ],
             'image_cover' => $this->faker->imageUrl(),
-            'rate' => $this->faker->randomFloat(1, 0, 10),
+            'rate' => $this->faker->randomFloat(1, 0, 9),
         ];
     }
 }

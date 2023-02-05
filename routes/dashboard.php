@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\Dashboard\AttributeController;
 use App\Http\Controllers\Dashboard\AttributeValueController;
+use App\Http\Controllers\Dashboard\FileController;
 use App\Http\Controllers\Dashboard\SerialController;
 use App\Http\Controllers\Dashboard\SerialEpisodeController;
 use App\Http\Controllers\Dashboard\SerialEpisodeSeasonController;
 use App\Http\Controllers\Dashboard\SerialEpisodeVideoController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\PHPConfController;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -19,4 +21,16 @@ Route::apiResource('serial-episode-videos', SerialEpisodeVideoController::class)
 Route::apiResource('attributes', AttributeController::class);
 Route::apiResource('attribute-values', AttributeValueController::class);
 Route::apiResource('users', UserController::class)->except(['store', 'update']);
+
+/**
+ * File Management Routes
+ */
+Route::post('/upload-video', [FileController::class, 'videoUploader']);
+Route::post('/upload-image', [FileController::class, 'imageUploader']);
+
+
+/**
+ * PHP Configuration Routes
+ */
+Route::get('/php-info', [PHPConfController::class, 'php_info']);
 
