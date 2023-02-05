@@ -45,7 +45,7 @@ class FileController extends Controller
             'ffmpeg.binaries' => '/usr/bin/ffmpeg',
             'ffprobe.binaries' => '/usr/bin/ffprobe',
         ]);
-        $video = $ffmpeg->open($videoFile);
+        $video = $ffmpeg->open(storage_path('app/' . $videoFile));
         $videoStream = $video->getStreams()->videos()->first()->getDimensions();
         $width = $videoStream->getWidth();
         $height = $videoStream->getHeight();
