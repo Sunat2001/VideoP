@@ -46,22 +46,9 @@ class FileController extends Controller
             'ffprobe.binaries' => '/usr/bin/ffprobe',
         ]);
         $video = $ffmpeg->open(storage_path('app/' . $videoFile));
-        $videoStream = $video->getStreams()->videos()->first()->getDimensions();
-        $width = $videoStream->getWidth();
-        $height = $videoStream->getHeight();
+        $videoStream = $video->getStreams()->videos()->first();
 
-        if ($width >= 3840 && $height >= 2160) {
-            return "4K";
-        } else if ($width >= 1920 && $height >= 1080) {
-            return "1080p";
-        } else if ($width >= 1280 && $height >= 720) {
-            return "720p";
-        } else if ($width >= 854 && $height >= 480) {
-            return "480p";
-        } else if ($width >= 640 && $height >= 360) {
-            return "360p";
-        } else {
-            return "Unknown";
-        }
+        return $videoStream->get('bit_rate');
+
     }
 }
