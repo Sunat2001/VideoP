@@ -38,7 +38,6 @@ class AccumulateSeasonRating extends Command
             $bar->advance();
         }
         $bar->finish();
-        $this->info('Done!');
         return CommandAlias::SUCCESS;
     }
 }
