@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $name
  * @property string $description
+ * @property float $rate
+ * @property bool $is_final
  * @property int $serial_id
  * @property-read Serial $serial
  * @property-read SerialEpisode[] $serialEpisodes

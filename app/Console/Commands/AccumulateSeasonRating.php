@@ -33,7 +33,7 @@ class AccumulateSeasonRating extends Command
         $seasons = SerialEpisodeSeason::all();
         $bar = $this->output->createProgressBar(count($seasons));
         foreach ($seasons as $season) {
-            $season->rating = $season->serialEpisodes()->avg('rate');
+            $season->rate = $season->serialEpisodes()->avg('rate');
             $season->save();
             $bar->advance();
         }
