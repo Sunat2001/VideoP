@@ -24,6 +24,7 @@ docker exec myapp php artisan key:generate
 ```
 
 ## Extend Artisan Commands
+Calculate Seasons Ratings
 ```bash
 docker exec myapp php artisan season:reating
 ```
