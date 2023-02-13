@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('user_episode_viewed', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('video_episode_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('video_episode_id')->constrained('serial_episodes')->cascadeOnDelete();
         });
     }
 

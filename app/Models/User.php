@@ -60,7 +60,7 @@ class User extends Authenticatable
 
     public function seenEpisodes(): BelongsToMany
     {
-        return $this->belongsToMany(SerialEpisode::class, 'user_episode_viewed');
+        return $this->belongsToMany(SerialEpisode::class, 'user_episode_viewed', 'user_id', 'video_episode_id');
     }
 
     /**

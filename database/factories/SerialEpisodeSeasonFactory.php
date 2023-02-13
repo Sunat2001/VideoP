@@ -23,7 +23,7 @@ class SerialEpisodeSeasonFactory extends Factory
                 'ru' => $this->faker->text(100),
                 'en' => $this->faker->text(100),
             ],
-            'rate' => $this->faker->randomFloat(2, 0, 10),
+            'rate' => $this->faker->randomFloat(2, 0, 9),
             'is_final' => $this->faker->boolean,
             'year' => $this->faker->year,
             'serial_id' => Serial::query()->inRandomOrder()->first()->id,

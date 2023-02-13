@@ -16,9 +16,10 @@ Route::get('/serials/filter/{attributeValue}', [SerialController::class, 'serial
 /**
  * Episode Routes
  */
-Route::get('/watched/{id}', [AlreadySeenController::class, 'watched']);
+Route::post('/watched/{id}', [AlreadySeenController::class, 'watched']);
 Route::get('/watched', [AlreadySeenController::class, 'list']);
 Route::get('/watched/{id}/season', [AlreadySeenController::class, 'listBySeason']);
+Route::post('/watched/check/{id}', [AlreadySeenController::class, 'checkWatched']);
 
 /**
  * Search Routes
