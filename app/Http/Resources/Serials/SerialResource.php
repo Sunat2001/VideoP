@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Serials;
 
+use App\Http\Resources\User\ReviewResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SerialResource extends JsonResource
@@ -15,7 +16,8 @@ class SerialResource extends JsonResource
             'description' => $this->description,
             'image_cover' => $this->image_cover,
             'rate' => $this->rate,
-            'attributes' => $this->whenLoaded('attributeValues'),
+            'attributes' => $this->attribute_values ?? $this->whenLoaded('attributeValues'),
+            'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
     }
 }

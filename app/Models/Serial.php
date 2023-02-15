@@ -75,4 +75,9 @@ class Serial extends Model
     {
         return $this->belongsToMany(AttributeValue::class, 'serial_attribute_value');
     }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
 }

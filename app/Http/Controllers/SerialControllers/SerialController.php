@@ -35,7 +35,12 @@ class SerialController extends Controller
      */
     public function serialById(Serial $serial): SerialResource
     {
-        $serial->load('attributeValues.attribute');
+        $relation = [
+            'attributeValues.attribute',
+            'reviews.user',
+        ];
+
+        $serial->load($relation);
 
         $serial->attribute_values = $serial->attributeValues->groupBy('attribute.name');
 
