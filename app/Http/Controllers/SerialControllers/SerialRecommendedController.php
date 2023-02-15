@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\SerialControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Serials\TopSerialsResource;
 use App\Models\User;
 use App\Services\GenerateRecommendedSerialsService;
 use Illuminate\Http\Request;
@@ -15,8 +16,8 @@ class SerialRecommendedController extends Controller
         /** @var GenerateRecommendedSerialsService $generateRecommendedSerialsService */
         $generateRecommendedSerialsService = app(GenerateRecommendedSerialsService::class);
 
-        $recommendedSerials = $generateRecommendedSerialsService->generate($user);
+        $recommendedSerials = $generateRecommendedSerialsService->generate($user, $request->get('per_page', 10));
 
-        return response()->json($recommendedSerials);
+        return TopSerialsResource::collection($recommendedSerials);
     }
 }

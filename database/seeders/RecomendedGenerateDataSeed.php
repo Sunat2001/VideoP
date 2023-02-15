@@ -24,6 +24,8 @@ class RecomendedGenerateDataSeed extends Seeder
             'video_episode_id' => 2,
         ]);
 
+
+
         DB::table('serial_attribute_value')->insert([
             'serial_id' => 4,
             'attribute_value_id' => 1,
