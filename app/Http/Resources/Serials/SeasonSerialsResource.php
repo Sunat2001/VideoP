@@ -11,6 +11,10 @@ class SeasonSerialsResource extends JsonResource
         return [
             'id' => $this->id,
             'description' => $this->description,
+            'is_final' => $this->is_final,
+            'season_number' => $this->season_number,
+            'year' => $this->year,
+            'rate' => $this->rate,
             'serial_episodes' => SerialEpisodeResource::collection($this->serialEpisodes),
         ];
     }

@@ -31,6 +31,17 @@ class SerialController extends Controller
 
     /**
      * @param Serial $serial
+     * @return AnonymousResourceCollection
+     */
+    public function serialSeasons(Serial $serial): AnonymousResourceCollection
+    {
+        $serial->load('serialEpisodeSeasons.serialEpisodes');
+
+        return SeasonSerialsResource::collection($serial->serialEpisodeSeasons->sortBy('season_number'));
+    }
+
+    /**
+     * @param Serial $serial
      * @return SerialResource
      */
     public function serialById(Serial $serial): SerialResource
@@ -77,8 +88,5 @@ class SerialController extends Controller
             $query->where('attribute_values.id', $attributeValue->id);
         })->paginate($request->get('per_page')));
     }
-
-
-
 
 }
