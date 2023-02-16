@@ -14,7 +14,7 @@ Route::get('/serial/{serial}', [SerialController::class, 'serialById']);
 Route::get('/serials/{season}', [SerialController::class, 'serialsBySeason']);
 Route::get('/serials/season/{serial}', [SerialController::class, 'serialSeasons']);
 Route::get('/serials/filter/{attributeValue}', [SerialController::class, 'serialByAttributeValue']);
-Route::get('/recommendations', [SerialRecommendedController::class, 'recommendations']);
+Route::get('/recommendations', [SerialRecommendedController::class, 'recommendations'])->middleware('auth:api');
 
 /**
  * Episode Routes

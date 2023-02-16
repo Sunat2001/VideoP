@@ -11,6 +11,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AlreadySeenController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function watched(Request $request, $id): JsonResponse
     {
         $user = $request->user();

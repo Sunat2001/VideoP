@@ -11,6 +11,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SerialRecommendedController extends Controller
 {
+
+    /**
+     * @param Request $request
+     * @return AnonymousResourceCollection
+     */
     public function recommendations(Request $request): AnonymousResourceCollection
     {
         /** @var GenerateRecommendedSerialsService $generateRecommendedSerialsService */
