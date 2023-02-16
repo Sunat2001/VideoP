@@ -7,10 +7,11 @@ use App\Http\Resources\Serials\TopSerialsResource;
 use App\Models\User;
 use App\Services\GenerateRecommendedSerialsService;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class SerialRecommendedController extends Controller
 {
-    public function recommendations(Request $request)
+    public function recommendations(Request $request): AnonymousResourceCollection
     {
         /** @var GenerateRecommendedSerialsService $generateRecommendedSerialsService */
         $generateRecommendedSerialsService = app(GenerateRecommendedSerialsService::class);
