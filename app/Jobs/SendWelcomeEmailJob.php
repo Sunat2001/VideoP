@@ -21,9 +21,10 @@ class SendWelcomeEmailJob implements ShouldQueue
     ){}
 
 
-    public function handle():void
+    public function handle(): void
     {
         $email = new WelcomeMail($this->otp);
+
         Mail::to($this->sendMail)->send($email);
     }
 }

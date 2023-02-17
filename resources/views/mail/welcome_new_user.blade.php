@@ -1,10 +1,10 @@
 @component('mail::message')
-    #Добро пожаловать на наш сайт!
+    Добро пожаловать на наш сайт!
 
-    Ваш OTP:{{$otp}}
+    Ваш OTP: {{$otp}}
 
-    [VID]({{config('app.url')}})
+    [VID] {{config('app.url')}}
 
-    Спасибо<br>
+    Спасибо
     {{ config('app.name') }}
 @endcomponent

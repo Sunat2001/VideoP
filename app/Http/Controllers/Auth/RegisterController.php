@@ -22,22 +22,15 @@ class RegisterController extends Controller
 
         VerificationCode::query()->create([
             'user_id' => $user->id,
-            'code' => $otp,
-
+            'otp' => $otp,
+            'expire_at' => now()->addDay(),
         ]);
 
         $this->dispatch(new SendWelcomeEmailJob($user->email, $otp));
 
-        $token = Auth::login($user);
-
         return response()->json([
             'status' => 'success',
-            'message' => 'User created successfully',
-            'user' => $user->only(['id', 'name', 'email', 'image']),
-            'authorisation' => [
-                'token' => $token,
-                'type' => 'bearer',
-            ]
+            'message' => 'For activate your account, please check your email',
         ]);
     }
 }

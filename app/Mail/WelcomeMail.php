@@ -11,13 +11,9 @@ class WelcomeMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-
-
-
     public function __construct(
         private string $otp,
     ){}
-
 
     public function build()
     {

@@ -14,6 +14,13 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
+            if (Auth::user()->email_verified_at === null) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Email not verified',
+                ], 401);
+            }
+
             $token = Auth::user()->createToken('auth_token')->plainTextToken;
 
             return response()->json([
