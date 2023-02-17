@@ -13,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $id
  * @property int $user_id
  * @property string $otp
- * @property \DateTime $expire_at
+ * @property \Carbon\Carbon $expire_at
  * @property bool $can_password_reset
  * @property \DateTime $created_at
  * @property \DateTime $updated_at
