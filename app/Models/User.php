@@ -23,6 +23,10 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property string|null $email_verified_at
  * @property string|null $remember_token
  *
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
+ * @property-read int|null $reviews_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\SerialEpisode[] $seenEpisodes
+ *
  */
 class User extends Authenticatable implements JWTSubject
 {

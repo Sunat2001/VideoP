@@ -12,14 +12,16 @@ use Symfony\Component\HttpFoundation\Response as ResponseConstants;
 
 class UserController extends Controller
 {
-    protected array $relations = [];
+    protected array $relations = [
+        'reviews'
+    ];
 
     /**
      * @return AnonymousResourceCollection
      */
     public function index(): AnonymousResourceCollection
     {
-        return UserResource::collection(User::query()->paginate(15));
+        return UserResource::collection(User::query()->with($this->relations)->paginate(15));
     }
 
     /**
@@ -28,13 +30,11 @@ class UserController extends Controller
      */
     public function show(User $user): JsonResponse
     {
-        return (new UserResource($user))
+        return (new UserResource($user->load($this->relations)))
             ->response()
             ->setStatusCode(ResponseConstants::HTTP_OK);
     }
     /**
-     * Remove the specified resource from storage.
-     *
      * @param User $user
      * @return Response
      */
