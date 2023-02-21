@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -34,10 +35,10 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Serial whereUpdatedAt($value)
  * @mixin \Eloquent
  * @property-read int|null $serial_episode_seasons_count
- * @property-read SerialEpisodeSeason[] $serialEpisodeSeasons
+ * @property-read Collection|SerialEpisodeSeason[] $serialEpisodeSeasons
  * @property-read int|null $serial_episode_videos_count
- * @property-read SerialEpisodeVideo[] $serialEpisodeVideos
- * @property-read AttributeValue[] $attributeValues
+ * @property-read Collection|SerialEpisodeVideo[] $serialEpisodeVideos
+ * @property-read Collection|AttributeValue[] $attributeValues
  */
 class Serial extends Model
 {

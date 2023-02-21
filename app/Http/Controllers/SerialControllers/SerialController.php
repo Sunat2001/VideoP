@@ -4,17 +4,19 @@ namespace App\Http\Controllers\SerialControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Serials\SerialByAttributeRequest;
+use App\Http\Requests\Serials\StoreReviewRequest;
 use App\Http\Requests\Serials\TopSerialsRequest;
 use App\Http\Resources\Serials\SeasonSerialsResource;
 use App\Http\Resources\Serials\SerialResource;
-use App\Http\Resources\Serials\SingleSerialResource;
 use App\Http\Resources\Serials\TopSerialsResource;
 use App\Models\AttributeValue;
+use App\Models\Review;
 use App\Models\Serial;
-use App\Models\SerialEpisode;
 use App\Models\SerialEpisodeSeason;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Validation\Rule;
 
 class SerialController extends Controller
 {
@@ -68,9 +70,9 @@ class SerialController extends Controller
      * Выводить все серии сезона
      *
      * @param SerialEpisodeSeason $season
-     * @return SingleSerialResource
+     * @return SeasonSerialsResource
      */
-    public function serialsBySeason(SerialEpisodeSeason $season): mixed
+    public function serialsBySeason(SerialEpisodeSeason $season): SeasonSerialsResource
     {
         $season->load('serialEpisodes.serialEpisodeVideos');
 
@@ -88,5 +90,28 @@ class SerialController extends Controller
             $query->where('attribute_values.id', $attributeValue->id);
         })->paginate($request->get('per_page')));
     }
+
+    /**
+     * @param StoreReviewRequest $request
+     * @return JsonResponse
+     */
+    public function addReview(StoreReviewRequest $request): JsonResponse
+    {
+        Review::query()->create([
+            'serial_id' => $request->get('serial_id'),
+            'user_id' => $request->user()->id,
+            'text' => $request->get('text'),
+        ]);
+
+        return response()->json([
+            'message' => 'Отзыв успешно добавлен'
+        ]);
+    }
+
+    public function voteReview(Request $request, Review $review): void
+    {
+//        $review->;
+    }
+
 
 }

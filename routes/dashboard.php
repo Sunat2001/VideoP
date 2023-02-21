@@ -3,6 +3,7 @@
 use App\Http\Controllers\Dashboard\AttributeController;
 use App\Http\Controllers\Dashboard\AttributeValueController;
 use App\Http\Controllers\Dashboard\FileController;
+use App\Http\Controllers\Dashboard\ReviewController;
 use App\Http\Controllers\Dashboard\SerialController;
 use App\Http\Controllers\Dashboard\SerialEpisodeController;
 use App\Http\Controllers\Dashboard\SerialEpisodeSeasonController;
@@ -21,6 +22,7 @@ Route::apiResource('serial-episode-videos', SerialEpisodeVideoController::class)
 Route::apiResource('attributes', AttributeController::class);
 Route::apiResource('attribute-values', AttributeValueController::class);
 Route::apiResource('users', UserController::class)->except(['store', 'update']);
+Route::apiResource('reviews', ReviewController::class)->except(['store', 'update']);
 
 /**
  * File Management Routes

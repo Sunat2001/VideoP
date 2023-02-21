@@ -25,6 +25,11 @@ Route::get('/watched/{id}/season', [AlreadySeenController::class, 'listBySeason'
 Route::post('/watched/check/{id}', [AlreadySeenController::class, 'checkWatched']);
 
 /**
+ * Review Routes
+ */
+Route::post('/review', [SerialController::class, 'addReview']);
+
+/**
  * Search Routes
  */
 Route::post('/search', [SearchController::class, 'search']);
