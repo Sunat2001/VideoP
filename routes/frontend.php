@@ -19,15 +19,21 @@ Route::get('/recommendations', [SerialRecommendedController::class, 'recommendat
 /**
  * Episode Routes
  */
-Route::post('/watched/{id}', [AlreadySeenController::class, 'watched']);
-Route::get('/watched', [AlreadySeenController::class, 'list']);
-Route::get('/watched/{id}/season', [AlreadySeenController::class, 'listBySeason']);
-Route::post('/watched/check/{id}', [AlreadySeenController::class, 'checkWatched']);
+Route::prefix('/watched')->middleware('auth:api')->group(static function () {
+    Route::post('/{id}', [AlreadySeenController::class, 'watched']);
+    Route::get('/', [AlreadySeenController::class, 'list']);
+    Route::get('/{id}/season', [AlreadySeenController::class, 'listBySeason']);
+    Route::post('/check/{id}', [AlreadySeenController::class, 'checkWatched']);
+});
 
 /**
  * Review Routes
  */
-Route::post('/review', [SerialController::class, 'addReview']);
+Route::prefix('/review')->middleware('auth:api')->group(static function () {
+    Route::post('/', [SerialController::class, 'addReview']);
+    Route::post('/vote/{review}', [SerialController::class, 'voteReview']);
+});
+
 
 /**
  * Search Routes

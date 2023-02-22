@@ -14,8 +14,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $id
  * @property string $text
  * @property string $status
- * @property int $positive
- * @property int $negative
+ * @property int $vote
  * @property int $user_id
  * @property int $serial_id
  *
@@ -33,7 +32,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static Builder|Review whereNegative($value)
  * @method static Builder|Review whereSerialId($value)
  * @method static Builder|Review whereUserId($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Review extends Model
 {
@@ -42,8 +41,7 @@ class Review extends Model
     protected $fillable = [
         'text',
         'status',
-        'positive',
-        'negative',
+        'vote',
         'serial_id',
         'user_id',
     ];

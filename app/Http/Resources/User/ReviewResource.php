@@ -12,8 +12,7 @@ class ReviewResource extends JsonResource
             'id' => $this->id,
             'text' => $this->text,
             'status' => $this->status,
-            'positive' => $this->positive,
-            'negative' => $this->negative,
+            'vote' => $this->vote,
             'serial' => $this->serial->only(['id', 'name']),
             'user' => $this->user->only(['id', 'name'])
         ];

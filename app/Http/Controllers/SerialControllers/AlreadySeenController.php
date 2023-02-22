@@ -11,11 +11,11 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AlreadySeenController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
     public function watched(Request $request, $id): JsonResponse
     {
         $user = $request->user();
@@ -26,6 +26,10 @@ class AlreadySeenController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function list(Request $request): JsonResponse
     {
         $user = $request->user();
@@ -54,6 +58,11 @@ class AlreadySeenController extends Controller
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return AnonymousResourceCollection
+     */
     public function listBySeason(Request $request, $id): AnonymousResourceCollection
     {
         $user = $request->user();
@@ -63,6 +72,11 @@ class AlreadySeenController extends Controller
         return SerialEpisodeResource::collection($episodes);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @return JsonResponse
+     */
     public function checkWatched(Request $request, $id): JsonResponse
     {
         $user = $request->user();

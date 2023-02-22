@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\SerialControllers;
 
+use App\Enum\ReviewHistoryTypes;
+use App\Enum\ReviewStatuses;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Serials\SerialByAttributeRequest;
 use App\Http\Requests\Serials\StoreReviewRequest;
@@ -11,11 +13,13 @@ use App\Http\Resources\Serials\SerialResource;
 use App\Http\Resources\Serials\TopSerialsResource;
 use App\Models\AttributeValue;
 use App\Models\Review;
+use App\Models\ReviewHistory;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
 
 class SerialController extends Controller
@@ -50,6 +54,9 @@ class SerialController extends Controller
     {
         $relation = [
             'attributeValues.attribute',
+            'reviews' => function ($query) {
+                $query->where('status', ReviewStatuses::APPROVED);
+            },
             'reviews.user',
         ];
 
@@ -108,10 +115,80 @@ class SerialController extends Controller
         ]);
     }
 
-    public function voteReview(Request $request, Review $review): void
+    /**
+     * @param Request $request
+     * @param Review $review
+     * @return JsonResponse
+     */
+    public function voteReview(Request $request, Review $review): JsonResponse
     {
-//        $review->;
+        $request->validate([
+            'vote' => [
+                'required',
+                Rule::in(['up', 'down'])
+            ],
+        ]);
+
+//        if ($request->user()->id === $review->user_id) {
+//            return response()->json([
+//                'message' => 'Вы не можете голосовать за свой отзыв'
+//            ], 400);
+//        }
+
+        if ($review->status !== ReviewStatuses::APPROVED) {
+            return response()->json([
+                'message' => 'Вы не можете голосовать за не одобренный отзыв'
+            ], 400);
+        }
+
+        $reviewHistory = ReviewHistory::query()->where('review_id', $review->id)
+            ->where('user_id', $request->user()->id)
+            ->first();
+
+        if ($reviewHistory) {
+            return response()->json([
+                'message' => 'Вы уже голосовали за этот отзыв'
+            ], 400);
+        }
+
+        if ($request->get('vote') === 'up') {
+            DB::beginTransaction();
+            try {
+                ReviewHistory::query()->create([
+                    'review_id' => $review->id,
+                    'user_id' => $request->user()->id,
+                    'type' => ReviewHistoryTypes::POSITIVE,
+                ]);
+                $review->increment('vote');
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'message' => 'Пожалуйств обратитесь к администратору',
+                    'error' => $e->getMessage()
+                ], 500);
+            }
+        } else {
+            DB::beginTransaction();
+            try {
+                ReviewHistory::query()->create([
+                    'review_id' => $review->id,
+                    'user_id' => $request->user()->id,
+                    'type' => ReviewHistoryTypes::NEGATIVE,
+                ]);
+                $review->decrement('vote');
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return response()->json([
+                    'message' => 'Пожалуйств обратитесь к администратору',
+                    'error' => $e->getMessage(),
+                ], 500);
+            }
+        }
+
+        return response()->json([
+            'message' => 'Голос успешно добавлен'
+        ]);
     }
-
-
 }

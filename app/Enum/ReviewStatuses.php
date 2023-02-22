@@ -16,6 +16,14 @@ enum ReviewStatuses
         ];
     }
 
+    public static function getModerationStatuses(): array
+    {
+        return [
+            self::APPROVED,
+            self::REJECTED,
+        ];
+    }
+
     public static function getLabel(string $value): string
     {
         return self::getLabels()[$value];
