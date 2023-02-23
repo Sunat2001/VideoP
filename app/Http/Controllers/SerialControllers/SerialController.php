@@ -129,11 +129,11 @@ class SerialController extends Controller
             ],
         ]);
 
-//        if ($request->user()->id === $review->user_id) {
-//            return response()->json([
-//                'message' => 'Вы не можете голосовать за свой отзыв'
-//            ], 400);
-//        }
+        if ($request->user()->id === $review->user_id) {
+            return response()->json([
+                'message' => 'Вы не можете голосовать за свой отзыв'
+            ], 400);
+        }
 
         if ($review->status !== ReviewStatuses::APPROVED) {
             return response()->json([
