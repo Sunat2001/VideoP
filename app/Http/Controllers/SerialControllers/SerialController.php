@@ -16,6 +16,7 @@ use App\Models\Review;
 use App\Models\ReviewHistory;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -54,8 +55,8 @@ class SerialController extends Controller
     {
         $relation = [
             'attributeValues.attribute',
-            'reviews' => function ($query) {
-                $query->where('status', ReviewStatuses::APPROVED);
+            'reviews' => function (Builder $query) {
+                $query->where('status', ReviewStatuses::APPROVED)->sortByDesc('vote');
             },
             'reviews.user',
         ];

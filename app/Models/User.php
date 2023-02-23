@@ -21,6 +21,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property string $password
  * @property string|null $image
  * @property string|null $email_verified_at
+ * @property bool $is_admin
  * @property string|null $remember_token
  *
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Review[] $reviews
@@ -41,6 +42,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'image',
         'email_verified_at',
+        'is_admin',
     ];
 
     /**
@@ -56,6 +58,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_admin' => 'boolean',
     ];
 
     /**
@@ -66,6 +69,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Review::class);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function seenEpisodes(): BelongsToMany
     {
         return $this->belongsToMany(SerialEpisode::class, 'user_episode_viewed', 'user_id', 'video_episode_id');
