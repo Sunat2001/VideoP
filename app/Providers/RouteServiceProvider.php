@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AdminRoleCheckMiddleware;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware(['api', 'auth:api'])
+            Route::middleware(['api', 'auth:api', AdminRoleCheckMiddleware::class])
                 ->prefix('api/dashboard')
                 ->group(base_path('routes/dashboard.php'));
 
