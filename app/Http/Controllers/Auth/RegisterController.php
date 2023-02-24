@@ -49,7 +49,7 @@ class RegisterController extends Controller
         $this->dispatch(new SendWelcomeEmailJob($user->email, $otp));
 
         return response()->json([
-            'status' => 'error',
+            'status' => 'success',
             'message' => __('auth.messages.success_register'),
         ]);
     }

@@ -20,7 +20,8 @@ class AdminRoleCheckMiddleware
     {
         if (!auth()->user()->is_admin) {
             return response()->json([
-                'message' => 'Permission denied!'
+                'status' => 'error',
+                'message' => __('http_responses.messages.forbidden')
             ], Response::HTTP_FORBIDDEN);
         }
         return $next($request);
