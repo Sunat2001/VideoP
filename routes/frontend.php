@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\SerialControllers\AlreadySeenController;
 use App\Http\Controllers\SerialControllers\SerialController;
@@ -39,3 +40,9 @@ Route::prefix('/review')->middleware('auth:api')->group(static function () {
  * Search Routes
  */
 Route::post('/search', [SearchController::class, 'search']);
+
+/**
+ * Language Routes
+ */
+Route::post('/language', [LanguageController::class, 'changeUserLanguage'])->middleware('auth:api');
+Route::get('/language', [LanguageController::class, 'getAppLanguage']);
