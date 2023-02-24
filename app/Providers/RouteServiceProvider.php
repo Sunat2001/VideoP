@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\Middleware\AdminRoleCheckMiddleware;
+use App\Http\Middleware\Localization;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -30,15 +31,15 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware(['api', 'auth:api', AdminRoleCheckMiddleware::class])
+            Route::middleware(['api', 'auth:api', AdminRoleCheckMiddleware::class, Localization::class])
                 ->prefix('api/dashboard')
                 ->group(base_path('routes/dashboard.php'));
 
-            Route::middleware('api')
+            Route::middleware(['api', Localization::class])
                 ->prefix('api/auth')
                 ->group(base_path('routes/auth.php'));
 
-            Route::middleware('api')
+            Route::middleware(['api', Localization::class])
                 ->prefix('api/')
                 ->group(base_path('routes/frontend.php'));
 

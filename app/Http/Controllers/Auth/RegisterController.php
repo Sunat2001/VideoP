@@ -27,11 +27,12 @@ class RegisterController extends Controller
             // Catch the "Integrity constraint violation: 1062 Duplicate entry" exception
             if ($e->errorInfo[1] == 1062) {
                 return response()->json([
-                    'error' => 'The email address already exists.',
+                    'status' => 'error',
+                    'message' => __('auth.messages.error_email_already_exists'),
                     ], 400);
             } else {
                 return response()->json([
-                    'error' => 'An error occurred while inserting data.'
+                    'message' => 'An error occurred while inserting data.'
                 ], 500);
             }
         }
@@ -47,8 +48,8 @@ class RegisterController extends Controller
         $this->dispatch(new SendWelcomeEmailJob($user->email, $otp));
 
         return response()->json([
-            'status' => 'success',
-            'message' => 'For activate your account, please check your email',
+            'status' => 'error',
+            'message' => __('auth.messages.success_register'),
         ]);
     }
 }

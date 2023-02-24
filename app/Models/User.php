@@ -20,6 +20,7 @@ use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
  * @property string $email
  * @property string $password
  * @property string|null $image
+ * @property string|null $language
  * @property string|null $email_verified_at
  * @property bool $is_admin
  * @property string|null $remember_token
@@ -43,6 +44,7 @@ class User extends Authenticatable implements JWTSubject
         'image',
         'email_verified_at',
         'is_admin',
+        'language',
     ];
 
     /**
