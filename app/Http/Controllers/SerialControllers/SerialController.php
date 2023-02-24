@@ -112,7 +112,8 @@ class SerialController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Отзыв успешно добавлен'
+            'status' => 'success',
+            'message' => __('frontend.serial.success_add_review'),
         ]);
     }
 
@@ -132,13 +133,15 @@ class SerialController extends Controller
 
         if ($request->user()->id === $review->user_id) {
             return response()->json([
-                'message' => 'Вы не можете голосовать за свой отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_vote_for_your_review')
             ], 400);
         }
 
         if ($review->status !== ReviewStatuses::APPROVED) {
             return response()->json([
-                'message' => 'Вы не можете голосовать за не одобренный отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_vote_for_not_approved_review')
             ], 400);
         }
 
@@ -148,7 +151,8 @@ class SerialController extends Controller
 
         if ($reviewHistory) {
             return response()->json([
-                'message' => 'Вы уже голосовали за этот отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_already_voted_for_this_review')
             ], 400);
         }
 
@@ -165,8 +169,9 @@ class SerialController extends Controller
             } catch (\Exception $e) {
                 DB::rollBack();
                 return response()->json([
-                    'message' => 'Пожалуйств обратитесь к администратору',
-                    'error' => $e->getMessage()
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
+//                    'error' => $e->getMessage()
                 ], 500);
             }
         } else {
@@ -182,14 +187,16 @@ class SerialController extends Controller
             } catch (\Exception $e) {
                 DB::rollBack();
                 return response()->json([
-                    'message' => 'Пожалуйств обратитесь к администратору',
-                    'error' => $e->getMessage(),
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
+//                    'error' => $e->getMessage(),
                 ], 500);
             }
         }
 
         return response()->json([
-            'message' => 'Голос успешно добавлен'
+            'status' => 'success',
+            'message' => __('frontend.serial.success_vote_for_review'),
         ]);
     }
 }

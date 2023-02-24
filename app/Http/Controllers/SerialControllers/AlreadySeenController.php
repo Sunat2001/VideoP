@@ -22,7 +22,8 @@ class AlreadySeenController extends Controller
         $user->seenEpisodes()->attach($id);
 
         return response()->json([
-            "message" => "Episode added to watched list",
+            'status' => 'success',
+            'message' => __('frontend.already_seen.success_episode_added'),
         ]);
     }
 
@@ -53,7 +54,8 @@ class AlreadySeenController extends Controller
         }
 
         return response()->json([
-            "message" => "List of watched episodes",
+            "status" => "success",
+            "message" => __('frontend.already_seen.success_episode_list'),
             "episodes" => $episodes,
         ]);
     }
@@ -85,12 +87,12 @@ class AlreadySeenController extends Controller
 
         if ($episode === null) {
             return response()->json([
-                "message" => "Episode is not watched",
+                "message" => __('frontend.already_seen.error_check_watched'),
             ]);
         }
 
         return response()->json([
-            "message" => "Episode is watched",
+            "message" => __('frontend.already_seen.success_check_watched'),
             "episode" => new SerialEpisodeResource($episode),
         ]);
     }

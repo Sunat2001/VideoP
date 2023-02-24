@@ -32,7 +32,8 @@ class RegisterController extends Controller
                     ], 400);
             } else {
                 return response()->json([
-                    'message' => 'An error occurred while inserting data.'
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
                 ], 500);
             }
         }

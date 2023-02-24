@@ -87,7 +87,8 @@ class ReviewController extends Controller
     {
         if ($review->status !== ReviewStatuses::APPROVED) {
             response()->json([
-                'message' => 'Review must be approved'
+                'status' => 'error',
+                'message' => __('dashboard.review.error_review_must_be_approved')
             ], 422);
         }
 
@@ -98,7 +99,8 @@ class ReviewController extends Controller
 
         if ($isBestExist) {
             return response()->json([
-                'message' => 'Best review already exist'
+                'status' => 'error',
+                'message' => __('dashboard.review.error_best_review_already_exist')
             ], 422);
         }
 
