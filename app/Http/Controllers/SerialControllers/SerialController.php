@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\SerialControllers;
 
+use App\Enum\CacheTags;
+use App\Enum\LogChannelNames;
 use App\Enum\ReviewHistoryTypes;
 use App\Enum\ReviewStatuses;
 use App\Http\Controllers\Controller;
@@ -20,7 +22,9 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class SerialController extends Controller
@@ -31,9 +35,15 @@ class SerialController extends Controller
      */
     public function topSerials(TopSerialsRequest $request): AnonymousResourceCollection
     {
-        return TopSerialsResource::collection(Serial::query()->withCount('serialEpisodeSeasons')
-            ->orderBy($request->get('order_by'), 'desc')
-            ->paginate($request->get('per_page')));
+        $page = $request->get('page', 1);
+
+        $serials = Cache::tags(CacheTags::SERIALS)->remember('top_serials' . $page, 60 * 60 * 5, function () use ($request) {
+            return Serial::query()->withCount('serialEpisodeSeasons')
+                ->orderBy($request->get('order_by'), 'desc')
+                ->paginate($request->get('per_page'));
+        });
+
+        return TopSerialsResource::collection($serials);
     }
 
     /**
@@ -168,10 +178,11 @@ class SerialController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                Log::channel(LogChannelNames::REVIEW_TRANSLATION_ERROR)->error($e->getMessage());
+
                 return response()->json([
                     'status' => 'error',
                     'message' => __('transaction.error_insert_data'),
-//                    'error' => $e->getMessage()
                 ], 500);
             }
         } else {
@@ -186,10 +197,11 @@ class SerialController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                Log::channel(LogChannelNames::REVIEW_TRANSLATION_ERROR)->error($e->getMessage());
+
                 return response()->json([
                     'status' => 'error',
                     'message' => __('transaction.error_insert_data'),
-//                    'error' => $e->getMessage(),
                 ], 500);
             }
         }
