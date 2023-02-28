@@ -28,9 +28,7 @@ class SendWelcomeEmailJob implements ShouldQueue
     {
         $email = new WelcomeMail($this->otp);
 
-        mail($this->sendMail, $email->subject, $email->render(), [
-            'From: vid@185.4.75.69',
-        ]);
+        mail($this->sendMail, $email->subject, $email->render(), 'From: ' . config('mail.from.address'));
 
 //        Mail::to($this->sendMail)->send($email);
     }
