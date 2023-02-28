@@ -13,7 +13,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', Rule::exists(User::class, 'email')],
+            'email' => ['required', 'email', Rule::unique(User::class, 'email')],
             'password' => ['required', 'string', 'min:8'],
             'image' => ['nullable', 'image', 'max:1024'],
         ];
