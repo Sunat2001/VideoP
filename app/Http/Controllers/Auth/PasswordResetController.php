@@ -30,7 +30,7 @@ class PasswordResetController extends Controller
         if (!$code) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Confirm otp first',
+                'message' => __('auth.message.error_confirm_otp_first'),
             ], 422);
         }
 
@@ -44,7 +44,7 @@ class PasswordResetController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Password reset successfully',
+            'message' => __('auth.messages.success_reset_password'),
             'code' => $user->only(['id', 'name', 'email', 'image']),
             'authorisation' => [
                 'token' => $token,
@@ -65,7 +65,7 @@ class PasswordResetController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'User not found',
+                'message' => __('auth.messages.error_user_not_fount'),
             ], 404);
         }
 
@@ -77,7 +77,7 @@ class PasswordResetController extends Controller
         if ($code) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'OTP already sent',
+                'message' => __('auth.messages.error_otp_already_sent'),
             ], 422);
         }
 
@@ -95,7 +95,7 @@ class PasswordResetController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'OTP sent successfully',
+            'message' => __('auth.messages.success_otp_sent'),
         ]);
     }
 

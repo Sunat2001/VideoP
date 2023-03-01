@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enum\LogChannelNames;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Jobs\SendWelcomeEmailJob;
@@ -11,6 +12,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class RegisterController extends Controller
@@ -24,16 +26,12 @@ class RegisterController extends Controller
         try {
             $user = User::query()->create($request->validated());
         } catch (QueryException $e) {
-            // Catch the "Integrity constraint violation: 1062 Duplicate entry" exception
-            if ($e->errorInfo[1] == 1062) {
+                Log::channel(LogChannelNames::AUTH_ERROR)->error($e->getMessage());
+
                 return response()->json([
-                    'error' => 'The email address already exists.',
-                    ], 400);
-            } else {
-                return response()->json([
-                    'error' => 'An error occurred while inserting data.'
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
                 ], 500);
-            }
         }
 
         $otp = Str::random(6);
@@ -48,7 +46,7 @@ class RegisterController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'For activate your account, please check your email',
+            'message' => __('auth.messages.success_register'),
         ]);
     }
 }

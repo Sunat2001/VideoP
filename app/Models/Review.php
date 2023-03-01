@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property string $text
  * @property string $status
  * @property int $vote
+ * @property bool $is_best
  * @property int $user_id
  * @property int $serial_id
  *
@@ -42,8 +43,13 @@ class Review extends Model
         'text',
         'status',
         'vote',
+        'is_best',
         'serial_id',
         'user_id',
+    ];
+
+    protected $casts = [
+        'is_best' => 'boolean',
     ];
 
     /**

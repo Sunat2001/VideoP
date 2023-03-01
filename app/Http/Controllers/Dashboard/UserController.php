@@ -44,4 +44,16 @@ class UserController extends Controller
 
         return response()->noContent();
     }
+
+    /**
+     * @param User $user
+     * @return Response
+     */
+    public function changeRole(User $user): Response
+    {
+        $user->is_admin = !$user->is_admin;
+        $user->save();
+
+        return response()->noContent();
+    }
 }

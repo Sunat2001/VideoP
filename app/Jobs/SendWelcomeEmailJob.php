@@ -21,10 +21,15 @@ class SendWelcomeEmailJob implements ShouldQueue
     ){}
 
 
+    /**
+     * @throws \ReflectionException
+     */
     public function handle(): void
     {
         $email = new WelcomeMail($this->otp);
 
-        Mail::to($this->sendMail)->send($email);
+        mail($this->sendMail, $email->subject, "Ваш OTP: $this->otp", 'From: ' . config('mail.from.address'));
+
+//        Mail::to($this->sendMail)->send($email);
     }
 }

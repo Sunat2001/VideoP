@@ -8,6 +8,7 @@ use App\Http\Requests\Serials\IndexReviewRequest;
 use App\Http\Resources\User\ReviewResource;
 use App\Models\Review;
 use App\Repositories\ReviewRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -73,6 +74,38 @@ class ReviewController extends Controller
 
         $review->update([
             'status' => $request->get('status')
+        ]);
+
+        return response()->noContent();
+    }
+
+    /**
+     * @param Review $review
+     * @return Response|JsonResponse
+     */
+    public function changeBest(Review $review): Response|JsonResponse
+    {
+        if ($review->status !== ReviewStatuses::APPROVED) {
+            response()->json([
+                'status' => 'error',
+                'message' => __('dashboard.review.error_review_must_be_approved')
+            ], 422);
+        }
+
+        $isBestExist = Review::query()
+            ->where('serial_id', $review->serial_id)
+            ->where('is_best', true)
+            ->exists();
+
+        if ($isBestExist) {
+            return response()->json([
+                'status' => 'error',
+                'message' => __('dashboard.review.error_best_review_already_exist')
+            ], 422);
+        }
+
+        $review->update([
+            'is_best' => !$review->is_best
         ]);
 
         return response()->noContent();

@@ -17,19 +17,17 @@ class LoginController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt($credentials)) {
+        if ($token = Auth::attempt($credentials)) {
             if (Auth::user()->email_verified_at === null) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Email not verified',
+                    'message' => __('auth.messages.email_not_verified'),
                 ], 401);
             }
 
-            $token = Auth::user()->createToken('auth_token')->plainTextToken;
-
             return response()->json([
                 'status' => 'success',
-                'message' => 'User logged in successfully',
+                'message' => __('auth.messages.success_login'),
                 'user' => Auth::user()->only(['id', 'name', 'email', 'image']),
                 'authorisation' => [
                     'token' => $token,
@@ -40,7 +38,7 @@ class LoginController extends Controller
 
         return response()->json([
             'status' => 'error',
-            'message' => 'Invalid credentials',
+            'message' => __('auth.messages.error_credentials'),
         ], 401);
     }
 }

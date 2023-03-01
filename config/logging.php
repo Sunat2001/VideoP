@@ -1,5 +1,6 @@
 <?php
 
+use App\Enum\LogChannelNames;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -116,6 +117,20 @@ return [
 
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
+        ],
+
+        LogChannelNames::AUTH_ERROR => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/auth_error.log'),
+            'level' => 'error',
+            'days' => 14,
+        ],
+
+        LogChannelNames::REVIEW_TRANSLATION_ERROR => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/review_translation_error.log'),
+            'level' => 'error',
+            'days' => 14,
         ],
     ],
 

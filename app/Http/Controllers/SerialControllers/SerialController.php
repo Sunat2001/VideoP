@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\SerialControllers;
 
+use App\Enum\CacheTags;
+use App\Enum\LogChannelNames;
 use App\Enum\ReviewHistoryTypes;
 use App\Enum\ReviewStatuses;
 use App\Http\Controllers\Controller;
@@ -16,10 +18,13 @@ use App\Models\Review;
 use App\Models\ReviewHistory;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class SerialController extends Controller
@@ -30,9 +35,15 @@ class SerialController extends Controller
      */
     public function topSerials(TopSerialsRequest $request): AnonymousResourceCollection
     {
-        return TopSerialsResource::collection(Serial::query()->withCount('serialEpisodeSeasons')
-            ->orderBy($request->get('order_by'), 'desc')
-            ->paginate($request->get('per_page')));
+        $page = $request->get('page', 1);
+
+        $serials = Cache::tags(CacheTags::SERIALS)->remember('top_serials' . $page, 60 * 60 * 5, function () use ($request) {
+            return Serial::query()->withCount('serialEpisodeSeasons')
+                ->orderBy($request->get('order_by'), 'desc')
+                ->paginate($request->get('per_page'));
+        });
+
+        return TopSerialsResource::collection($serials);
     }
 
     /**
@@ -54,8 +65,8 @@ class SerialController extends Controller
     {
         $relation = [
             'attributeValues.attribute',
-            'reviews' => function ($query) {
-                $query->where('status', ReviewStatuses::APPROVED);
+            'reviews' => function (Builder $query) {
+                $query->where('status', ReviewStatuses::APPROVED)->sortByDesc('vote');
             },
             'reviews.user',
         ];
@@ -111,7 +122,8 @@ class SerialController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Отзыв успешно добавлен'
+            'status' => 'success',
+            'message' => __('frontend.serial.success_add_review'),
         ]);
     }
 
@@ -131,13 +143,15 @@ class SerialController extends Controller
 
         if ($request->user()->id === $review->user_id) {
             return response()->json([
-                'message' => 'Вы не можете голосовать за свой отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_vote_for_your_review')
             ], 400);
         }
 
         if ($review->status !== ReviewStatuses::APPROVED) {
             return response()->json([
-                'message' => 'Вы не можете голосовать за не одобренный отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_vote_for_not_approved_review')
             ], 400);
         }
 
@@ -147,7 +161,8 @@ class SerialController extends Controller
 
         if ($reviewHistory) {
             return response()->json([
-                'message' => 'Вы уже голосовали за этот отзыв'
+                'status' => 'error',
+                'message' => __('frontend.serial.error_already_voted_for_this_review')
             ], 400);
         }
 
@@ -163,9 +178,11 @@ class SerialController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                Log::channel(LogChannelNames::REVIEW_TRANSLATION_ERROR)->error($e->getMessage());
+
                 return response()->json([
-                    'message' => 'Пожалуйств обратитесь к администратору',
-                    'error' => $e->getMessage()
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
                 ], 500);
             }
         } else {
@@ -180,15 +197,18 @@ class SerialController extends Controller
                 DB::commit();
             } catch (\Exception $e) {
                 DB::rollBack();
+                Log::channel(LogChannelNames::REVIEW_TRANSLATION_ERROR)->error($e->getMessage());
+
                 return response()->json([
-                    'message' => 'Пожалуйств обратитесь к администратору',
-                    'error' => $e->getMessage(),
+                    'status' => 'error',
+                    'message' => __('transaction.error_insert_data'),
                 ], 500);
             }
         }
 
         return response()->json([
-            'message' => 'Голос успешно добавлен'
+            'status' => 'success',
+            'message' => __('frontend.serial.success_vote_for_review'),
         ]);
     }
 }
