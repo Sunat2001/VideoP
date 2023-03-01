@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 
 /**
  * App\Core\Cash\Models\Serial
@@ -17,8 +19,8 @@ use Illuminate\Support\Carbon;
  * @property string $name
  * @property string $image_cover
  * @property float $rate
+ * @property string $status
  * @property string $description
- * @property string $release_date
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read SerialEpisode[] $serialEpisodes
@@ -33,12 +35,18 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Serial whereName($value)
  * @method static Builder|Serial whereRate($value)
  * @method static Builder|Serial whereUpdatedAt($value)
+ * @method static Builder|Serial whereStatus($value)
  * @mixin \Eloquent
  * @property-read int|null $serial_episode_seasons_count
  * @property-read Collection|SerialEpisodeSeason[] $serialEpisodeSeasons
  * @property-read int|null $serial_episode_videos_count
  * @property-read Collection|SerialEpisodeVideo[] $serialEpisodeVideos
  * @property-read Collection|AttributeValue[] $attributeValues
+ * @property-read int|null $attribute_values_count
+ * @property-read int|null $serial_episodes_count
+ * @property-read Collection|Review[] $reviews
+ * @property-read int|null $reviews_count
+ *
  */
 class Serial extends Model
 {
@@ -80,5 +88,19 @@ class Serial extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    protected function name(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
+    }
+
+    protected function description(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
     }
 }

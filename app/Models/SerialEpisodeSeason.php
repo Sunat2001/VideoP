@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\App;
 
 /**
  * App\Models\SerialEpisodeSeason
@@ -56,6 +58,13 @@ class SerialEpisodeSeason extends Model
     public function serialEpisodes(): HasMany
     {
         return $this->hasMany(SerialEpisode::class, 'season_id');
+    }
+
+    protected function description(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
     }
 
 

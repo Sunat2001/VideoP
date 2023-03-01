@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 
 /**
  * App\Core\Cash\Models\AttributeValue
  *
  * @property int $id
- * @property string $name
+ * @property string|array $name
  * @property boolean $is_active
  * @property int $attribute_id
  * @property Carbon|null $created_at
@@ -44,7 +45,7 @@ class AttributeValue extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-        'name' => 'array',
+//        'name' => 'array',
     ];
 
     public function attribute(): BelongsTo
@@ -55,5 +56,12 @@ class AttributeValue extends Model
     public function serials(): BelongsToMany
     {
         return $this->belongsToMany(Serial::class, 'serial_attribute_value');
+    }
+
+    protected function name():  \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return new \Illuminate\Database\Eloquent\Casts\Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
     }
 }

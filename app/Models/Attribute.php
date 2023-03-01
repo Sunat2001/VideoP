@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\App;
 
 /**
  * App\Core\Cash\Models\Attribute
@@ -49,5 +50,12 @@ class Attribute extends Model
     public function attributeValues(): HasMany
     {
         return $this->hasMany(AttributeValue::class);
+    }
+
+    protected function name(): \Illuminate\Database\Eloquent\Casts\Attribute
+    {
+        return new \Illuminate\Database\Eloquent\Casts\Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
     }
 }

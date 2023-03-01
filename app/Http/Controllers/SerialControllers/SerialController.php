@@ -18,7 +18,6 @@ use App\Models\Review;
 use App\Models\ReviewHistory;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -65,18 +64,25 @@ class SerialController extends Controller
     {
         $relation = [
             'attributeValues.attribute',
-            'reviews' => function (Builder $query) {
-                $query->where('status', ReviewStatuses::APPROVED)->sortByDesc('vote');
+            'reviews' => function ($query) {
+                $query->where('status', ReviewStatuses::APPROVED);
             },
             'reviews.user',
         ];
 
         $serial->load($relation);
 
+        $serial->reviews->sortByDesc('vote');
+
         $serial->attribute_values = $serial->attributeValues->groupBy('attribute.name');
 
-        foreach ($serial->attribute_values as $value) {
-            $value->transform(function ($item) {
+        foreach ($serial->attribute_values as $key => $value) {
+            $value->transform(function ($item) use ($key) {
+                if ($key === 'Страна'){
+                    $item->flag = '🇺🇦';
+                    dd();
+                    return $item->only(['id', 'name', 'flag']);
+                }
                 return $item->only(['id', 'name']);
             });
         }

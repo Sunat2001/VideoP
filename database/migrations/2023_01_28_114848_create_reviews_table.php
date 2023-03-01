@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('status')->default(ReviewStatuses::ON_MODERATION);
             $table->boolean('is_best')->default(false);
             $table->BigInteger('vote')->default(0);
-            $table->boolean('is_best')->default(false);
             $table->foreignId('serial_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
