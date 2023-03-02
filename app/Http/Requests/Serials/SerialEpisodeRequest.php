@@ -22,8 +22,8 @@ class SerialEpisodeRequest extends FormRequest
             'rate' => ['required', 'numeric', 'min:1', 'max:10'],
             'serial_id' => ['required', 'integer', Rule::exists(Serial::class, 'id')],
             'season_id' => ['required', 'integer', Rule::exists(SerialEpisodeSeason::class, 'id')->where('serial_id', $this->serial_id)],
-            'serial_video_id' => ['required', 'array'],
-            'serial_video_id.*' => ['required', 'integer', Rule::exists(SerialEpisodeVideo::class, 'id')],
+//            'serial_video_id' => ['required', 'array'],
+//            'serial_video_id.*' => ['required', 'integer', Rule::exists(SerialEpisodeVideo::class, 'id')],
         ];
     }
 }

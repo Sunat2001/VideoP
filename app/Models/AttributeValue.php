@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
  * @property int $id
  * @property string|array $name
  * @property boolean $is_active
+ * @property string|null $image
  * @property int $attribute_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -40,6 +41,7 @@ class AttributeValue extends Model
     protected $fillable = [
         'name',
         'is_active',
+        'image',
         'attribute_id',
     ];
 

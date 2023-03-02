@@ -86,6 +86,9 @@ class SerialController extends Controller
                     $item->flag = $flagService->getFlagByCountry($item->nameInEnglish());
                     return $item->only(['id', 'name', 'flag']);
                 }
+                if (!is_null($item->image)) {
+                    return $item->only(['id', 'name', 'image']);
+                }
                 return $item->only(['id', 'name']);
             });
         }

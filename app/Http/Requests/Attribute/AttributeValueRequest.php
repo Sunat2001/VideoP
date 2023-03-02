@@ -15,6 +15,7 @@ class AttributeValueRequest extends FormRequest
             'name' => ['required', 'array'],
             'name.*' => ['required', 'string', 'max:255'],
             'is_active' => ['required', 'boolean'],
+            'image' => ['nullable', 'string'],
             'attribute_id' => ['required', 'integer', Rule::exists(Attribute::class, 'id')],
         ];
     }

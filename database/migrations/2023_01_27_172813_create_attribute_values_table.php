@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->json('name');
             $table->boolean('is_active');
+            $table->string('image')->nullable();
             $table->foreignId('attribute_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();
         });

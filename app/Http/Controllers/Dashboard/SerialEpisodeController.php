@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Serials\SerialEpisodeRequest;
 use App\Http\Resources\Serials\SerialEpisodeResource;
 use App\Models\SerialEpisode;
+use App\Models\SerialEpisodeVideo;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -34,8 +35,6 @@ class SerialEpisodeController extends Controller
     public function store(SerialEpisodeRequest $request): JsonResponse
     {
         $serialEpisode = SerialEpisode::query()->create($request->validated());
-
-        // TODO: add videos to episode
 
         return (new SerialEpisodeResource($serialEpisode->load($this->relations)))
             ->response()
