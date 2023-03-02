@@ -10,6 +10,7 @@ use App\Models\Serial;
 use App\Models\SerialEpisode;
 use App\Models\SerialEpisodeSeason;
 use App\Models\SerialEpisodeVideo;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -21,17 +22,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
 
-        \App\Models\User::factory()->create([
+        User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
-        ]);
-
-        $this->call([
-            AttributeSeeder::class,
-            AttributeValueSeeder::class,
         ]);
 
         Serial::factory(30)->create();
@@ -40,5 +35,12 @@ class DatabaseSeeder extends Seeder
         SerialEpisodeVideo::factory(30)->create();
 
         Review::factory(5)->create();
+
+        $this->call([
+            AttributeSeeder::class,
+            AttributeValueSeeder::class,
+            SerialAtrributeValueSeed::class,
+//            RecomendedGenerateDataSeed::class,
+        ]);
     }
 }

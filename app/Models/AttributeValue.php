@@ -45,7 +45,7 @@ class AttributeValue extends Model
 
     protected $casts = [
         'is_active' => 'boolean',
-//        'name' => 'array',
+        'name' => 'array',
     ];
 
     public function attribute(): BelongsTo
@@ -56,6 +56,11 @@ class AttributeValue extends Model
     public function serials(): BelongsToMany
     {
         return $this->belongsToMany(Serial::class, 'serial_attribute_value');
+    }
+
+    public function nameInEnglish(): string
+    {
+        return json_decode($this->getRawOriginal('name'), true)['en'];
     }
 
     protected function name():  \Illuminate\Database\Eloquent\Casts\Attribute

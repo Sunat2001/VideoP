@@ -18,6 +18,7 @@ use App\Models\Review;
 use App\Models\ReviewHistory;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
+use App\Services\FlagService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -76,11 +77,13 @@ class SerialController extends Controller
 
         $serial->attribute_values = $serial->attributeValues->groupBy('attribute.name');
 
+        /** @var FlagService $flagService */
+        $flagService = app(FlagService::class);
+
         foreach ($serial->attribute_values as $key => $value) {
-            $value->transform(function ($item) use ($key) {
+            $value->transform(function ($item) use ($key, $flagService) {
                 if ($key === 'Страна'){
-                    $item->flag = '🇺🇦';
-                    dd();
+                    $item->flag = $flagService->getFlagByCountry($item->nameInEnglish());
                     return $item->only(['id', 'name', 'flag']);
                 }
                 return $item->only(['id', 'name']);
