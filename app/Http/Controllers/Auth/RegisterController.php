@@ -2,51 +2,72 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Enum\LogChannelNames;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Jobs\SendWelcomeEmailJob;
+use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use App\Models\VerificationCode;
-use Illuminate\Database\QueryException;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Register Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles the registration of new users as well as their
+    | validation and creation. By default this controller uses a trait to
+    | provide this functionality without requiring any additional code.
+    |
+    */
+
+    use RegistersUsers;
+
     /**
-     * @param RegisterRequest $request
-     * @return JsonResponse
+     * Where to redirect users after registration.
+     *
+     * @var string
      */
-    public function register(RegisterRequest $request): JsonResponse
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        try {
-            $user = User::query()->create($request->validated());
-        } catch (QueryException $e) {
-                Log::channel(LogChannelNames::AUTH_ERROR)->error($e->getMessage());
+        $this->middleware('guest');
+    }
 
-                return response()->json([
-                    'status' => 'error',
-                    'message' => __('transaction.error_insert_data'),
-                ], 500);
-        }
-
-        $otp = Str::random(6);
-
-        VerificationCode::query()->create([
-            'user_id' => $user->id,
-            'otp' => $otp,
-            'expire_at' => now()->addDay(),
+    /**
+     * Get a validator for an incoming registration request.
+     *
+     * @param  array  $data
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    protected function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
+    }
 
-        $this->dispatch(new SendWelcomeEmailJob($user->email, $otp));
-
-        return response()->json([
-            'status' => 'success',
-            'message' => __('auth.messages.success_register'),
+    /**
+     * Create a new user instance after a valid registration.
+     *
+     * @param  array  $data
+     * @return \App\Models\User
+     */
+    protected function create(array $data)
+    {
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
         ]);
     }
 }

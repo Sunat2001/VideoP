@@ -79,15 +79,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsToMany(SerialEpisode::class, 'user_episode_viewed', 'user_id', 'video_episode_id');
     }
 
-    /**
-     * @return Attribute
-     */
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn($value) => bcrypt($value),
-        );
-    }
+//    /**
+//     * @return Attribute
+//     */
+//    protected function password(): Attribute
+//    {
+//        return Attribute::make(
+//            set: fn($value) => bcrypt($value),
+//        );
+//    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
