@@ -20,10 +20,7 @@ Route::get('/', function () {
     abort(403);
 });
 
-//Auth::routes();
-
-Route::view('login', 'auth.login');
-Route::post('login', [App\Http\Controllers\Auth\LoginController::class, 'login'])->name('login');
+Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
