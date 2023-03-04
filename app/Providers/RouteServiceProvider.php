@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware(['api', Localization::class])
+            Route::middleware(['api', Localization::class, 'auth:api', AdminRoleCheckMiddleware::class])
                 ->prefix('api/dashboard')
                 ->group(base_path('routes/dashboard.php'));
 

@@ -3,8 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -38,13 +46,21 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function showLoginForm()
+    public function showLoginForm(): Factory|View|Application
     {
         return view('auth.login');
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
-        return 'Hello';
+        $credentials = $request->only('email', 'password');
+        $user = User::whereEmail($credentials['email'])->first();
+
+        if (Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user);
+            return redirect()->route('home');
+        }
+
+        return redirect()->route('login');
     }
 }

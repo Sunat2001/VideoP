@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\OtpRequest;
@@ -8,7 +8,6 @@ use App\Models\VerificationCode;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class OtpController extends Controller
