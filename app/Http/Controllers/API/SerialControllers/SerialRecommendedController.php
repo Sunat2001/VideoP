@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\SerialControllers;
+namespace App\Http\Controllers\API\SerialControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Serials\TopSerialsResource;

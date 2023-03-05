@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\PHPConfController;
 use App\Http\Controllers\Dashboard\AttributeController;
 use App\Http\Controllers\Dashboard\AttributeValueController;
 use App\Http\Controllers\Dashboard\FileController;
@@ -9,7 +10,6 @@ use App\Http\Controllers\Dashboard\SerialEpisodeController;
 use App\Http\Controllers\Dashboard\SerialEpisodeSeasonController;
 use App\Http\Controllers\Dashboard\SerialEpisodeVideoController;
 use App\Http\Controllers\Dashboard\UserController;
-use App\Http\Controllers\PHPConfController;
 use Illuminate\Support\Facades\Route;
 
 /**
