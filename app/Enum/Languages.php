@@ -14,4 +14,12 @@ enum Languages
             self::EN,
         ];
     }
+
+    public static function getLabels(): array
+    {
+        return [
+            self::RU => 'Русский',
+            self::EN => 'English',
+        ];
+    }
 }
