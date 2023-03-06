@@ -3,42 +3,38 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
+    use AuthenticatesUsers;
+
     /**
-     * @param LoginRequest $request
-     * @return JsonResponse
+     * Where to redirect users after login.
+     *
+     * @var string
      */
-    public function login(LoginRequest $request): JsonResponse
+    protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        $credentials = $request->only('email', 'password');
-
-        if ($token = Auth::attempt($credentials)) {
-            if (Auth::user()->email_verified_at === null) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => __('auth.messages.email_not_verified'),
-                ], 401);
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'message' => __('auth.messages.success_login'),
-                'user' => Auth::user()->only(['id', 'name', 'email', 'image']),
-                'authorisation' => [
-                    'token' => $token,
-                    'type' => 'bearer',
-                ]
-            ]);
-        }
-
-        return response()->json([
-            'status' => 'error',
-            'message' => __('auth.messages.error_credentials'),
-        ], 401);
+//        $this->middleware('guest')->except('logout');
     }
 }

@@ -19,10 +19,13 @@ class AdminRoleCheckMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!auth()->user()->is_admin) {
-            return response()->json([
-                'status' => 'error',
-                'message' => __('http_responses.messages.forbidden')
-            ], Response::HTTP_FORBIDDEN);
+            if ($request->expectsJson())
+                return response()->json([
+                    'status' => 'error',
+                    'message' => __('http_responses.messages.forbidden')
+                ], Response::HTTP_FORBIDDEN);
+            else
+                abort(Response::HTTP_FORBIDDEN);
         }
         return $next($request);
     }

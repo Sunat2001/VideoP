@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\LanguageController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SerialControllers\AlreadySeenController;
-use App\Http\Controllers\SerialControllers\SerialController;
-use App\Http\Controllers\SerialControllers\SerialRecommendedController;
+use App\Http\Controllers\API\LanguageController;
+use App\Http\Controllers\API\SearchController;
+use App\Http\Controllers\API\SerialControllers\AlreadySeenController;
+use App\Http\Controllers\API\SerialControllers\SerialController;
+use App\Http\Controllers\API\SerialControllers\SerialRecommendedController;
 use Illuminate\Support\Facades\Route;
 
 /**

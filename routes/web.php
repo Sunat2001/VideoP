@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Symfony\Component\HttpFoundation\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,5 +17,18 @@ use Symfony\Component\HttpFoundation\Response;
 */
 
 Route::get('/', function () {
-    abort(403);
+    return redirect('/home');
+});
+
+Auth::routes();
+
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::view('about', 'about')->name('about');
+
+    Route::get('users', [UserController::class, 'index'])->name('users.index');
+
+    Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 });
