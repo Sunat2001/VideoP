@@ -14,6 +14,7 @@ return [
     'close' => 'Close',
     'save' => 'Save',
     'delete' => 'Delete',
+    'edit' => 'Edit',
     'browse' => 'Browse',
     'profile' => 'Profile',
     'yes' => 'Yes',

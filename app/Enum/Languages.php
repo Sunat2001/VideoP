@@ -23,7 +23,7 @@ enum Languages
         ];
     }
 
-    public static function getLabel(string $value): string
+    public static function getLabel(?string $value): string
     {
         return self::getLabels()[$value] ?? self::getLabels()[self::RU];
     }

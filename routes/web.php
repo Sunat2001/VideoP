@@ -34,8 +34,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 //    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
 //    Route::get('users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
 //    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
-    Route::resource('users', UserController::class)->except('destroy');
+    Route::resource('users', UserController::class)->except(['destroy', 'update']);
     Route::post('users/delete/{user}', [UserController::class, 'destroy'])->name('users.destroy');
+    Route::post('users/update/{user}', [UserController::class, 'update'])->name('users.update');
 
     Route::resource('serials', SerialController::class);
     Route::resource('reviews', ReviewController::class);
