@@ -15,6 +15,17 @@ return [
     'save' => 'Save',
     'delete' => 'Delete',
     'browse' => 'Browse',
+    'profile' => 'Profile',
+    'yes' => 'Yes',
+    'no' => 'No',
+
+    /**
+     * Dashboard/Delete Dialog
+     */
+    'delete_dialog_title' => 'Delete',
+    'delete_dialog_message' => 'Are you sure you want to delete this item?',
+    'delete_dialog_cancel' => 'Cancel',
+    'delete_dialog_confirm' => 'Delete',
 
     /**
      * Dashboard/Review

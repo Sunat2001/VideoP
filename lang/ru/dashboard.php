@@ -15,6 +15,17 @@ return [
     'save' => 'Сохранить',
     'delete' => 'Удалить',
     'browse' => 'Выбрать',
+    'profile' => 'Профиль',
+    'yes' => 'Да',
+    'no' => 'Нет',
+
+    /**
+     * Dashboard/Delete Dialog
+     */
+    'delete_dialog_title' => 'Удаление',
+    'delete_dialog_message' => 'Вы уверены, что хотите удалить этот элемент?',
+    'delete_dialog_cancel' => 'Отмена',
+    'delete_dialog_confirm' => 'Удалить',
 
     /**
      * Dashboard/Review
@@ -28,7 +39,7 @@ return [
         'email' => 'Email',
         'password' => 'Пароль',
         'image' => 'Изображение',
-        'email_verified_at' => 'Вермя верификации Email',
+        'email_verified_at' => 'Время верификации Email',
         'is_admin' => 'Администратор',
         'language' => 'Язык',
         'created_at' => 'Время создания',

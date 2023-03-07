@@ -26,18 +26,13 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-install pdo_pgsql \
     && docker-php-source delete \
 
-#RUN echo "post_max_size = 128M" >> /usr/local/etc/php/php.ini
-#RUN echo "upload_max_filesize = 128M" >> /usr/local/etc/php/php.ini
-
 COPY . /var/www/html
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-#CMD chown -R www-data:www-data /var/www/html/ \
-#    chmod -R 755 /var/www/html/
+#CMD ['chown', '-R www-data:www-data', '/var/www/html/']
+#CMD ['chmod', '-R 755', '/var/www/html/']
 
-#ENV COMPOSER_ALLOW_SUPERUSER=1
-#CMD bash -c "composer install --no-interaction --ignore-platform-reqs"
 
 
 EXPOSE 80 443

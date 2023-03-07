@@ -22,4 +22,9 @@ enum Languages
             self::EN => 'English',
         ];
     }
+
+    public static function getLabel(string $value): string
+    {
+        return self::getLabels()[$value] ?? self::getLabels()[self::RU];
+    }
 }

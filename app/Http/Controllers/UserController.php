@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         $context = [];
         $context['message'] = null;
-        $context['user'] = $user;
+        $context['user'] = $user->load('reviews.serial');
 
         return view('users.show', $context);
     }
@@ -65,6 +65,10 @@ class UserController extends Controller
         return redirect()->route('users.index', ['message' => __('dashboard.user.message.created')]);
     }
 
+    /**
+     * @param User $user
+     * @return Factory|View|Application
+     */
     public function edit(User $user): Factory|View|Application
     {
         $context = [];
@@ -74,6 +78,10 @@ class UserController extends Controller
         return view('users.edit', $context);
     }
 
+    /**
+     * @param User $user
+     * @return Factory|View|Application
+     */
     public function update(User $user): Factory|View|Application
     {
         $context = [];
@@ -83,12 +91,14 @@ class UserController extends Controller
         return view('users.update', $context);
     }
 
-    public function destroy(User $user): Factory|View|Application
+    /**
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function destroy(User $user): RedirectResponse
     {
-        $context = [];
-        $context['message'] = null;
-        $context['user'] = $user;
+        $user->delete();
 
-        return view('users.destroy', $context);
+        return redirect()->route('users.index', ['message' => __('dashboard.user.message.deleted')]);
     }
 }
