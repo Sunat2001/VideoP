@@ -24,7 +24,16 @@
                 <a href="{{ route('users.index') }}" class="nav-link">
                     <i class="nav-icon fas fa-users"></i>
                     <p>
-                        {{ __('Users') }}
+                        {{ __('dashboard.users') }}
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('serials.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>
+                        {{ __('dashboard.serials') }}
                     </p>
                 </a>
             </li>

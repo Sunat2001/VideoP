@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid d-flex justify-content-between">
-            <h1 class="m-0">{{ __('dashboard.users') }}</h1>
+            <h1 class="m-0">{{ __('dashboard.serials') }}</h1>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
                 <ion-icon name="add-circle-outline"></ion-icon>
             </button>
@@ -37,38 +37,30 @@
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>{{ __('dashboard.user.id') }}</th>
-                                    <th>{{ __('dashboard.user.name') }}</th>
-                                    <th>{{ __('dashboard.user.email') }}</th>
-                                    <th>{{ __('dashboard.user.is_admin') }}</th>
-                                    <th>{{ __('dashboard.user.language') }}</th>
-                                    <th>{{ __('dashboard.user.created_at') }}</th>
-                                    <th>{{ __('dashboard.user.email_verified_at') }}</th>
+                                    <th>{{ __('dashboard.serial.id') }}</th>
+                                    <th>{{ __('dashboard.serial.name') }}</th>
+                                    <th>{{ __('dashboard.serial.description') }}</th>
+                                    <th>{{ __('dashboard.serial.created_at') }}</th>
+                                    <th>{{ __('dashboard.serial.updated_at') }}</th>
                                     <th>{{ __('dashboard.actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($users as $user)
+                                @foreach($serials as $serial)
                                     <tr>
-                                        <td>{{ $user->id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        @if($user->is_admin == 1)
-                                            <td><i class="fas fa-circle fa-1x text-green"></i></td>
-                                        @else
-                                            <td><i class="fas fa-circle fa-1x text-red"></i></td>
-                                        @endif
-                                        <td>{{ $user->language == '' ? 'ru': $user->language }}</td>
-                                        <td>{{ $user->created_at }}</td>
-                                        <td>{{ $user->email_verified_at }}</td>
+                                        <td>{{ $serial->id }}</td>
+                                        <td>{{ $serial->name }}</td>
+                                        <td>{{ $serial->description}}</td>
+                                        <td>{{ $serial->created_at }}</td>
+                                        <td>{{ $serial->updated_at }}</td>
                                         <td>
-                                            <a href="{{ route('users.show', ['user' => $user] ) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('serials.show', ['serial' => $serial] ) }}" class="btn btn-sm btn-primary">
                                                 <ion-icon name="eye-outline"></ion-icon>
                                             </a>
-                                            <a href="{{ route('users.edit', ['user' => $user] ) }}" class="btn btn-sm btn-primary">
+                                            <a href="{{ route('serials.edit', ['serial' => $serial] ) }}" class="btn btn-sm btn-primary">
                                                 <ion-icon name="create-outline"></ion-icon>
                                             </a>
-                                            <button type="button" onclick="setUserIdToDeleteModal({{$user->id}})" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-delete">
+                                            <button type="button" onclick="setUserIdToDeleteModal({{$serial->id}})" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-delete">
                                                 <ion-icon name="trash-outline"></ion-icon>
                                             </button>
                                         </td>
@@ -80,7 +72,7 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer clearfix">
-                            {{ $users->links() }}
+                            {{ $serials->links() }}
                         </div>
                         <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog">
@@ -219,7 +211,7 @@
 
         function deleteUser() {
             let userId = $('#delete').attr('data-user-id');
-            $('#delete').attr('action', '/users/delete/' + userId);
+            $('#delete').attr('action', '/serials/delete/' + userId);
         }
 
     </script>
