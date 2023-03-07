@@ -61,5 +61,16 @@ return [
             'updated' => 'User updated successfully',
             'deleted' => 'User deleted successfully',
         ],
+    ],
+
+    'serial' => [
+        'id' => 'ID',
+        'name' => 'Name',
+        'description' => 'Description',
+        'image' => 'Image',
+        'rate' => 'Rate',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'add' => 'Add serial',
     ]
 ];

@@ -2,18 +2,29 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Serial;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
 class SerialController extends Controller
 {
+    protected array $relations = [
+
+    ];
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request): Application|Factory|View
     {
-        //
+        $context = [];
+        $context['serials'] = Serial::query()->with($this->relations)->paginate(10);
+        $context['message'] = $request->get('message');
+
+        return view('serials.index', $context);
     }
 
     /**
