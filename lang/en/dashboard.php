@@ -19,6 +19,9 @@ return [
     'profile' => 'Profile',
     'yes' => 'Yes',
     'no' => 'No',
+    'rate' => 'Rate',
+    'description' => 'Description',
+    'id' => 'ID',
 
     /**
      * Dashboard/Delete Dialog
@@ -66,11 +69,36 @@ return [
     'serial' => [
         'id' => 'ID',
         'name' => 'Name',
-        'description' => 'Description',
         'image' => 'Image',
-        'rate' => 'Rate',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'add' => 'Add serial',
-    ]
+        'edit' => 'Edit serial',
+        'delete' => 'Delete serial',
+        'episode_count' => 'Episodes count',
+        'season_count' => 'Seasons count',
+        'best_review' => 'Best review',
+        'serial_info' => 'Serial info',
+        'seasons' => 'Seasons',
+        'episodes' => 'Episodes',
+    ],
+
+    'season' => [
+        'season_number' => 'Season number',
+        'created_at' => 'Created at',
+        'add' => 'Add season',
+        'edit' => 'Edit season',
+        'delete' => 'Delete season',
+        'episodes' => 'Episodes',
+        'is_final' => 'Is final',
+        'year' => 'Year',
+    ],
+
+    'episode' => [
+        'episode_number' => 'Episode number',
+        'created_at' => 'Created at',
+        'add' => 'Add episode',
+        'edit' => 'Edit episode',
+        'delete' => 'Delete episode',
+    ],
 ];

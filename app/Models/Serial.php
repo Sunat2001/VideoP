@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\App;
  * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read SerialEpisode[] $serialEpisodes
  * @method static findOrFail(mixed $get)
  * @method static Builder|Serial newModelQuery()
  * @method static Builder|Serial newQuery()
@@ -37,16 +36,16 @@ use Illuminate\Support\Facades\App;
  * @method static Builder|Serial whereUpdatedAt($value)
  * @method static Builder|Serial whereStatus($value)
  * @mixin \Eloquent
- * @property-read int|null $serial_episode_seasons_count
+ * @property-read Collection|SerialEpisode[] $serialEpisodes
  * @property-read Collection|SerialEpisodeSeason[] $serialEpisodeSeasons
- * @property-read int|null $serial_episode_videos_count
  * @property-read Collection|SerialEpisodeVideo[] $serialEpisodeVideos
  * @property-read Collection|AttributeValue[] $attributeValues
+ * @property-read int|null $serial_episode_seasons_count
+ * @property-read int|null $serial_episode_videos_count
  * @property-read int|null $attribute_values_count
  * @property-read int|null $serial_episodes_count
  * @property-read Collection|Review[] $reviews
  * @property-read int|null $reviews_count
- *
  */
 class Serial extends Model
 {

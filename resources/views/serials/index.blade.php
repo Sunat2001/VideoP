@@ -6,7 +6,7 @@
         <div class="container-fluid d-flex justify-content-between">
             <h1 class="m-0">{{ __('dashboard.serials') }}</h1>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                <ion-icon name="add-circle-outline"></ion-icon>
+                <i class="fas fa-plus"></i>
             </button>
         </div><!-- /.container-fluid -->
     </div>
@@ -40,6 +40,9 @@
                                     <th>{{ __('dashboard.serial.id') }}</th>
                                     <th>{{ __('dashboard.serial.name') }}</th>
                                     <th>{{ __('dashboard.serial.description') }}</th>
+                                    <th>{{ __('dashboard.serial.rate') }}</th>
+                                    <th>{{ __('dashboard.serial.episode_count') }}</th>
+                                    <th>{{ __('dashboard.serial.season_count') }}</th>
                                     <th>{{ __('dashboard.serial.created_at') }}</th>
                                     <th>{{ __('dashboard.serial.updated_at') }}</th>
                                     <th>{{ __('dashboard.actions') }}</th>
@@ -50,18 +53,21 @@
                                     <tr>
                                         <td>{{ $serial->id }}</td>
                                         <td>{{ $serial->name }}</td>
-                                        <td>{{ $serial->description}}</td>
+                                        <td width="20%">{{ $serial->description}}</td>
+                                        <td>{{ $serial->rate }}</td>
+                                        <td>{{ $serial->serial_episodes_count }}</td>
+                                        <td>{{ $serial->serial_episode_seasons_count }}</td>
                                         <td>{{ $serial->created_at }}</td>
                                         <td>{{ $serial->updated_at }}</td>
                                         <td>
                                             <a href="{{ route('serials.show', ['serial' => $serial] ) }}" class="btn btn-sm btn-primary">
-                                                <ion-icon name="eye-outline"></ion-icon>
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('serials.edit', ['serial' => $serial] ) }}" class="btn btn-sm btn-primary">
-                                                <ion-icon name="create-outline"></ion-icon>
+                                                <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             <button type="button" onclick="setUserIdToDeleteModal({{$serial->id}})" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-delete">
-                                                <ion-icon name="trash-outline"></ion-icon>
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>

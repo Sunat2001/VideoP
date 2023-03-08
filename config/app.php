@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'ru',
+    'locale' => \App\Enum\Languages::DEFAULT,
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'ru',
+    'fallback_locale' => \App\Enum\Languages::DEFAULT,
 
     /*
     |--------------------------------------------------------------------------

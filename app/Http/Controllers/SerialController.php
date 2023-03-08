@@ -11,17 +11,22 @@ use Illuminate\Http\Request;
 class SerialController extends Controller
 {
     protected array $relations = [
-
+        'serialEpisodes',
+        'serialEpisodeSeasons',
+        'attributeValues',
+        'reviews',
     ];
+
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return Application|Factory|View
      */
     public function index(Request $request): Application|Factory|View
     {
         $context = [];
-        $context['serials'] = Serial::query()->with($this->relations)->paginate(10);
+        $context['serials'] = Serial::query()->withCount($this->relations)->paginate(10);
         $context['message'] = $request->get('message');
 
         return view('serials.index', $context);
@@ -51,12 +56,14 @@ class SerialController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Serial $serial
+     * @return Application|Factory|View
      */
-    public function show($id)
+    public function show(Serial $serial): View|Factory|Application
     {
-        //
+        $serial->load($this->relations)->loadCount($this->relations);
+
+        return view('serials.show', compact('serial'));
     }
 
     /**
