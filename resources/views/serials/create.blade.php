@@ -10,28 +10,15 @@
             </div>
         </div><!-- /.container-fluid -->
     </section>
+
     <section class="content">
-        <form action="{{ route('serials.update', ['serial' => $serial]) }}" method="post">
+        <form action="{{route('serials.store')}}" method="post">
             @csrf
             <div class="row">
                 <div class="col-md-6">
-                    @if(!is_null($message))
-                        <div class="alert alert-info">
-                            {{ $message }}
-                        </div>
-                    @endif
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">{{ __('dashboard.serial.serial_info') }}</h3>
+                            <h3 class="card-title">{{ __('dashboard.serials') }}</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -39,30 +26,28 @@
                                 </button>
                             </div>
                         </div>
+
                         <div class="card-body" style="display: block;">
                             <div class="form-group">
                                 <label for="inputName">{{ __('dashboard.serial.name') }}({{ __('dashboard.en') }}
                                     )</label>
-                                <input name="name_en" type="text" id="inputName" class="form-control"
-                                       value="{{ $serial->nameByLanguage(\App\Enum\Languages::EN) }}">
+                                <input name="name_en" type="text" id="inputName" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="inputName">{{ __('dashboard.serial.name') }}({{ __('dashboard.ru') }}
                                     )</label>
-                                <input name="name_ru" type="text" id="inputName" class="form-control"
-                                       value="{{ $serial->nameByLanguage(\App\Enum\Languages::RU) }}">
+                                <input name="name_ru" type="text" id="inputName" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label for="inputDescription">{{ __('dashboard.description') }}({{ __('dashboard.en') }}
                                     )</label>
                                 <textarea id="inputDescription" name="description_en" class="form-control"
-                                          rows="4">{{ $serial->descriptionByLanguage(\App\Enum\Languages::EN) }}</textarea>
+                                          rows="4"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="inputDescription">{{ __('dashboard.description') }}({{ __('dashboard.ru') }}
                                     )</label>
-                                <textarea id="inputDescription" name="description_ru" class="form-control"
-                                          rows="4">{{ $serial->descriptionByLanguage(\App\Enum\Languages::RU) }}</textarea>
+                                <textarea id="inputDescription" name="description_ru" class="form-control"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputFile">{{ __('dashboard.serial.image') }}</label>
@@ -90,47 +75,25 @@
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body" style="display: block;">
-
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <!-- /.card -->
-                    <div class="card card-info">
-                        <div class="card-header">
-                            <h3 class="card-title">{{ __('dashboard.files') }}</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body p-0" style="display: block;">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>{{ __('dashboard.file_name') }}</th>
-                                    <th>{{ __('dashboard.file_size') }}</th>
-                                    <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-
-                                <tr>
-                                    <td>{{ $serial->image_cover }}</td>
-                                    <td>-</td>
-                                    <td class="text-right py-0 align-middle">
-                                        <div class="btn-group btn-group-sm">
-                                            <a href="#" class="btn btn-info"><i class="fas fa-eye"></i></a>
-                                            <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
+                        {{--                    <!-- CSS -->--}}
+                        {{--                    <link rel="stylesheet" href="https://unpkg.com/multiple-select-js@1.0.2/dist/multiple-select.css">--}}
+                        {{--                    <!-- JS -->--}}
+                        {{--                    <script src="https://unpkg.com/multiple-select-js@1.0.2/dist/assets/js/multiple-select.js"></script>--}}
+                        {{--                    @foreach($attributes as $attribute)--}}
+                        {{--                        <div class="form-group">--}}
+                        {{--                            <label for="select-language">{{ $attribute->name }}</label>--}}
+                        {{--                            <select name="{{$attribute->id}}" id="select-multiple-language{{$attribute->id}}" multiple>--}}
+                        {{--                                @foreach($attribute->attributeValues as $attributesValue)--}}
+                        {{--                                    <option value="{{$attributesValue->id}}">{{$attributesValue->name}}</option>--}}
+                        {{--                                @endforeach--}}
+                        {{--                            </select>--}}
+                        {{--                        </div>--}}
+                        {{--                        <script>--}}
+                        {{--                            new MultipleSelect('#select-multiple-language{{$attribute->id}}', {--}}
+                        {{--                                placeholder: '{{ __('dashboard.select') }} {{$attribute->name}}'--}}
+                        {{--                            })--}}
+                        {{--                        </script>--}}
+                        {{--                    @endforeach--}}
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
@@ -138,10 +101,12 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <a href="#" class="btn btn-secondary">Cancel</a>
-                    <input type="submit" value="Save Changes" class="btn btn-success float-right">
+                    <a href="#" class="btn btn-secondary">{{ __('dashboard.delete_dialog_cancel') }}</a>
+                    <input type="submit" value="{{ __('dashboard.serial.add') }}" class="btn btn-success float-right">
                 </div>
             </div>
         </form>
     </section>
+
 @endsection
+

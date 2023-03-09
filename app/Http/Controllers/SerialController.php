@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attribute;
 use App\Models\Serial;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SerialController extends Controller
 {
@@ -32,20 +34,33 @@ class SerialController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Application|Factory|View
      */
-    public function create()
+    public function create(Request $request): Application|Factory|View
     {
-        //
+        $context['message'] = $request->get('message');
+        $context['attributes'] = Attribute::query()->with(['attributeValues'])->get();
+
+        return view('serials.create', $context);
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ru' => ['required', 'string', 'max:255'],
+            'description_en' => ['required', 'string'],
+            'description_ru' => ['required', 'string'],
+        ]);
+
+        Serial::query()->create($request->all());
+
+        return redirect()->route('serials.index', ['message' => __('dashboard.serial.message.created')]);
     }
 
     /**
@@ -83,7 +98,7 @@ class SerialController extends Controller
             'name_en' => 'required|string',
             'name_ru' => 'required|string',
             'description_en' => 'required|string',
-            'description' => 'required|string',
+            'description_ru' => 'required|string',
             'image_cover' => 'nullable|image',
         ]);
 
@@ -99,17 +114,22 @@ class SerialController extends Controller
             'image_cover' => $request->file('image_cover') ? $request->file('image_cover')->store('serials') : $serial->image_cover,
         ]);
 
-        return redirect()->route('serials.edit', $serial->id)->with('message', __('dashboard.serials.update'));
+        return redirect()->route('serials.edit', [
+            'serial' => $serial->id,
+            'message', __('dashboard.serial.message.updated'),
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Serial $serial
+     * @return RedirectResponse
      */
-    public function destroy($id)
+    public function destroy(Serial $serial): RedirectResponse
     {
-        //
+        $serial->delete();
+
+        return redirect()->route('serials.index', ['message' => __('dashboard.serial.message.deleted')]);
     }
 }

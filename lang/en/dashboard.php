@@ -28,6 +28,7 @@ return [
     'file_name' => 'File name',
     'file_size' => 'File size',
     'file_type' => 'File type',
+    'select' => 'Select',
 
     /**
      * Dashboard/Language
@@ -93,6 +94,18 @@ return [
         'serial_info' => 'Serial info',
         'seasons' => 'Seasons',
         'episodes' => 'Episodes',
+
+        'message' => [
+            'created' => 'Serial created successfully',
+            'updated' => 'Serial updated successfully',
+            'deleted' => 'Serial deleted successfully',
+        ],
+
+        'placeholder' => [
+            'name' => 'Enter name',
+            'image' => 'Select image',
+            'attribute_value' => 'Select attribute value',
+        ],
     ],
 
     'season' => [
