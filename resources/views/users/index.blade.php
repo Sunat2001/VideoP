@@ -63,13 +63,13 @@
                                         <td>{{ $user->email_verified_at }}</td>
                                         <td>
                                             <a href="{{ route('users.show', ['user' => $user] ) }}" class="btn btn-sm btn-primary">
-                                                <ion-icon name="eye-outline"></ion-icon>
+                                                <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('users.edit', ['user' => $user] ) }}" class="btn btn-sm btn-primary">
-                                                <ion-icon name="create-outline"></ion-icon>
+                                                <i class="fas fa-pencil-alt"></i>
                                             </a>
                                             <button type="button" onclick="setUserIdToDeleteModal({{$user->id}})" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-delete">
-                                                <ion-icon name="trash-outline"></ion-icon>
+                                                <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
                                     </tr>

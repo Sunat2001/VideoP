@@ -23,7 +23,7 @@ class Localization
              * If Accept-Language header not found then set it to the default locale
              */
             App::setLocale(Auth::user()->language);
-        } else if ($request->hasHeader("Accept-Language")) {
+        } else if ($request->hasHeader("Accept-Language") && $request->header("Accept") === "application/json") {
             /**
              * If Accept-Language header found then set it to the default locale
              */

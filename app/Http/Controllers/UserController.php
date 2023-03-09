@@ -34,11 +34,9 @@ class UserController extends Controller
      */
     public function show(User $user): Factory|View|Application
     {
-        $context = [];
-        $context['message'] = null;
-        $context['user'] = $user->load('reviews.serial');
+        $user->load('reviews.serial');
 
-        return view('users.show', $context);
+        return view('users.show', compact('user'));
     }
 
     /**

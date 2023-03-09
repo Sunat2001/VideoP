@@ -8,6 +8,8 @@ return [
     'more_info' => 'More info',
     'serials' => 'Serials',
     'users' => 'Users',
+    'attributes' => 'Attributes',
+    'attribute_values' => 'Attribute values',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
     'actions' => 'Actions',
@@ -19,6 +21,20 @@ return [
     'profile' => 'Profile',
     'yes' => 'Yes',
     'no' => 'No',
+    'rate' => 'Rate',
+    'description' => 'Description',
+    'id' => 'ID',
+    'files' => 'Files',
+    'file_name' => 'File name',
+    'file_size' => 'File size',
+    'file_type' => 'File type',
+    'select' => 'Select',
+
+    /**
+     * Dashboard/Language
+     */
+    'en' => 'English',
+    'ru' => 'Russian',
 
     /**
      * Dashboard/Delete Dialog
@@ -66,11 +82,48 @@ return [
     'serial' => [
         'id' => 'ID',
         'name' => 'Name',
-        'description' => 'Description',
         'image' => 'Image',
-        'rate' => 'Rate',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'add' => 'Add serial',
-    ]
+        'edit' => 'Edit serial',
+        'delete' => 'Delete serial',
+        'episode_count' => 'Episodes count',
+        'season_count' => 'Seasons count',
+        'best_review' => 'Best review',
+        'serial_info' => 'Serial info',
+        'seasons' => 'Seasons',
+        'episodes' => 'Episodes',
+
+        'message' => [
+            'created' => 'Serial created successfully',
+            'updated' => 'Serial updated successfully',
+            'deleted' => 'Serial deleted successfully',
+        ],
+
+        'placeholder' => [
+            'name' => 'Enter name',
+            'image' => 'Select image',
+            'attribute_value' => 'Select attribute value',
+        ],
+    ],
+
+    'season' => [
+        'season_number' => 'Season number',
+        'created_at' => 'Created at',
+        'add' => 'Add season',
+        'edit' => 'Edit season',
+        'delete' => 'Delete season',
+        'episodes' => 'Episodes',
+        'is_final' => 'Is final',
+        'year' => 'Year',
+    ],
+
+    'episode' => [
+        'episode_number' => 'Episode number',
+        'created_at' => 'Created at',
+        'add' => 'Add episode',
+        'edit' => 'Edit episode',
+        'delete' => 'Delete episode',
+    ],
 ];

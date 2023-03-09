@@ -29,11 +29,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::view('about', 'about')->name('about');
 
-//    Route::get('users', [UserController::class, 'index'])->name('users.index');
-//    Route::post('users', [UserController::class, 'store'])->name('users.store');
-//    Route::get('users/{user}', [UserController::class, 'show'])->name('users.show');
-//    Route::get('users/edit/{user}', [UserController::class, 'edit'])->name('users.edit');
-//    Route::put('users/{user}', [UserController::class, 'update'])->name('users.update');
     Route::resource('users', UserController::class)->except(['destroy', 'update']);
     Route::post('users/delete/{user}', [UserController::class, 'destroy'])->name('users.destroy');
     Route::post('users/update/{user}', [UserController::class, 'update'])->name('users.update');

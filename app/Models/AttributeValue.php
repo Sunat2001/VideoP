@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Languages;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,7 +63,7 @@ class AttributeValue extends Model
 
     public function nameInEnglish(): string
     {
-        return json_decode($this->getRawOriginal('name'), true)['en'];
+        return json_decode($this->getRawOriginal('name'), true)[Languages::EN];
     }
 
     protected function name():  \Illuminate\Database\Eloquent\Casts\Attribute
