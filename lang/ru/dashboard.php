@@ -8,6 +8,8 @@ return [
     'more_info' => 'Подробнее',
     'serials' => 'Сериалы',
     'users' => 'Пользователи',
+    'attributes' => 'Атрибуты',
+    'attribute_values' => 'Значения атрибутов',
     'avg_rates' => 'Средний рейтинг сериалов',
     'reviews' => 'Отзывы',
     'actions' => 'Действия',
@@ -22,6 +24,16 @@ return [
     'rate' => 'Рейтинг',
     'description' => 'Описание',
     'id' => 'ID',
+    'files' => 'Файлы',
+    'file_name' => 'Имя файла',
+    'file_size' => 'Размер файла',
+    'file_type' => 'Тип файла',
+
+    /**
+     * Dashboard/Language
+     */
+    'en' => 'Английский',
+    'ru' => 'Русский',
 
     /**
      * Dashboard/Delete Dialog

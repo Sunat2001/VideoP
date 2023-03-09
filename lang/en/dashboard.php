@@ -8,6 +8,8 @@ return [
     'more_info' => 'More info',
     'serials' => 'Serials',
     'users' => 'Users',
+    'attributes' => 'Attributes',
+    'attribute_values' => 'Attribute values',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
     'actions' => 'Actions',
@@ -22,6 +24,16 @@ return [
     'rate' => 'Rate',
     'description' => 'Description',
     'id' => 'ID',
+    'files' => 'Files',
+    'file_name' => 'File name',
+    'file_size' => 'File size',
+    'file_type' => 'File type',
+
+    /**
+     * Dashboard/Language
+     */
+    'en' => 'English',
+    'ru' => 'Russian',
 
     /**
      * Dashboard/Delete Dialog

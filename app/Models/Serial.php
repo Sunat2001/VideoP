@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Languages;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -87,6 +88,16 @@ class Serial extends Model
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function nameByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('name'), true)[$language] ?? '';
+    }
+
+    public function descriptionByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('description'), true)[$language] ?? '';
     }
 
     protected function name(): Attribute
