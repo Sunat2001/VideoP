@@ -47,74 +47,214 @@
                                 </li>
                             </ul>
                         </div><!-- /.card-header -->
-                        <div class="card-body">
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="all">
-                                    <!-- Post -->
-                                    <div class="tab-pane" id="seasons">
-                                        <div class="row">
-                                            <div class="col-lg-12">
-                                                <div class="card">
-                                                    <div class="card-body p-0">
-                                                        <table class="table">
-                                                            <thead>
-                                                            <tr>
-                                                                <th>{{ __('dashboard.id') }}</th>
-                                                                <th>{{ __('dashboard.review.text') }}</th>
-                                                                <th>{{ __('dashboard.review.user') }}</th>
-                                                                <th>{{ __('dashboard.review.serial') }}</th>
-                                                                <th>{{ __('dashboard.review.created_at') }}</th>
-                                                                <th>{{ __('dashboard.review.updated_at') }}</th>
-                                                                <th>{{ __('dashboard.actions') }}</th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            @foreach($reviews as $review)
-                                                                <tr>
-                                                                    <td>{{ $review->id }}</td>
-                                                                    <td width="20%">{{ $review->text}}</td>
-                                                                    <td>
-                                                                        <a href="{{ route('users.show', ['user' => $review->user->id]) }}">
-                                                                            {{ $review->user->name }}
-                                                                        </a>
-                                                                    </td>
-                                                                    <td>
-                                                                        <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
-                                                                            {{ $review->serial->name }}
-                                                                        </a>
-                                                                    </td>
-                                                                    <td>{{ $review->created_at }}</td>
-                                                                    <td>{{ $review->updated_at }}</td>
-                                                                    <td>
-                                                                        <button type="button"
-                                                                                onclick="setReviewIdToDeleteModal({{$review->id}})"
-                                                                                class="btn btn-sm btn-primary"
-                                                                                data-toggle="modal"
-                                                                                data-target="#modal-delete">
-                                                                            <i class="fas fa-trash"></i>
-                                                                        </button>
-                                                                    </td>
-                                                                </tr>
-                                                            @endforeach
-                                                            </tbody>
-                                                        </table>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="all">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('dashboard.id') }}</th>
+                                            <th>{{ __('dashboard.review.text') }}</th>
+                                            <th>{{ __('dashboard.review.user') }}</th>
+                                            <th>{{ __('dashboard.review.serial') }}</th>
+                                            <th>{{ __('dashboard.review.status') }}</th>
+                                            <th>{{ __('dashboard.review.created_at') }}</th>
+                                            <th>{{ __('dashboard.review.updated_at') }}</th>
+                                            <th>{{ __('dashboard.actions') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($reviews as $review)
+                                            <tr>
+                                                <td>{{ $review->id }}</td>
+                                                <td width="20%">{{ $review->text}}</td>
+                                                <td>
+                                                    <a href="{{ route('users.show', ['user' => $review->user->id]) }}">
+                                                        {{ $review->user->name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
+                                                        {{ $review->serial->name }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ \App\Enum\ReviewStatuses::getLabel($review->status) }}</td>
+                                                <td>{{ $review->created_at }}</td>
+                                                <td>{{ $review->updated_at }}</td>
+                                                <td>
+                                                    <button type="button"
+                                                            onclick="setReviewIdToDeleteModal({{$review->id}})"
+                                                            class="btn btn-sm btn-primary"
+                                                            data-toggle="modal"
+                                                            data-target="#modal-delete">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    {{ $reviews->links() }}
+                                </div>
+                                <!-- /.post -->
+                            </div>
+                            <div class="tab-pane" id="on_moderation">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('dashboard.id') }}</th>
+                                            <th>{{ __('dashboard.review.text') }}</th>
+                                            <th>{{ __('dashboard.review.user') }}</th>
+                                            <th>{{ __('dashboard.review.serial') }}</th>
+                                            <th>{{ __('dashboard.review.created_at') }}</th>
+                                            <th>{{ __('dashboard.review.updated_at') }}</th>
+                                            <th>{{ __('dashboard.actions') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($reviewsOnModeration as $review)
+                                            <tr>
+                                                <td>{{ $review->id }}</td>
+                                                <td width="20%">{{ $review->text}}</td>
+                                                <td>
+                                                    <a href="{{ route('users.show', ['user' => $review->user->id]) }}">
+                                                        {{ $review->user->name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
+                                                        {{ $review->serial->name }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $review->created_at }}</td>
+                                                <td>{{ $review->updated_at }}</td>
+                                                <td class="d-flex">
+                                                    <form
+                                                        action="{{ route('reviews.change-status', ['review' => $review, 'status' => \App\Enum\ReviewStatuses::APPROVED]) }}"
+                                                        method="post"
+                                                        class="mr-1"
+                                                    >
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-primary">
+                                                            <i class="fas fa-check"></i>
+                                                        </button>
+                                                    </form>
+                                                    <form
+                                                        action="{{ route('reviews.change-status', ['review' => $review, 'status' => \App\Enum\ReviewStatuses::APPROVED]) }}"
+                                                        method="post"
+                                                    >
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-danger">
+                                                            <i class="fas fa-times"></i>
+                                                        </button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    {{ $reviews->links() }}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="pass_moderation">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('dashboard.id') }}</th>
+                                            <th>{{ __('dashboard.review.text') }}</th>
+                                            <th>{{ __('dashboard.review.user') }}</th>
+                                            <th>{{ __('dashboard.review.serial') }}</th>
+                                            <th>{{ __('dashboard.review.created_at') }}</th>
+                                            <th>{{ __('dashboard.review.updated_at') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($reviewsApproved as $review)
+                                            <tr>
+                                                <td>{{ $review->id }}</td>
+                                                <td width="20%">{{ $review->text}}</td>
+                                                <td>
+                                                    <a href="{{ route('users.show', ['user' => $review->user->id]) }}">
+                                                        {{ $review->user->name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
+                                                        {{ $review->serial->name }}
+                                                    </a>
+                                                </td>
+                                                <td>{{ $review->created_at }}</td>
+                                                <td>{{ $review->updated_at }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    {{ $reviews->links() }}
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="rejected">
+                                <div class="col-lg-12">
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>{{ __('dashboard.id') }}</th>
+                                            <th>{{ __('dashboard.review.text') }}</th>
+                                            <th>{{ __('dashboard.review.user') }}</th>
+                                            <th>{{ __('dashboard.review.serial') }}</th>
+                                            <th>{{ __('dashboard.review.is_best') }}</th>
+                                            <th>{{ __('dashboard.review.created_at') }}</th>
+                                            <th>{{ __('dashboard.review.updated_at') }}</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        @foreach($reviewsRejected as $review)
+                                            <tr>
+                                                <td>{{ $review->id }}</td>
+                                                <td width="20%">{{ $review->text}}</td>
+                                                <td>
+                                                    <a href="{{ route('users.show', ['user' => $review->user->id]) }}">
+                                                        {{ $review->user->name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
+                                                        {{ $review->serial->name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <div class="custom-control custom-switch">
+                                                        <input name="is_best" type="checkbox" {{ $review->is_best == 1 ? 'checked' : '' }} class="custom-control-input"
+                                                               id="customSwitch1">
+                                                        <label class="custom-control-label"
+                                                               for="customSwitch1">{{ __('dashboard.user.placeholder.is_admin') }}</label>
+                                                        @error('is_admin')
+                                                        <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                        @enderror
                                                     </div>
-                                                    <!-- /.card-body -->
-                                                    <div class="card-footer clearfix">
-                                                        {{ $reviews->links() }}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane" id="on_moderation">
-                                                <div class="row">
-
-                                                </div>
-                                            </div>
-                                            <!-- /.post -->
-                                        </div>
-
-                                    </div>
-                                </div><!-- /.card-body -->
+                                                </td>
+                                                <td>{{ $review->created_at }}</td>
+                                                <td>{{ $review->updated_at }}</td>
+                                            </tr>
+                                        @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div class="card-footer clearfix">
+                                    {{ $reviews->links() }}
+                                </div>
                             </div>
                             <!-- /.card -->
                         </div>

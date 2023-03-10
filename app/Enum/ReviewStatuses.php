@@ -10,9 +10,9 @@ enum ReviewStatuses
     public static function getLabels(): array
     {
         return [
-            self::ON_MODERATION => 'На модерации',
-            self::APPROVED => 'Опубликовано',
-            self::REJECTED => 'Отклонено',
+            self::ON_MODERATION => __('dashboard.review.on_moderation'),
+            self::APPROVED => __('dashboard.review.pass_moderation'),
+            self::REJECTED => __('dashboard.review.rejected'),
         ];
     }
 

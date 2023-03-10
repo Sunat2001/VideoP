@@ -44,12 +44,6 @@ return [
     'delete_dialog_cancel' => 'Cancel',
     'delete_dialog_confirm' => 'Delete',
 
-    /**
-     * Dashboard/Review
-     */
-    'error_review_must_be_approved' => 'Review must be approved',
-    'error_best_review_already_exist' => 'Best review for this serial already exist',
-
     'user' => [
         'id' => 'ID',
         'name' => 'Name',
@@ -129,6 +123,8 @@ return [
 
     'review' => [
         'text' => 'Text',
+        'is_best' => 'Is best',
+        'status' => 'Status',
         'user' => 'User',
         'serial' => 'Serial',
         'all' => 'All',
@@ -140,6 +136,11 @@ return [
 
         'message' => [
             'deleted' => 'Review deleted successfully',
+            'approved' => 'Review approved successfully',
+            'rejected' => 'Review rejected successfully',
+            'error_review_must_be_approved' => 'Review must be approved',
+            'error_best_review_already_exist' => 'Best review for this serial already exist',
+            'best_review_changed' => 'Best review changed successfully',
         ],
     ],
 ];

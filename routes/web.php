@@ -39,6 +39,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::resource('reviews', ReviewController::class)->except(['destroy']);
     Route::post('reviews/delete/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    Route::post('reviews/change-status/{review}', [ReviewController::class, 'changeStatus'])->name('reviews.change-status');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

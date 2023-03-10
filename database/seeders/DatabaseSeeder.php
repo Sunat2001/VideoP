@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         SerialEpisode::factory(30)->create();
         SerialEpisodeVideo::factory(30)->create();
 
-        Review::factory(5)->create();
+        Review::factory(20)->create();
 
         $this->call([
             AttributeSeeder::class,
