@@ -126,4 +126,20 @@ return [
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
     ],
+
+    'review' => [
+        'text' => 'Text',
+        'user' => 'User',
+        'serial' => 'Serial',
+        'all' => 'All',
+        'on_moderation' => 'On moderation',
+        'pass_moderation' => 'Moderation passed',
+        'rejected' => 'Rejected reviews',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+
+        'message' => [
+            'deleted' => 'Review deleted successfully',
+        ],
+    ],
 ];
