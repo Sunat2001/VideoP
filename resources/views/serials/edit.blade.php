@@ -91,7 +91,25 @@
                             </div>
                         </div>
                         <div class="card-body" style="display: block;">
+                            @foreach($serial->attributeValues->groupBy('attribute') as $attribute => $attributeValues)
+                                <div class="form-group">
+                                    <label>{{__('dashboard.select')}} {{json_decode($attribute)->name}}</label>
+                                    <select class="select2"
+                                            multiple
+                                            data-placeholder="{{__('dashboard.select')}} {{json_decode($attribute)->name}}"
+                                            style="width: 100%;"
+                                            tabindex="-1"
+                                            aria-hidden="true"
+                                            name="attributeValues[]"
+                                    >
+                                        @foreach($attributeValues as $attributesValue)
+                                            <option
+                                                value="{{$attributesValue->id}}">{{$attributesValue->name}}</option>
+                                        @endforeach
 
+                                    </select>
+                                </div>
+                            @endforeach
                         </div>
                         <!-- /.card-body -->
                     </div>

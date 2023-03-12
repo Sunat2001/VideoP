@@ -44,12 +44,6 @@ return [
     'delete_dialog_cancel' => 'Отмена',
     'delete_dialog_confirm' => 'Удалить',
 
-    /**
-     * Dashboard/Review
-     */
-    'error_review_must_be_approved' => 'Review must be approved',
-    'error_best_review_already_exist' => 'Best review for this serial already exist',
-
     'user' => [
         'id' => 'ID',
         'name' => 'Имя',
@@ -94,6 +88,7 @@ return [
         'serial_info' => 'Информация о сериале',
         'episodes' => 'Эпизоды',
         'seasons' => 'Сезоны',
+        'attributes' => 'Атрибуты',
 
         'message' => [
             'created' => 'Сериал успешно создан',
@@ -130,5 +125,28 @@ return [
         'edit' => 'Редактировать эпизод',
         'delete' => 'Удалить эпизод',
         'episode_info' => 'Информация об эпизоде',
+    ],
+
+    'review' => [
+        'text' => 'Текст отзыва',
+        'is_best' => 'Лучший отзыв',
+        'status' => 'Статус',
+        'user' => 'Пользователь',
+        'serial' => 'Сериал',
+        'all' => 'Все',
+        'on_moderation' => 'На модерации',
+        'pass_moderation' => 'Модерация пройдена',
+        'rejected' => 'Отклоненные отзывы',
+        'created_at' => 'Время создания',
+        'updated_at' => 'Время обновления',
+
+        'message' => [
+            'deleted' => 'Отзыв успешно удален',
+            'approved' => 'Отзыв успешно одобрен',
+            'rejected' => 'Отзыв успешно отклонен',
+            'error_review_must_be_approved' => 'Отзыв должен быть одобрен',
+            'error_best_review_already_exist' => 'У сериала лучший отзыв уже существует',
+            'best_review_changed' => 'Лучший отзыв успешно изменен',
+        ],
     ],
 ];

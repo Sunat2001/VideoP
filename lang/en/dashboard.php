@@ -44,12 +44,6 @@ return [
     'delete_dialog_cancel' => 'Cancel',
     'delete_dialog_confirm' => 'Delete',
 
-    /**
-     * Dashboard/Review
-     */
-    'error_review_must_be_approved' => 'Review must be approved',
-    'error_best_review_already_exist' => 'Best review for this serial already exist',
-
     'user' => [
         'id' => 'ID',
         'name' => 'Name',
@@ -94,6 +88,7 @@ return [
         'serial_info' => 'Serial info',
         'seasons' => 'Seasons',
         'episodes' => 'Episodes',
+        'attributes' => 'Attributes',
 
         'message' => [
             'created' => 'Serial created successfully',
@@ -125,5 +120,28 @@ return [
         'add' => 'Add episode',
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
+    ],
+
+    'review' => [
+        'text' => 'Text',
+        'is_best' => 'Is best',
+        'status' => 'Status',
+        'user' => 'User',
+        'serial' => 'Serial',
+        'all' => 'All',
+        'on_moderation' => 'On moderation',
+        'pass_moderation' => 'Moderation passed',
+        'rejected' => 'Rejected reviews',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+
+        'message' => [
+            'deleted' => 'Review deleted successfully',
+            'approved' => 'Review approved successfully',
+            'rejected' => 'Review rejected successfully',
+            'error_review_must_be_approved' => 'Review must be approved',
+            'error_best_review_already_exist' => 'Best review for this serial already exist',
+            'best_review_changed' => 'Best review changed successfully',
+        ],
     ],
 ];

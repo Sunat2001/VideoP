@@ -3,21 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\Serial;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class SerialController extends Controller
 {
     protected array $relations = [
         'serialEpisodes',
         'serialEpisodeSeasons',
-        'attributeValues',
+        'attributeValues.attribute',
         'reviews',
+    ];
+
+    protected array $relationsForCount = [
+        'serialEpisodes',
+        'serialEpisodeSeasons',
     ];
 
     /**
@@ -27,7 +34,7 @@ class SerialController extends Controller
     public function index(Request $request): Application|Factory|View
     {
         $context = [];
-        $context['serials'] = Serial::query()->withCount($this->relations)->paginate(10);
+        $context['serials'] = Serial::query()->withCount($this->relationsForCount)->paginate(10);
         $context['message'] = $request->get('message');
 
         return view('serials.index', $context);
@@ -56,9 +63,29 @@ class SerialController extends Controller
             'name_ru' => ['required', 'string', 'max:255'],
             'description_en' => ['required', 'string'],
             'description_ru' => ['required', 'string'],
+            'image_cover' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+            'attributeValues' => ['required', 'array'],
+            'attributeValues.*' => ['required', 'integer', Rule::exists(AttributeValue::class, 'id')],
         ]);
 
-        Serial::query()->create($request->all());
+        try {
+            $serial = Serial::query()->create([
+                'name' => [
+                    'en' => $request->get('name_en'),
+                    'ru' => $request->get('name_ru'),
+                ],
+                'description' => [
+                    'en' => $request->get('description_en'),
+                    'ru' => $request->get('description_ru'),
+                ],
+                'image_cover' => $request->file('image_cover') ? $request->file('image_cover')->store('serials') : "https://via.placeholder.com/640x480.png/005544?text=ullam",
+                'rate' => '0.0',
+            ]);
+
+            $serial->attributeValues()->sync($request->get('attributeValues'));
+        } catch (Exception $exception) {
+            return redirect()->route('serials.create', ['message' => $exception->getMessage()]);
+        }
 
         return redirect()->route('serials.index', ['message' => __('dashboard.serial.message.created')]);
     }
@@ -69,7 +96,7 @@ class SerialController extends Controller
      */
     public function show(Serial $serial): View|Factory|Application
     {
-        $serial->load($this->relations)->loadCount($this->relations);
+        $serial->load($this->relations);
 
         return view('serials.show', compact('serial'));
     }

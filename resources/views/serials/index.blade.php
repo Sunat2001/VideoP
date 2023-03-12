@@ -39,7 +39,7 @@
                                 <tr>
                                     <th>{{ __('dashboard.serial.id') }}</th>
                                     <th>{{ __('dashboard.serial.name') }}</th>
-                                    <th>{{ __('dashboard.serial.description') }}</th>
+                                    <th>{{ __('dashboard.description') }}</th>
                                     <th>{{ __('dashboard.rate') }}</th>
                                     <th>{{ __('dashboard.serial.episode_count') }}</th>
                                     <th>{{ __('dashboard.serial.season_count') }}</th>
@@ -141,6 +141,5 @@
             let serialId = $('#delete').attr('data-user-id');
             $('#delete').attr('action', '/serials/delete/' + serialId);
         }
-
     </script>
 @endsection
