@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('dashboard.serial.edit') }}</h1>
+                    <h1>{{ __('dashboard.serial.add') }}</h1>
                 </div>
             </div>
         </div><!-- /.container-fluid -->
@@ -15,6 +15,20 @@
         <form action="{{route('serials.store')}}" method="post">
             @csrf
             <div class="row">
+                @if(!is_null($message))
+                    <div class="alert alert-info">
+                        {{ $message }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <div class="col-md-6">
                     <div class="card card-primary">
                         <div class="card-header">
@@ -75,31 +89,31 @@
                                 </button>
                             </div>
                         </div>
-                        {{--                    <!-- CSS -->--}}
-                        {{--                    <link rel="stylesheet" href="https://unpkg.com/multiple-select-js@1.0.2/dist/multiple-select.css">--}}
-                        {{--                    <!-- JS -->--}}
-                        {{--                    <script src="https://unpkg.com/multiple-select-js@1.0.2/dist/assets/js/multiple-select.js"></script>--}}
-                        {{--                    @foreach($attributes as $attribute)--}}
-                        {{--                        <div class="form-group">--}}
-                        {{--                            <label for="select-language">{{ $attribute->name }}</label>--}}
-                        {{--                            <select name="{{$attribute->id}}" id="select-multiple-language{{$attribute->id}}" multiple>--}}
-                        {{--                                @foreach($attribute->attributeValues as $attributesValue)--}}
-                        {{--                                    <option value="{{$attributesValue->id}}">{{$attributesValue->name}}</option>--}}
-                        {{--                                @endforeach--}}
-                        {{--                            </select>--}}
-                        {{--                        </div>--}}
-                        {{--                        <script>--}}
-                        {{--                            new MultipleSelect('#select-multiple-language{{$attribute->id}}', {--}}
-                        {{--                                placeholder: '{{ __('dashboard.select') }} {{$attribute->name}}'--}}
-                        {{--                            })--}}
-                        {{--                        </script>--}}
-                        {{--                    @endforeach--}}
-                        <!-- /.card-body -->
+                        <div class="card-body" style="display: block;">
+                            @foreach($attributes as $attribute)
+                                <div class="form-group">
+                                    <label>{{__('dashboard.select')}} {{$attribute->name}}</label>
+                                    <select class="select2"
+                                            multiple
+                                            data-placeholder="{{__('dashboard.select')}} {{$attribute->name}}"
+                                            style="width: 100%;"
+                                            tabindex="-1"
+                                            aria-hidden="true"
+                                            name="attributeValues[]"
+                                    >
+                                        @foreach($attribute->attributeValues as $attributesValue)
+                                            <option
+                                            value="{{$attributesValue->id}}">{{$attributesValue->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     <!-- /.card -->
                 </div>
             </div>
-            <div class="row">
+            <div class="row pb-3">
                 <div class="col-12">
                     <a href="#" class="btn btn-secondary">{{ __('dashboard.delete_dialog_cancel') }}</a>
                     <input type="submit" value="{{ __('dashboard.serial.add') }}" class="btn btn-success float-right">
@@ -107,6 +121,11 @@
             </div>
         </form>
     </section>
+    <script>
+        function handleSelect(e, AttributeId, AttributeValueId) {
+            document.getElementsByName(AttributeId).value += e.value + ',';
+        }
+    </script>
 
 @endsection
 

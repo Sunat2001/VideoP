@@ -69,6 +69,10 @@
                                     <a class="nav-link" href="#episodes"
                                        data-toggle="tab">{{ __('dashboard.serial.episodes') }}</a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#attributes"
+                                       data-toggle="tab">{{ __('dashboard.serial.attributes') }}</a>
+                                </li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -153,6 +157,22 @@
                                                 </tbody>
                                             </table>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="attributes">
+                                    <div class="row">
+                                        @foreach($serial->attributeValues->groupBy('attribute') as $attribute => $attributeValues)
+                                        <ul>
+                                            <li>{{json_decode($attribute)->name}}
+                                                <ul>
+                                                    @foreach($attributeValues as $attributesValue)
+                                                        <li>{{$attributesValue->name}}</li>
+                                                    @endforeach
+
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>

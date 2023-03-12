@@ -88,6 +88,7 @@ return [
         'serial_info' => 'Информация о сериале',
         'episodes' => 'Эпизоды',
         'seasons' => 'Сезоны',
+        'attributes' => 'Атрибуты',
 
         'message' => [
             'created' => 'Сериал успешно создан',

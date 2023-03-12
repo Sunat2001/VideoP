@@ -88,6 +88,7 @@ return [
         'serial_info' => 'Serial info',
         'seasons' => 'Seasons',
         'episodes' => 'Episodes',
+        'attributes' => 'Attributes',
 
         'message' => [
             'created' => 'Serial created successfully',
