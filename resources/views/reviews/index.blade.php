@@ -58,13 +58,14 @@
                                             <th>{{ __('dashboard.review.user') }}</th>
                                             <th>{{ __('dashboard.review.serial') }}</th>
                                             <th>{{ __('dashboard.review.status') }}</th>
+                                            <th>{{ __('dashboard.review.is_best') }}</th>
                                             <th>{{ __('dashboard.review.created_at') }}</th>
                                             <th>{{ __('dashboard.review.updated_at') }}</th>
                                             <th>{{ __('dashboard.actions') }}</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        @foreach($reviews as $review)
+                                        @foreach($reviews as $key => $review)
                                             <tr>
                                                 <td>{{ $review->id }}</td>
                                                 <td width="20%">{{ $review->text}}</td>
@@ -79,6 +80,28 @@
                                                     </a>
                                                 </td>
                                                 <td>{{ \App\Enum\ReviewStatuses::getLabel($review->status) }}</td>
+                                                <td>
+                                                    <form
+                                                        action="{{route('reviews.change-best', ['review' => $review])}}"
+                                                        method="post"
+                                                        id="form-change-best-{{$review->id}}"
+                                                        class="form-group"
+                                                    >
+                                                        @csrf
+                                                        <div class="custom-control custom-switch">
+                                                            <input name="is_best" type="checkbox"
+                                                                   onchange="handleIsBestChange({{$review->id}})"
+                                                                   {{ $review->is_best == 1 ? 'checked' : '' }}
+                                                                   class="custom-control-input"
+                                                                   id="customSwitch{{$key}}">
+                                                            <label class="custom-control-label" for="customSwitch{{$key}}"></label>
+                                                            @error('is_admin')
+                                                            <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                            @enderror
+                                                        </div>
+                                                    </form>
+                                                </td>
                                                 <td>{{ $review->created_at }}</td>
                                                 <td>{{ $review->updated_at }}</td>
                                                 <td>
@@ -144,7 +167,7 @@
                                                         </button>
                                                     </form>
                                                     <form
-                                                        action="{{ route('reviews.change-status', ['review' => $review, 'status' => \App\Enum\ReviewStatuses::APPROVED]) }}"
+                                                        action="{{ route('reviews.change-status', ['review' => $review, 'status' => \App\Enum\ReviewStatuses::REJECTED]) }}"
                                                         method="post"
                                                     >
                                                         @csrf
@@ -212,7 +235,6 @@
                                             <th>{{ __('dashboard.review.text') }}</th>
                                             <th>{{ __('dashboard.review.user') }}</th>
                                             <th>{{ __('dashboard.review.serial') }}</th>
-                                            <th>{{ __('dashboard.review.is_best') }}</th>
                                             <th>{{ __('dashboard.review.created_at') }}</th>
                                             <th>{{ __('dashboard.review.updated_at') }}</th>
                                         </tr>
@@ -231,18 +253,6 @@
                                                     <a href="{{ route('serials.show', ['serial' => $review->serial->id]) }}">
                                                         {{ $review->serial->name }}
                                                     </a>
-                                                </td>
-                                                <td>
-                                                    <div class="custom-control custom-switch">
-                                                        <input name="is_best" type="checkbox" {{ $review->is_best == 1 ? 'checked' : '' }} class="custom-control-input"
-                                                               id="customSwitch1">
-                                                        <label class="custom-control-label"
-                                                               for="customSwitch1">{{ __('dashboard.user.placeholder.is_admin') }}</label>
-                                                        @error('is_admin')
-                                                        <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                        @enderror
-                                                    </div>
                                                 </td>
                                                 <td>{{ $review->created_at }}</td>
                                                 <td>{{ $review->updated_at }}</td>
@@ -299,6 +309,22 @@
         function deleteReview() {
             let reviewId = $('#delete').attr('data-user-id');
             $('#delete').attr('action', '/reviews/delete/' + reviewId);
+        }
+
+        function handleIsBestChange(reviewId) {
+            $(`#form-change-best-${reviewId}`).submit();
+            {{--let isBest = $('#is-best-' + reviewId).prop('checked');--}}
+            {{--$.ajax({--}}
+            {{--    url: '/reviews/change-is-best/' + reviewId,--}}
+            {{--    type: 'post',--}}
+            {{--    data: {--}}
+            {{--        is_best: isBest,--}}
+            {{--        _token: '{{ csrf_token() }}'--}}
+            {{--    },--}}
+            {{--    success: function (response) {--}}
+            {{--        console.log(response);--}}
+            {{--    }--}}
+            {{--});--}}
         }
     </script>
 @endsection

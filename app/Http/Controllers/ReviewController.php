@@ -62,6 +62,7 @@ class ReviewController extends Controller
         $isBestExist = Review::query()
             ->where('serial_id', $review->serial_id)
             ->where('is_best', true)
+            ->whereNot('id', $review->id)
             ->exists();
 
         if ($isBestExist) {
