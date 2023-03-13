@@ -148,6 +148,8 @@ return [
     'attribute' => [
         'id' => 'ID',
         'name' => 'Name',
+        'name_en' => 'Name (en)',
+        'name_ru' => 'Name (ru)',
         'is_active' => 'Is active',
         'type' => 'Type',
         'created_at' => 'Created at',
@@ -158,7 +160,7 @@ return [
         'values' => 'Values',
         'attribute_values' => 'Attribute values',
         'attribute_value' => 'Attribute value',
-        'attribute' => 'Attribute',
+        'attribute_info' => 'Attribute info',
         'serial' => 'Serial',
 
         'message' => [

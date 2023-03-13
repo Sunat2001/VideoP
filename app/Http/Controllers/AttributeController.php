@@ -6,6 +6,7 @@ use App\Models\Attribute;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AttributeController extends Controller
@@ -46,30 +47,32 @@ class AttributeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Attribute  $attribute
-     * @return \Illuminate\Http\Response
+     * @param Attribute $attribute
+     * @return Application|Factory|View
      */
-    public function show(Attribute $attribute)
+    public function show(Attribute $attribute): View|Factory|Application
     {
-        //
+        $attribute->load('attributeValues');
+
+        return view('attributes.show', ['attribute' => $attribute]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Attribute  $attribute
-     * @return \Illuminate\Http\Response
+     * @param Attribute $attribute
+     * @return Application|Factory|View
      */
-    public function edit(Attribute $attribute)
+    public function edit(Attribute $attribute): Application|Factory|View
     {
-        //
+        return view('attributes.edit', ['attribute' => $attribute]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Attribute  $attribute
+     * @param Attribute $attribute
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Attribute $attribute)
@@ -80,12 +83,14 @@ class AttributeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Attribute  $attribute
-     * @return \Illuminate\Http\Response
+     * @param Attribute $attribute
+     * @return RedirectResponse
      */
-    public function destroy(Attribute $attribute)
+    public function destroy(Attribute $attribute): RedirectResponse
     {
-        //
+        $attribute->delete();
+
+        return redirect()->route('attributes.index', ['message' => __('dashboard.attribute.message.deleted')]);
     }
 
     public function changeActive(Attribute $attribute)

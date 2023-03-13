@@ -15,7 +15,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request)
     {
         if ($request->password) {
-            auth()->user()->update(['password' => Hash::make($request->password)]);
+            auth()->user()->update(['password' => $request->password]);
         }
 
         auth()->user()->update([
