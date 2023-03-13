@@ -144,4 +144,33 @@ return [
             'best_review_changed' => 'Best review changed successfully',
         ],
     ],
+
+    'attribute' => [
+        'id' => 'ID',
+        'name' => 'Name',
+        'is_active' => 'Is active',
+        'type' => 'Type',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'add' => 'Add attribute',
+        'edit' => 'Edit attribute',
+        'delete' => 'Delete attribute',
+        'values' => 'Values',
+        'attribute_values' => 'Attribute values',
+        'attribute_value' => 'Attribute value',
+        'attribute' => 'Attribute',
+        'serial' => 'Serial',
+
+        'message' => [
+            'created' => 'Attribute created successfully',
+            'updated' => 'Attribute updated successfully',
+            'deleted' => 'Attribute deleted successfully',
+            'attribute_changed' => 'Attribute changed successfully',
+        ],
+
+        'placeholder' => [
+            'name' => 'Enter name',
+            'attribute_value' => 'Select attribute value',
+        ],
+    ],
 ];
