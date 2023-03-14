@@ -4,9 +4,9 @@
     <div class="content-header">
         <div class="container-fluid d-flex justify-content-between">
             <h1 class="m-0">{{ __('dashboard.attributes') }}</h1>
-            <a class="btn btn-primary" href="{{ route('attributes.create') }}">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-store">
                 <i class="fas fa-plus"></i>
-            </a>
+            </button>
         </div><!-- /.container-fluid -->
     </div>
 
@@ -106,6 +106,51 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="modal fade" id="modal-store" style="display: none;" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">{{__('dashboard.attribute.add')}}</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">×</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('attributes.store') }}" id="store_attribute" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">{{ __('dashboard.attribute.name_en') }}</label>
+                                                <input type="text" name="name_en" class="form-control"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="{{ __('dashboard.attribute.name_en') }}">
+                                                @error('email')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                @enderror
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail1">{{ __('dashboard.attribute.name_ru') }}</label>
+                                                <input name="name_ru" type="text" class="form-control"
+                                                       id="exampleInputEmail1"
+                                                       placeholder="{{ __('dashboard.attribute.name_ru') }}">
+                                                @error('name')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                @enderror
+                                            </div>
+                                            <div class="modal-footer justify-content-between">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">{{__('dashboard.close')}}</button>
+                                                <button type="submit"
+                                                        class="btn btn-primary">{{ __('dashboard.save') }}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
                         </div>
                         <div class="modal fade show" id="modal-delete" style="display: none;" aria-modal="true"
                              role="dialog">

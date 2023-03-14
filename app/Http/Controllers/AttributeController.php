@@ -24,24 +24,27 @@ class AttributeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Application|Factory|View
-     */
-    public function create(): View|Factory|Application
-    {
-        return view('attributes.create');
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ru' => ['required', 'string', 'max:255'],
+        ]);
+
+        Attribute::query()->create([
+            'name' => [
+                'en' => $request->get('name_en'),
+                'ru' => $request->get('name_ru'),
+            ],
+            'is_active' => true,
+        ]);
+
+        return redirect()->route('attributes.index', ['message' => __('dashboard.attribute.message.created')]);
     }
 
     /**
@@ -60,24 +63,44 @@ class AttributeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
+     * @param Request $request
      * @param Attribute $attribute
      * @return Application|Factory|View
      */
-    public function edit(Attribute $attribute): Application|Factory|View
+    public function edit(Request $request, Attribute $attribute): Application|Factory|View
     {
-        return view('attributes.edit', ['attribute' => $attribute]);
+
+        return view('attributes.edit', [
+            'attribute' => $attribute,
+            'message' => $request->get('message'),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param Attribute $attribute
-     * @return \Illuminate\Http\Response
+     * @return RedirectResponse
      */
-    public function update(Request $request, Attribute $attribute)
+    public function update(Request $request, Attribute $attribute): RedirectResponse
     {
-        //
+        $request->validate([
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ru' => ['required', 'string', 'max:255'],
+        ]);
+
+        $attribute->update([
+            'name' => [
+                'en' => $request->get('name_en'),
+                'ru' => $request->get('name_ru'),
+            ],
+        ]);
+
+        return redirect()->route('attributes.edit', [
+            'attribute' => $attribute,
+            'message' => __('dashboard.attribute.message.updated'),
+        ]);
     }
 
     /**

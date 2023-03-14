@@ -6,7 +6,7 @@
         <div class="container-fluid d-flex justify-content-between">
             <h1 class="m-0">{{ __('dashboard.users') }}</h1>
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
-                <ion-icon name="add-circle-outline"></ion-icon>
+                <i class="fas fa-plus"></i>
             </button>
         </div><!-- /.container-fluid -->
     </div>
