@@ -31,7 +31,6 @@
                     @endif
                     <div class="card">
                         <div class="card-body p-0">
-
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -94,18 +93,6 @@
 
                         <div class="card-footer clearfix">
                             {{ $attributes->links() }}
-                        </div>
-                        <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{__('dashboard.user.add')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="modal fade" id="modal-store" style="display: none;" aria-hidden="true">
                             <div class="modal-dialog">
