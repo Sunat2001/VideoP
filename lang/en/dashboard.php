@@ -29,6 +29,7 @@ return [
     'file_size' => 'File size',
     'file_type' => 'File type',
     'select' => 'Select',
+    'is_active' => 'Is active',
 
     /**
      * Dashboard/Language
@@ -142,6 +143,57 @@ return [
             'error_review_must_be_approved' => 'Review must be approved',
             'error_best_review_already_exist' => 'Best review for this serial already exist',
             'best_review_changed' => 'Best review changed successfully',
+        ],
+    ],
+
+    'attribute' => [
+        'id' => 'ID',
+        'name' => 'Name',
+        'name_en' => 'Name (en)',
+        'name_ru' => 'Name (ru)',
+        'is_active' => 'Is active',
+        'type' => 'Type',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'add' => 'Add attribute',
+        'edit' => 'Edit attribute',
+        'delete' => 'Delete attribute',
+        'values' => 'Values',
+        'attribute_values' => 'Attribute values',
+        'attribute_value' => 'Attribute value',
+        'attribute_info' => 'Attribute info',
+        'serial' => 'Serial',
+
+        'message' => [
+            'created' => 'Attribute created successfully',
+            'updated' => 'Attribute updated successfully',
+            'deleted' => 'Attribute deleted successfully',
+            'attribute_changed' => 'Attribute changed successfully',
+        ],
+
+        'placeholder' => [
+            'name' => 'Enter name',
+            'attribute_value' => 'Select attribute value',
+        ],
+    ],
+
+    'attribute_value' => [
+        'id' => 'ID',
+        'value' => 'Value',
+        'value_en' => 'Value (en)',
+        'value_ru' => 'Value (ru)',
+        'attribute' => 'Attribute',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'add' => 'Add attribute value',
+        'edit' => 'Edit attribute value',
+        'delete' => 'Delete attribute value',
+        'attribute_value_info' => 'Attribute value info',
+
+        'message' => [
+            'created' => 'Attribute value created successfully',
+            'updated' => 'Attribute value updated successfully',
+            'deleted' => 'Attribute value deleted successfully',
         ],
     ],
 ];

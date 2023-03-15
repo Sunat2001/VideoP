@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\AttributeValueController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SerialController;
@@ -41,6 +43,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('reviews/delete/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
     Route::post('reviews/change-status/{review}', [ReviewController::class, 'changeStatus'])->name('reviews.change-status');
     Route::post('reviews/change-best/{review}', [ReviewController::class, 'changeBest'])->name('reviews.change-best');
+
+    Route::resource('attributes', AttributeController::class)->except(['destroy', 'update']);
+    Route::post('attributes/delete/{attribute}', [AttributeController::class, 'destroy'])->name('attributes.destroy');
+    Route::post('attributes/update/{attribute}', [AttributeController::class, 'update'])->name('attributes.update');
+    Route::post('attributes/change-status/{attribute}', [AttributeController::class, 'changeActive'])->name('attributes.change-status');
+
+    Route::resource('attribute-values', AttributeValueController::class)->except(['destroy', 'update']);
+    Route::post('attribute-values/delete/{attribute_value}', [AttributeValueController::class, 'destroy'])->name('attribute-values.destroy');
+    Route::post('attribute-values/update/{attribute_value}', [AttributeValueController::class, 'update'])->name('attribute-values.update');
+    Route::post('attribute-values/change-status/{attribute_value}', [AttributeValueController::class, 'changeActive'])->name('attribute-values.change-status');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -48,6 +48,24 @@
             </li>
 
             <li class="nav-item">
+                <a href="{{ route('attributes.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-text-height"></i>
+                    <p>
+                        {{ __('dashboard.attributes') }}
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('attribute-values.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-database"></i>
+                    <p>
+                        {{ __('dashboard.attribute_values') }}
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a href="{{ route('about') }}" class="nav-link">
                     <i class="nav-icon far fa-address-card"></i>
                     <p>
