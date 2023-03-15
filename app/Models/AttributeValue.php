@@ -66,6 +66,11 @@ class AttributeValue extends Model
         return json_decode($this->getRawOriginal('name'), true)[Languages::EN];
     }
 
+    public function nameByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('name'), true)[$language] ?? '';
+    }
+
     protected function name():  \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return new \Illuminate\Database\Eloquent\Casts\Attribute(
