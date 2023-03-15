@@ -52,6 +52,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('attribute-values', AttributeValueController::class)->except(['destroy', 'update']);
     Route::post('attribute-values/delete/{attribute_value}', [AttributeValueController::class, 'destroy'])->name('attribute-values.destroy');
     Route::post('attribute-values/update/{attribute_value}', [AttributeValueController::class, 'update'])->name('attribute-values.update');
+    Route::post('attribute-values/change-status/{attribute_value}', [AttributeValueController::class, 'changeActive'])->name('attribute-values.change-status');
 
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -29,6 +29,7 @@ return [
     'file_size' => 'File size',
     'file_type' => 'File type',
     'select' => 'Select',
+    'is_active' => 'Is active',
 
     /**
      * Dashboard/Language
@@ -173,6 +174,26 @@ return [
         'placeholder' => [
             'name' => 'Enter name',
             'attribute_value' => 'Select attribute value',
+        ],
+    ],
+
+    'attribute_value' => [
+        'id' => 'ID',
+        'value' => 'Value',
+        'value_en' => 'Value (en)',
+        'value_ru' => 'Value (ru)',
+        'attribute' => 'Attribute',
+        'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
+        'add' => 'Add attribute value',
+        'edit' => 'Edit attribute value',
+        'delete' => 'Delete attribute value',
+        'attribute_value_info' => 'Attribute value info',
+
+        'message' => [
+            'created' => 'Attribute value created successfully',
+            'updated' => 'Attribute value updated successfully',
+            'deleted' => 'Attribute value deleted successfully',
         ],
     ],
 ];
