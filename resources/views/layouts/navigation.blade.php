@@ -58,7 +58,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('attribute-values.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-text-height"></i>
+                    <i class="nav-icon fas fa-database"></i>
                     <p>
                         {{ __('dashboard.attribute_values') }}
                     </p>
