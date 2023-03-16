@@ -5,6 +5,8 @@ use App\Http\Controllers\AttributeValueController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SerialController;
+use App\Http\Controllers\SerialEpisodeController;
+use App\Http\Controllers\SerialSeasonController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -38,6 +40,14 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('serials', SerialController::class)->except(['destroy', 'update']);
     Route::post('serials/delete/{serial}', [SerialController::class, 'destroy'])->name('serials.destroy');
     Route::post('serials/update/{serial}', [SerialController::class, 'update'])->name('serials.update');
+
+    Route::resource('serials_episodes', SerialEpisodeController::class)->except(['destroy', 'update']);
+    Route::post('serials_episodes/delete/{episode}', [SerialEpisodeController::class, 'destroy'])->name('serials_episodes.destroy');
+    Route::post('serials_episodes/update/{episode}', [SerialEpisodeController::class, 'update'])->name('serials_episodes.update');
+
+    Route::resource('serials_seasons', SerialSeasonController::class)->except(['destroy', 'update']);
+    Route::post('serials_seasons/delete/{season}', [SerialSeasonController::class, 'destroy'])->name('serials_seasons.destroy');
+    Route::post('serials_seasons/update/{season}', [SerialSeasonController::class, 'update'])->name('serials_seasons.update');
 
     Route::resource('reviews', ReviewController::class)->except(['destroy']);
     Route::post('reviews/delete/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');

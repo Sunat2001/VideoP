@@ -107,7 +107,7 @@
                                                 <td>
                                                     <button type="button"
                                                             onclick="setReviewIdToDeleteModal({{$review->id}})"
-                                                            class="btn btn-sm btn-primary"
+                                                            class="btn btn-sm btn-danger"
                                                             data-toggle="modal"
                                                             data-target="#modal-delete">
                                                         <i class="fas fa-trash"></i>

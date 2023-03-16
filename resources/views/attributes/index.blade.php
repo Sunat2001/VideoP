@@ -76,10 +76,10 @@
                                             </a>
                                             <a href="{{ route('attributes.edit', ['attribute' => $attribute] ) }}"
                                                class="btn btn-sm btn-primary">
-                                                <i class="fas fa-pencil-alt"></i>
+                                                <i class="fas fa-edit"></i>
                                             </a>
                                             <button type="button" onclick="setAttributeIdToDeleteModal({{$attribute->id}})"
-                                                    class="btn btn-sm btn-primary" data-toggle="modal"
+                                                    class="btn btn-sm btn-danger" data-toggle="modal"
                                                     data-target="#modal-delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>

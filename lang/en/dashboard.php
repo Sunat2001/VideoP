@@ -10,6 +10,7 @@ return [
     'users' => 'Users',
     'attributes' => 'Attributes',
     'attribute_values' => 'Attribute values',
+    'serial_episodes' => 'Serial episodes',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
     'actions' => 'Actions',
@@ -116,11 +117,28 @@ return [
     ],
 
     'episode' => [
+        'name' => 'Name',
+        'name_en' => 'Name (en)',
+        'name_ru' => 'Name (ru)',
+        'description' => 'Description',
+        'description_en' => 'Description (en)',
+        'description_ru' => 'Description (ru)',
+        'season' => 'Season',
+        'serial' => 'Serial',
         'episode_number' => 'Episode number',
         'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
         'add' => 'Add episode',
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
+        'episode_files' => 'Episode files',
+        'episode_info' => 'Episode info',
+
+        'message' => [
+            'created' => 'Episode created successfully',
+            'updated' => 'Episode updated successfully',
+            'deleted' => 'Episode deleted successfully',
+        ],
     ],
 
     'review' => [

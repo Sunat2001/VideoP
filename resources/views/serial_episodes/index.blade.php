@@ -1,18 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid d-flex justify-content-between">
-            <h1 class="m-0">{{ __('dashboard.serials') }}</h1>
-            <a class="btn btn-primary" href="{{ route('serials.create') }}">
+            <h1 class="m-0">{{ __('dashboard.serial_episodes') }}</h1>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-store">
                 <i class="fas fa-plus"></i>
-            </a>
+            </button>
         </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -33,44 +29,51 @@
                     @endif
                     <div class="card">
                         <div class="card-body p-0">
-
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>{{ __('dashboard.serial.id') }}</th>
-                                    <th>{{ __('dashboard.serial.name') }}</th>
-                                    <th>{{ __('dashboard.description') }}</th>
+                                    <th>{{ __('dashboard.id') }}</th>
+                                    <th>{{ __('dashboard.episode.name') }}</th>
+                                    <th>{{ __('dashboard.episode.description') }}</th>
+                                    <th>{{ __('dashboard.episode.serial') }}</th>
+                                    <th>{{ __('dashboard.episode.season') }}</th>
+                                    <th>{{ __('dashboard.episode.episode_number') }}</th>
                                     <th>{{ __('dashboard.rate') }}</th>
-                                    <th>{{ __('dashboard.serial.episode_count') }}</th>
-                                    <th>{{ __('dashboard.serial.season_count') }}</th>
-                                    <th>{{ __('dashboard.serial.created_at') }}</th>
-                                    <th>{{ __('dashboard.serial.updated_at') }}</th>
+                                    <th>{{ __('dashboard.episode.created_at') }}</th>
+                                    <th>{{ __('dashboard.episode.updated_at') }}</th>
                                     <th>{{ __('dashboard.actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($serials as $serial)
+                                @foreach($serialEpisodes as $episode)
                                     <tr>
-                                        <td>{{ $serial->id }}</td>
-                                        <td>{{ $serial->name }}</td>
-                                        <td width="20%">{{ $serial->description}}</td>
-                                        <td>{{ $serial->rate }}</td>
-                                        <td>{{ $serial->serial_episodes_count }}</td>
-                                        <td>{{ $serial->serial_episode_seasons_count }}</td>
-                                        <td>{{ $serial->created_at }}</td>
-                                        <td>{{ $serial->updated_at }}</td>
+                                        <td>{{ $episode->id }}</td>
+                                        <td>{{ $episode->name }}</td>
+                                        <td width="20%">{{ $episode->description }}</td>
                                         <td>
-                                            <a href="{{ route('serials.show', ['serial' => $serial] ) }}"
+                                            <a href="{{route('serials.show', ['serial' => $episode->serial])}}">
+                                                {{ $episode->serial->name }}
+                                            </a>
+                                        </td>
+                                        <td><a href="{{route('serials_seasons.show', ['serials_season' => $episode->season])}}">
+                                                {{ $episode->season->season_number }}
+                                            </a></td>
+                                        <td>{{ $episode->serial_number }}</td>
+                                        <td>{{ $episode->rate }}</td>
+                                        <td>{{ $episode->created_at }}</td>
+                                        <td>{{ $episode->updated_at }}</td>
+                                        <td>
+                                            <a href="{{ route('serials_episodes.show', ['serials_episode' => $episode] ) }}"
                                                class="btn btn-sm btn-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('serials.edit', ['serial' => $serial] ) }}"
+                                            <a href="{{ route('serials_episodes.edit', ['serials_episode' => $episode] ) }}"
                                                class="btn btn-sm btn-primary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" onclick="setSerialIdToDeleteModal({{$serial->id}})"
-                                                    class="btn btn-sm btn-danger" data-toggle="modal"
-                                                    data-target="#modal-delete">
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                    data-target="#modal-delete"
+                                                    onclick="setEpisodeIdToDeleteModal({{ $episode->id }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -79,22 +82,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
-
                         <div class="card-footer clearfix">
-                            {{ $serials->links() }}
-                        </div>
-                        <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{__('dashboard.user.add')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            {{ $serialEpisodes->links() }}
                         </div>
                         <div class="modal fade show" id="modal-delete" style="display: none;" aria-modal="true"
                              role="dialog">
@@ -124,22 +113,19 @@
                             <!-- /.modal-dialog -->
                         </div>
                     </div>
-
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
 
     <script>
-        function setSerialIdToDeleteModal(serialId) {
-            $('#delete').attr('data-user-id', serialId);
+        function setEpisodeIdToDeleteModal(episodeId) {
+            $('#delete').attr('data-user-id', episodeId);
         }
 
         function deleteUser() {
-            let serialId = $('#delete').attr('data-user-id');
-            $('#delete').attr('action', '/serials/delete/' + serialId);
+            let episodeId = $('#delete').attr('data-user-id');
+            $('#delete').attr('action', '/serials_episodes/delete/' + episodeId);
         }
     </script>
 @endsection
