@@ -131,8 +131,15 @@ return [
         'add' => 'Add episode',
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
-        'episode_files' => 'Episode files',
+        'episode_video' => [
+            'url' => 'Video url',
+            'quality' => 'Video quality',
+            'duration' => 'Video duration',
+            'format' => 'Video format',
+        ],
         'episode_info' => 'Episode info',
+
+        'video' => 'Video',
 
         'message' => [
             'created' => 'Episode created successfully',

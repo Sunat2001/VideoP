@@ -73,14 +73,14 @@ class SerialEpisode extends Model
     protected function name(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 
     protected function description(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 }

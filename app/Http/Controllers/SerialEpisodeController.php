@@ -46,8 +46,12 @@ class SerialEpisodeController extends Controller
      * @param SerialEpisode $serialEpisode
      * @return Application|Factory|View
      */
-    public function show(SerialEpisode $serialEpisode): Application|Factory|View
+    public function show(int $id): Application|Factory|View
     {
+        $serialEpisode = SerialEpisode::query()->findOrFail($id);
+
+        $serialEpisode->load(['serial', 'serialEpisodeVideos']);
+
         return view('serial_episodes.show', ['serialEpisode' => $serialEpisode]);
     }
 
