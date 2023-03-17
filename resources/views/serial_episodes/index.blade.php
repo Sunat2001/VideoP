@@ -4,9 +4,9 @@
     <div class="content-header">
         <div class="container-fluid d-flex justify-content-between">
             <h1 class="m-0">{{ __('dashboard.serial_episodes') }}</h1>
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-store">
+            <a  class="btn btn-primary" href="{{route('serials_episodes.create')}}">
                 <i class="fas fa-plus"></i>
-            </button>
+            </a>
         </div><!-- /.container-fluid -->
     </div>
     <div class="content">
