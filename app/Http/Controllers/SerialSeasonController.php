@@ -3,18 +3,26 @@
 namespace App\Http\Controllers;
 
 use App\Models\SerialEpisodeSeason;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class SerialSeasonController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function index()
+    public function index(Request $request): Application|Factory|View
     {
-        //
+        $context['serials_seasons'] = SerialEpisodeSeason::query()->paginate(10);
+        $context['message'] = $request->get('message');
+
+        return view('serials_seasons.index', $context);
     }
 
     /**
@@ -42,11 +50,11 @@ class SerialSeasonController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\SerialEpisodeSeason  $serialEpisodeSeason
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
-    public function show(SerialEpisodeSeason $serialEpisodeSeason)
+    public function show(SerialEpisodeSeason $serialEpisodeSeason): Application|Factory|View
     {
-        //
+        return view('serials_seasons.show', ['serials_season' => $serialEpisodeSeason]);
     }
 
     /**
@@ -73,13 +81,13 @@ class SerialSeasonController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\SerialEpisodeSeason  $serialEpisodeSeason
-     * @return \Illuminate\Http\Response
+     * @param SerialEpisodeSeason $serialsSeason
+     * @return RedirectResponse
      */
-    public function destroy(SerialEpisodeSeason $serialEpisodeSeason)
+    public function destroy(SerialEpisodeSeason $serialsSeason): \Illuminate\Http\RedirectResponse
     {
-        //
+        $serialsSeason->delete();
+
+        return redirect()->route('serials_seasons.index', ['message' => __('dashboard.season.message.deleted')]);
     }
 }

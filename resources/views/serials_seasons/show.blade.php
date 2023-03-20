@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>{{ __('dashboard.episode.episode_info') }}</h1>
+                    <h1>{{ __('dashboard.season.season_info') }}</h1>
                 </div>
             </div>
         </div>
@@ -19,14 +19,6 @@
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
-                            <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
-                                     src="{{ asset($serialEpisode->image_cover ?? 'images/no_image.png') }}"
-                                     alt="User profile picture">
-                            </div>
-
-                            <h3 class="profile-username text-center">{{ $serialEpisode->name }}</h3>
-
                             <ul class="list-group list-group-unbordered mb-3">
                                 <li class="list-group-item">
                                     <b>{{ __('dashboard.rate') }}</b> <a

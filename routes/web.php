@@ -46,8 +46,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('serials_episodes/update/{episode}', [SerialEpisodeController::class, 'update'])->name('serials_episodes.update');
 
     Route::resource('serials_seasons', SerialSeasonController::class)->except(['destroy', 'update']);
-    Route::post('serials_seasons/delete/{season}', [SerialSeasonController::class, 'destroy'])->name('serials_seasons.destroy');
-    Route::post('serials_seasons/update/{season}', [SerialSeasonController::class, 'update'])->name('serials_seasons.update');
+    Route::post('serials_seasons/delete/{serials_season}', [SerialSeasonController::class, 'destroy'])->name('serials_seasons.destroy');
+    Route::post('serials_seasons/update/{serials_season}', [SerialSeasonController::class, 'update'])->name('serials_seasons.update');
 
     Route::resource('reviews', ReviewController::class)->except(['destroy']);
     Route::post('reviews/delete/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');

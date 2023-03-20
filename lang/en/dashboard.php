@@ -12,6 +12,8 @@ return [
     'attribute_values' => 'Attribute values',
     'episodes' => 'Episodes',
     'serial_episodes' => 'Serial episodes',
+    'seasons' => 'Seasons',
+    'serials_seasons' => 'Serial seasons',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
     'actions' => 'Actions',
@@ -112,9 +114,15 @@ return [
         'add' => 'Add season',
         'edit' => 'Edit season',
         'delete' => 'Delete season',
-        'episodes' => 'Episodes',
         'is_final' => 'Is final',
         'year' => 'Year',
+        'season_info' => 'Season info',
+
+        'message' => [
+            'created' => 'Season created successfully',
+            'updated' => 'Season updated successfully',
+            'deleted' => 'Season deleted successfully',
+        ],
     ],
 
     'episode' => [

@@ -12,6 +12,8 @@ return [
     'episodes' => 'Эпизоды',
     'attribute_values' => 'Значения атрибутов',
     'serial_episodes' => 'Серии сериалов',
+    'seasons' => 'Сезоны',
+    'serials_seasons' => 'Сезоны сериалов',
     'avg_rates' => 'Средний рейтинг сериалов',
     'reviews' => 'Отзывы',
     'actions' => 'Действия',
@@ -118,6 +120,12 @@ return [
         'episodes' => 'Эпизоды',
         'is_final' => 'Финальный сезон',
         'year' => 'Год',
+
+        'message' => [
+            'created' => 'Сезон успешно создан',
+            'updated' => 'Сезон успешно обновлен',
+            'deleted' => 'Сезон успешно удален',
+        ],
     ],
 
     'episode' => [
