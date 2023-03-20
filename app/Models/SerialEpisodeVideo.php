@@ -36,6 +36,7 @@ class SerialEpisodeVideo extends Model
     protected $fillable = [
         'quality',
         'format',
+        'duration',
         'video_url',
         'serial_episode_id',
     ];

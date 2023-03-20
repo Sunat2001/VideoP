@@ -10,6 +10,7 @@ return [
     'users' => 'Users',
     'attributes' => 'Attributes',
     'attribute_values' => 'Attribute values',
+    'episodes' => 'Episodes',
     'serial_episodes' => 'Serial episodes',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
@@ -131,6 +132,7 @@ return [
         'add' => 'Add episode',
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
+        'trailer_url' => 'Trailer url',
         'episode_video' => [
             'url' => 'Video url',
             'quality' => 'Video quality',

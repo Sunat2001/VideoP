@@ -52,7 +52,7 @@ class SerialController extends Controller
      */
     public function serialSeasons(Serial $serial): AnonymousResourceCollection
     {
-        $serial->load('serialEpisodeSeasons.serialEpisodes');
+//        $serial->load('serialEpisodeSeasons.serialEpisodes');
 
         return SeasonSerialsResource::collection($serial->serialEpisodeSeasons->sortBy('season_number'));
     }

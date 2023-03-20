@@ -12,19 +12,19 @@
     </section>
 
     <section class="content">
-        <form action="{{route('serials.store')}}" method="post">
+        <form action="{{route('serials_episodes.store')}}" method="post">
             @csrf
             <div class="row">
-                @if ($errors->any())
-                    <div class="alert alert-danger">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
                 <div class="col-md-6">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">{{ __('dashboard.episodes') }}</h3>
@@ -50,6 +50,36 @@
                             <div class="form-group">
                                 <label for="inputDescription">{{ __('dashboard.episode.episode_number') }}</label>
                                 <input name="serial_number" type="text" id="inputName" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label></label>
+                                <select name="serial_id"
+                                        id="serials"
+                                        onchange="handleSerialSelect()"
+                                        class="form-control select2"
+                                        style="width: 100%;"
+                                        data-select2-id="1"
+                                        tabindex="-1"
+                                        aria-hidden="true">
+                                    <option selected="selected"
+                                            disabled>{{ __('dashboard.episode.serial') }}</option>
+                                    @foreach($serials as $serial)
+                                        <option value="{{$serial->id}}">{{$serial->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label></label>
+                                <select name="season_id"
+                                        id="seasons"
+                                        class="form-control select2 select2-hidden-accessible"
+                                        style="width: 100%;"
+                                        data-select2-id="1"
+                                        tabindex="-1"
+                                        aria-hidden="true">
+                                    <option selected="selected"
+                                            disabled>{{ __('dashboard.episode.season') }}</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="inputDescription">{{ __('dashboard.description') }}({{ __('dashboard.en') }}
@@ -78,6 +108,10 @@
                             </div>
                         </div>
                         <div class="card-body" style="display: block;">
+                            <div class="form-group">
+                                <label for="inputDescription">{{ __('dashboard.episode.trailer_url') }}</label>
+                                <input name="trailer_url" type="text" id="inputName" class="form-control">
+                            </div>
                         </div>
                     </div>
                     <!-- /.card -->
@@ -86,9 +120,27 @@
             <div class="row pb-3">
                 <div class="col-12">
                     <a href="#" class="btn btn-secondary">{{ __('dashboard.delete_dialog_cancel') }}</a>
-                    <input type="submit" value="{{ __('dashboard.serial.add') }}" class="btn btn-success float-right">
+                    <input type="submit" value="{{ __('dashboard.episode.add') }}" class="btn btn-success float-right">
                 </div>
             </div>
         </form>
     </section>
+
+    <script>
+        function handleSerialSelect() {
+            let serialId = $('#serials').val();
+            $.ajax({
+                url: `http://localhost/api/serials/season/${serialId}`,
+                type: 'GET',
+                success: function (response) {
+                    let seasons = response.data;
+                    let seasonsHtml = '';
+                    seasons.forEach(season => {
+                        seasonsHtml += `<option value="${season.id}">${season.season_number}</option>`;
+                    });
+                    $('#seasons').html(seasonsHtml);
+                }
+            });
+        }
+    </script>
 @endsection
