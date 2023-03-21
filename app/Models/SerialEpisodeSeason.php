@@ -60,6 +60,11 @@ class SerialEpisodeSeason extends Model
         return $this->hasMany(SerialEpisode::class, 'season_id');
     }
 
+    public function descriptionByName(string $language): string
+    {
+        return json_decode($this->getRawOriginal('description'), true)[$language] ?? '';
+    }
+
     protected function description(): Attribute
     {
         return new Attribute(

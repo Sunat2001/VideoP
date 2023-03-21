@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -9,12 +10,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Validation\Rule;
 
 class SerialSeasonController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
+     * @param Request $request
      * @return Application|Factory|View
      */
     public function index(Request $request): Application|Factory|View
@@ -26,65 +27,93 @@ class SerialSeasonController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\SerialEpisodeSeason  $serialEpisodeSeason
      * @return Application|Factory|View
      */
-    public function show(SerialEpisodeSeason $serialEpisodeSeason): Application|Factory|View
+    public function create(): Application|Factory|View
     {
-        return view('serials_seasons.show', ['serials_season' => $serialEpisodeSeason]);
+        return view('serials_seasons.create', ['serials' => Serial::query()->get()]);
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\SerialEpisodeSeason  $serialEpisodeSeason
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return RedirectResponse
      */
-    public function edit(SerialEpisodeSeason $serialEpisodeSeason)
+    public function store(Request $request): RedirectResponse
     {
-        //
+        $request->validate([
+            'description_en' => ['required', 'string', 'max:255'],
+            'description_ru' => ['required', 'string', 'max:255'],
+            'season_number' => ['required', 'integer'],
+            'year' => ['required', 'integer'],
+            'is_final' => ['required', 'boolean'],
+            'serial_id' => ['required', Rule::exists(Serial::class, 'id')],
+        ]);
+
+        SerialEpisodeSeason::query()->create($request->all() + [
+                'rate' => 0,
+                'description' => [
+                    'en' => $request->get('description_en'),
+                    'ru' => $request->get('description_ru'),
+                ]
+            ]);
+
+        return redirect()->route('serials_seasons.index', ['message' => __('dashboard.season.message.created')]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\SerialEpisodeSeason  $serialEpisodeSeason
-     * @return \Illuminate\Http\Response
+     * @param SerialEpisodeSeason $serialsSeason
+     * @return Application|Factory|View
      */
-    public function update(Request $request, SerialEpisodeSeason $serialEpisodeSeason)
+    public function show(SerialEpisodeSeason $serialsSeason): Application|Factory|View
     {
-        //
+        $serialsSeason->load(['serial']);
+
+        return view('serials_seasons.show', ['serialSeason' => $serialsSeason]);
+    }
+
+    /**
+     * @param SerialEpisodeSeason $serialsSeason
+     * @return Application|Factory|View
+     */
+    public function edit(SerialEpisodeSeason $serialsSeason): Application|Factory|View
+    {
+        return view('serials_seasons.edit', [
+            'serialSeason' => $serialsSeason,
+            'serials' => Serial::query()->get(),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param SerialEpisodeSeason $serialsSeason
+     * @return RedirectResponse
+     */
+    public function update(Request $request, SerialEpisodeSeason $serialsSeason): RedirectResponse
+    {
+        $request->validate([
+            'description_en' => ['required', 'string', 'max:255'],
+            'description_ru' => ['required', 'string', 'max:255'],
+            'season_number' => ['required', 'integer'],
+            'year' => ['required', 'integer'],
+            'is_final' => ['required', 'boolean'],
+            'serial_id' => ['required', Rule::exists(Serial::class, 'id')],
+        ]);
+
+        $serialsSeason->update($request->all() + [
+                'description' => [
+                    'en' => $request->get('description_en'),
+                    'ru' => $request->get('description_ru'),
+                ]
+            ]);
+
+        return redirect()->route('serials_seasons.index', ['message' => __('dashboard.season.message.updated')]);
     }
 
     /**
      * @param SerialEpisodeSeason $serialsSeason
      * @return RedirectResponse
      */
-    public function destroy(SerialEpisodeSeason $serialsSeason): \Illuminate\Http\RedirectResponse
+    public function destroy(SerialEpisodeSeason $serialsSeason): RedirectResponse
     {
         $serialsSeason->delete();
 
