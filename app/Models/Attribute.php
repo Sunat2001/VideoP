@@ -60,7 +60,7 @@ class Attribute extends Model
     protected function name(): \Illuminate\Database\Eloquent\Casts\Attribute
     {
         return new \Illuminate\Database\Eloquent\Casts\Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 }

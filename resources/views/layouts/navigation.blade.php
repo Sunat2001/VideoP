@@ -31,9 +31,27 @@
 
             <li class="nav-item">
                 <a href="{{ route('serials.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-list"></i>
+                    <i class="nav-icon fas fa-film"></i>
                     <p>
                         {{ __('dashboard.serials') }}
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('serials_episodes.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-list"></i>
+                    <p>
+                        {{ __('dashboard.serial_episodes') }}
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{{ route('serials_seasons.index') }}" class="nav-link">
+                    <i class="nav-icon fas fa-calendar-alt"></i>
+                    <p>
+                        {{ __('dashboard.serials_seasons') }}
                     </p>
                 </a>
             </li>
@@ -49,7 +67,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('attributes.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-text-height"></i>
+                    <i class="nav-icon fas fa-code"></i>
                     <p>
                         {{ __('dashboard.attributes') }}
                     </p>
@@ -58,7 +76,7 @@
 
             <li class="nav-item">
                 <a href="{{ route('attribute-values.index') }}" class="nav-link">
-                    <i class="nav-icon fas fa-database"></i>
+                    <i class="nav-icon fas fa-link"></i>
                     <p>
                         {{ __('dashboard.attribute_values') }}
                     </p>
@@ -67,30 +85,30 @@
 
             <li class="nav-item">
                 <a href="{{ route('about') }}" class="nav-link">
-                    <i class="nav-icon far fa-address-card"></i>
+                    <i class="nav-icon far fa-info"></i>
                     <p>
-                        {{ __('About us') }}
+                        {{ __('PHP info') }}
                     </p>
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-circle nav-icon"></i>
-                    <p>
-                        Two-level menu
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview" style="display: none;">
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Child menu</p>
-                        </a>
-                    </li>
-                </ul>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--                <a href="#" class="nav-link">--}}
+{{--                    <i class="nav-icon fas fa-circle nav-icon"></i>--}}
+{{--                    <p>--}}
+{{--                        Two-level menu--}}
+{{--                        <i class="fas fa-angle-left right"></i>--}}
+{{--                    </p>--}}
+{{--                </a>--}}
+{{--                <ul class="nav nav-treeview" style="display: none;">--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="#" class="nav-link">--}}
+{{--                            <i class="far fa-circle nav-icon"></i>--}}
+{{--                            <p>Child menu</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                </ul>--}}
+{{--            </li>--}}
         </ul>
     </nav>
     <!-- /.sidebar-menu -->

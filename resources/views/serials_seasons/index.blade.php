@@ -1,18 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid d-flex justify-content-between">
-            <h1 class="m-0">{{ __('dashboard.serials') }}</h1>
-            <a class="btn btn-primary" href="{{ route('serials.create') }}">
+            <h1 class="m-0">{{ __('dashboard.seasons') }}</h1>
+            <a class="btn btn-primary" href="{{route('serials_seasons.create')}}">
                 <i class="fas fa-plus"></i>
             </a>
         </div><!-- /.container-fluid -->
     </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <div class="content">
         <div class="container-fluid">
             <div class="row">
@@ -33,44 +30,48 @@
                     @endif
                     <div class="card">
                         <div class="card-body p-0">
-
                             <table class="table">
                                 <thead>
                                 <tr>
-                                    <th>{{ __('dashboard.serial.id') }}</th>
-                                    <th>{{ __('dashboard.serial.name') }}</th>
-                                    <th>{{ __('dashboard.description') }}</th>
+                                    <th>{{ __('dashboard.id') }}</th>
+                                    <th>{{ __('dashboard.episode.description') }}</th>
+                                    <th>{{ __('dashboard.episode.serial') }}</th>
+                                    <th>{{ __('dashboard.season.season_number') }}</th>
+                                    <th>{{ __('dashboard.season.year') }}</th>
+                                    <th>{{ __('dashboard.season.is_final') }}</th>
                                     <th>{{ __('dashboard.rate') }}</th>
-                                    <th>{{ __('dashboard.serial.episode_count') }}</th>
-                                    <th>{{ __('dashboard.serial.season_count') }}</th>
-                                    <th>{{ __('dashboard.serial.created_at') }}</th>
-                                    <th>{{ __('dashboard.serial.updated_at') }}</th>
+                                    <th>{{ __('dashboard.episode.created_at') }}</th>
+                                    <th>{{ __('dashboard.episode.updated_at') }}</th>
                                     <th>{{ __('dashboard.actions') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($serials as $serial)
+                                @foreach($serials_seasons as $season)
                                     <tr>
-                                        <td>{{ $serial->id }}</td>
-                                        <td>{{ $serial->name }}</td>
-                                        <td width="20%">{{ $serial->description}}</td>
-                                        <td>{{ $serial->rate }}</td>
-                                        <td>{{ $serial->serial_episodes_count }}</td>
-                                        <td>{{ $serial->serial_episode_seasons_count }}</td>
-                                        <td>{{ $serial->created_at }}</td>
-                                        <td>{{ $serial->updated_at }}</td>
+                                        <td>{{ $season->id }}</td>
+                                        <td width="20%">{{ $season->description }}</td>
+                                        <td><a href="{{route('serials.show', ['serial' => $season->serial])}}">
+                                                {{ $season->serial->name }}
+                                            </a>
+                                        </td>
+                                        <td>{{ $season->season_number }}</td>
+                                        <td>{{ $season->year }}</td>
+                                        <td>{{ $season->is_final == 1 ? __('dashboard.yes') : __('dashboard.no') }}</td>
+                                        <td>{{ $season->rate }}</td>
+                                        <td>{{ $season->created_at }}</td>
+                                        <td>{{ $season->updated_at }}</td>
                                         <td>
-                                            <a href="{{ route('serials.show', ['serial' => $serial] ) }}"
+                                            <a href="{{ route('serials_seasons.show', ['serials_season' => $season] ) }}"
                                                class="btn btn-sm btn-primary">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('serials.edit', ['serial' => $serial] ) }}"
+                                            <a href="{{ route('serials_seasons.edit', ['serials_season' => $season] ) }}"
                                                class="btn btn-sm btn-primary">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" onclick="setSerialIdToDeleteModal({{$serial->id}})"
-                                                    class="btn btn-sm btn-danger" data-toggle="modal"
-                                                    data-target="#modal-delete">
+                                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal"
+                                                    data-target="#modal-delete"
+                                                    onclick="setSeasonIdToDeleteModal({{ $season->id }})">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>
@@ -79,23 +80,10 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- /.card-body -->
-
                         <div class="card-footer clearfix">
-                            {{ $serials->links() }}
+                            {{ $serials_seasons->links() }}
                         </div>
-                        <div class="modal fade" id="modal-default" style="display: none;" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h4 class="modal-title">{{__('dashboard.user.add')}}</h4>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div class="modal fade show" id="modal-delete" style="display: none;" aria-modal="true"
                              role="dialog">
                             <div class="modal-dialog">
@@ -114,7 +102,7 @@
                                                 data-dismiss="modal">{{ __('dashboard.delete_dialog_cancel') }}</button>
                                         <form action="" data-user-id="" id="delete" method="post">
                                             @csrf
-                                            <button onclick="deleteUser()" type="submit"
+                                            <button onclick="deleteSeason()" type="submit"
                                                     class="btn btn-primary">{{ __('dashboard.delete_dialog_confirm') }}</button>
                                         </form>
                                     </div>
@@ -127,19 +115,17 @@
 
                 </div>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </div>
-    <!-- /.content -->
 
     <script>
-        function setSerialIdToDeleteModal(serialId) {
-            $('#delete').attr('data-user-id', serialId);
+        function setSeasonIdToDeleteModal(seasonId) {
+            $('#delete').attr('data-user-id', seasonId);
         }
 
-        function deleteUser() {
-            let serialId = $('#delete').attr('data-user-id');
-            $('#delete').attr('action', '/serials/delete/' + serialId);
+        function deleteSeason() {
+            let seasonId = $('#delete').attr('data-user-id');
+            $('#delete').attr('action', '/serials_seasons/delete/' + seasonId);
         }
     </script>
 @endsection

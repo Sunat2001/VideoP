@@ -70,17 +70,27 @@ class SerialEpisode extends Model
         return $this->hasMany(SerialEpisodeVideo::class);
     }
 
+    public function nameByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('name'), true)[$language] ?? '';
+    }
+
+    public function descriptionByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('description'), true)[$language] ?? '';
+    }
+
     protected function name(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 
     protected function description(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 }

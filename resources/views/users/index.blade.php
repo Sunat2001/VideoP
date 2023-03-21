@@ -66,9 +66,9 @@
                                                 <i class="fas fa-eye"></i>
                                             </a>
                                             <a href="{{ route('users.edit', ['user' => $user] ) }}" class="btn btn-sm btn-primary">
-                                                <i class="fas fa-pencil-alt"></i>
+                                                <i class="fas fa-edit"></i>
                                             </a>
-                                            <button type="button" onclick="setUserIdToDeleteModal({{$user->id}})" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-delete">
+                                            <button type="button" onclick="setUserIdToDeleteModal({{$user->id}})" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal-delete">
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </td>

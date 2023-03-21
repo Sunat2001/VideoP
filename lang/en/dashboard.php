@@ -10,6 +10,10 @@ return [
     'users' => 'Users',
     'attributes' => 'Attributes',
     'attribute_values' => 'Attribute values',
+    'episodes' => 'Episodes',
+    'serial_episodes' => 'Serial episodes',
+    'seasons' => 'Seasons',
+    'serials_seasons' => 'Serial seasons',
     'avg_rates' => 'Average rates of serials',
     'reviews' => 'Reviews',
     'actions' => 'Actions',
@@ -110,17 +114,48 @@ return [
         'add' => 'Add season',
         'edit' => 'Edit season',
         'delete' => 'Delete season',
-        'episodes' => 'Episodes',
         'is_final' => 'Is final',
         'year' => 'Year',
+        'season_info' => 'Season info',
+
+        'message' => [
+            'created' => 'Season created successfully',
+            'updated' => 'Season updated successfully',
+            'deleted' => 'Season deleted successfully',
+        ],
     ],
 
     'episode' => [
+        'name' => 'Name',
+        'name_en' => 'Name (en)',
+        'name_ru' => 'Name (ru)',
+        'description' => 'Description',
+        'description_en' => 'Description (en)',
+        'description_ru' => 'Description (ru)',
+        'season' => 'Season',
+        'serial' => 'Serial',
         'episode_number' => 'Episode number',
         'created_at' => 'Created at',
+        'updated_at' => 'Updated at',
         'add' => 'Add episode',
         'edit' => 'Edit episode',
         'delete' => 'Delete episode',
+        'trailer_url' => 'Trailer url',
+        'episode_video' => [
+            'url' => 'Video url',
+            'quality' => 'Video quality',
+            'duration' => 'Video duration',
+            'format' => 'Video format',
+        ],
+        'episode_info' => 'Episode info',
+
+        'video' => 'Video',
+
+        'message' => [
+            'created' => 'Episode created successfully',
+            'updated' => 'Episode updated successfully',
+            'deleted' => 'Episode deleted successfully',
+        ],
     ],
 
     'review' => [
