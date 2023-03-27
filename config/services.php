@@ -30,5 +30,10 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'tmdb' => [
+            'token'     => env('TMDB_API_KEY'),
+            'endpoint'  => env('TMDB_API_ENDPOINT', 'https://api.themoviedb.org/3/'),
+            'image_url' => env('TMDB_IMAGE_URL', 'https://image.tmdb.org/t/p/'),
+        ],
 
 ];

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->json('name');
             $table->json('description');
             $table->string('image_cover');
+            $table->string('image_background');
             $table->decimal('rate', 2, 1);
             $table->timestamps();
         });
