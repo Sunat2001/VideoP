@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Enum\ExternalSerialResources;
 use App\Models\Serial;
 use App\Repositories\TMDBRepository;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Storage;
 
 class FetchTMDBPopularSerialsService
 {
@@ -21,11 +24,9 @@ class FetchTMDBPopularSerialsService
 
     private function seedToDatabase(): void
     {
-        // Получаем список популярных сериалов
-        $serials = $this->getSerials(1);
-
-        // Сохраняем сериалы в базу данных
-        $this->saveSerials($serials);
+        for ($i = 1; $i <= 10; $i++) {
+            $this->saveSerials($this->getSerials($i));
+        }
     }
 
     private function saveSerials(array $serials): void
@@ -57,22 +58,30 @@ class FetchTMDBPopularSerialsService
                 continue;
             }
 
-            $imagePath = $this->savePoster($this->TMDBRepository->getImagePath($show['poster_path'], 'w500'), $show['name']);
+            $imagePathEn = $this->savePoster($this->TMDBRepository->getImagePath(
+                $show['poster_path']), $show['name']);
+            $imagePathRu = $this->savePoster($this->TMDBRepository->getImagePath(
+                $russianSerials['results'][$key]['poster_path']), $russianSerials['results'][$key]['name']);
 
             $serials[] = [
-                'name' => [
+                'name' => json_encode([
                     'en' => $show['name'],
                     'ru' => $russianSerials['results'][$key]['name'],
-                ],
-                'description' => [
+                ]),
+                'description' => json_encode([
                     'en' => $show['overview'],
                     'ru' => $russianSerials['results'][$key]['overview'],
-                ],
-                'image_cover' => $imagePath,
+                ]),
+                'image_cover' => json_encode([
+                    'en' => $imagePathEn,
+                    'ru' => $imagePathRu,
+                ]),
                 'rate' => $show['vote_average'],
+                'external_id' => $show['id'],
+                'external_resource' => ExternalSerialResources::TMDB,
+                'created_at' => Carbon::now(),
             ];
 
-            break;
         }
 
         return $serials;
@@ -128,10 +137,10 @@ class FetchTMDBPopularSerialsService
     private function savePoster(string $url, string $serial_id): string
     {
         $image = file_get_contents($url);
-        $imageName = $serial_id . '/' . time() . '.jpg';
-        $path = public_path('storage/images/serials/' . $imageName);
-        file_put_contents($path, $image);
+        $path = 'images/serials/' . $serial_id . '/' . now() . '.jpg';
+        $publicPath = 'storage/' . $path;
+        Storage::put($path, $image);
 
-        return $imageName;
+        return $publicPath;
     }
 }

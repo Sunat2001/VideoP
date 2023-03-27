@@ -20,7 +20,7 @@ class GetSerialsFromTMDB extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Get serials from TMDB';
 
     /**
      * Execute the console command.
@@ -33,6 +33,8 @@ class GetSerialsFromTMDB extends Command
         $service = app(FetchTMDBPopularSerialsService::class);
 
         $service->perform();
+
+        $this->info('Serials from TMDB was successfully fetched');
 
         return CommandAlias::SUCCESS;
     }

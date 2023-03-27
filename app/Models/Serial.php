@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\App;
  * @property int $id
  * @property string $name
  * @property string $image_cover
+ * @property string $external_id
+ * @property string $external_resource
  * @property float $rate
  * @property string $status
  * @property string $description
@@ -57,12 +59,15 @@ class Serial extends Model
         'description',
         'image_cover',
         'rate',
+        'external_id',
+        'external_resource',
     ];
 
     protected $casts = [
         'rate' => 'float',
         'name' => 'array',
         'description' => 'array',
+        'image_cover' => 'array',
     ];
 
     public function serialEpisodes(): HasMany
@@ -100,6 +105,11 @@ class Serial extends Model
         return json_decode($this->getRawOriginal('description'), true)[$language] ?? '';
     }
 
+    public function imageCoverByLanguage(string $language): string
+    {
+        return json_decode($this->getRawOriginal('image_cover'), true)[$language] ?? '';
+    }
+
     protected function name(): Attribute
     {
         return new Attribute(
@@ -108,6 +118,13 @@ class Serial extends Model
     }
 
     protected function description(): Attribute
+    {
+        return new Attribute(
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+        );
+    }
+
+    protected function imageCover(): Attribute
     {
         return new Attribute(
             get: fn ($value) => json_decode($value, true)[App::currentLocale()],
