@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
  * @property string $name
  * @property string $description
  * @property int $season_number
+ * TODO: Переделать в админке c season_number на episode_number
  * @property int $episode_number
  * @property int $serial_episode_season_id
  * @property int $serial_id
@@ -44,7 +45,7 @@ class SerialEpisode extends Model
         'name',
         'description',
         'rate',
-        'serial_number',
+        'episode_number',
         'serial_id',
         'season_id',
     ];

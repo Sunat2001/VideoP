@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('season_number');
             $table->decimal('rate', 2, 1);
             $table->json('description');
-            $table->boolean('is_final');
             $table->integer('year');
             $table->foreignId('serial_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();

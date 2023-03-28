@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\App;
  * @property string $external_id
  * @property string $external_resource
  * @property float $rate
- * @property string $status
+ * TODO: Добавить в админке поле is_finished
+ * @property bool $is_finished
  * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -38,6 +39,12 @@ use Illuminate\Support\Facades\App;
  * @method static Builder|Serial whereRate($value)
  * @method static Builder|Serial whereUpdatedAt($value)
  * @method static Builder|Serial whereStatus($value)
+ * @method static Builder|Serial whereExternalId($value)
+ * @method static Builder|Serial whereExternalResource($value)
+ * @method static Builder|Serial whereIsFinished($value)
+ * @method static Builder|Serial whereNameByLanguage($value)
+ * @method static Builder|Serial whereDescriptionByLanguage($value)
+ * @method static Builder|Serial whereImageCoverByLanguage($value)
  * @mixin \Eloquent
  * @property-read Collection|SerialEpisode[] $serialEpisodes
  * @property-read Collection|SerialEpisodeSeason[] $serialEpisodeSeasons
@@ -61,6 +68,7 @@ class Serial extends Model
         'rate',
         'external_id',
         'external_resource',
+        'is_finished',
     ];
 
     protected $casts = [
@@ -68,6 +76,7 @@ class Serial extends Model
         'name' => 'array',
         'description' => 'array',
         'image_cover' => 'array',
+        'is_finished' => 'boolean',
     ];
 
     public function serialEpisodes(): HasMany

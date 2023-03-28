@@ -13,9 +13,7 @@ class FetchTMDBPopularSerialsService
 {
     public function __construct(
         protected TMDBRepository $TMDBRepository,
-    )
-    {
-    }
+    ){}
 
     public function perform(): void
     {
@@ -24,22 +22,28 @@ class FetchTMDBPopularSerialsService
 
     private function seedToDatabase(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
-            $this->saveSerials($this->getSerials($i));
+        for ($i = 2; $i <= 2; $i++) {
+            $this->saveSerialsWithSeasons($this->getSerials($i));
         }
     }
 
-    private function saveSerials(array $serials): void
+    private function saveSerialsWithSeasons(array $serials): void
     {
-        // Сохраняем сериалы в базу данных
-        Serial::query()->insert($serials);
+        foreach ($serials as $serial) {
+            $serial = $this->saveSerial($serial);
 
-//            // Создаем новый сезон
-//            $newSeason = new SerialEpisodeSeason();
-//            $newSeason->serial_id = $newSerial->id;
-//            $newSeason->season_number = 1;
-//            $newSeason->save();
+            $serialDetailRu = $this->TMDBRepository->getSerialDetails($serial->external_id, 'ru');
+            $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, 'en');
 
+
+            $serial->update([
+                'is_finished' => $serialDetailEn['status'] == 'Ended' ? 1 : 0,
+            ]);
+
+            foreach ($serialDetailRu['seasons'] as $key => $seasonRu) {
+                $this->saveSeason($seasonRu, $serialDetailEn['seasons'][$key], $serial);
+            }
+        }
     }
 
     private function getSerials(int $page): array
@@ -64,74 +68,28 @@ class FetchTMDBPopularSerialsService
                 $russianSerials['results'][$key]['poster_path']), $russianSerials['results'][$key]['name']);
 
             $serials[] = [
-                'name' => json_encode([
+                'name' => [
                     'en' => $show['name'],
                     'ru' => $russianSerials['results'][$key]['name'],
-                ]),
-                'description' => json_encode([
+                ],
+                'description' => [
                     'en' => $show['overview'],
                     'ru' => $russianSerials['results'][$key]['overview'],
-                ]),
-                'image_cover' => json_encode([
+                ],
+                'image_cover' => [
                     'en' => $imagePathEn,
                     'ru' => $imagePathRu,
-                ]),
+                ],
                 'rate' => $show['vote_average'],
                 'external_id' => $show['id'],
                 'external_resource' => ExternalSerialResources::TMDB,
                 'created_at' => Carbon::now(),
             ];
 
+            break;
         }
 
         return $serials;
-    }
-
-    private function getSerialsWithSeason(): Collection
-    {
-        // Получаем список популярных сериалов на английском языке
-        $englishSerials = $this->tvRepository->getPopular(['language' => 'en']);
-
-        // Получаем список популярных сериалов на русском языке
-        $russianSerials = $this->tvRepository->getPopular(['language' => 'ru']);
-
-        // Объединяем списки сериалов по ID
-        $serials = collect($englishSerials)->merge(collect($russianSerials))
-            ->unique('id')->values()->all();
-
-        // Получаем дополнительную информацию о каждом сериале
-        $this->tvRepository->load($serials, [
-            'translations',
-            'credits',
-            'images',
-            'videos',
-            'keywords',
-            'seasons',
-        ]);
-
-        // Получаем поля каждого сериала, которые нам нужны
-        $serialsData = collect($serials)->map(function ($serial) {
-            $seasonsData = collect($serial->getSeasons())->map(function ($season) use ($serial) {
-                return [
-                    'season_number' => $season->getSeasonNumber(),
-                    'air_date' => $season->getAirDate(),
-                    'overview' => $season->getOverview(),
-                    'poster' => $season->getPosterImage()->getUrl(),
-                    'rating' => $season->getVoteAverage(),
-                    'is_final_season' => $season->getSeasonNumber() == $serial->getNumberOfSeasons(),
-                ];
-            });
-
-            return [
-                'name' => $serial->getName(),
-                'description' => $serial->getOverview(),
-                'poster' => $serial->getPosterImage()->getUrl(),
-                'rating' => $serial->getVoteAverage(),
-                'seasons' => $seasonsData,
-            ];
-        });
-
-        return $serialsData;
     }
 
     private function savePoster(string $url, string $serial_id): string
@@ -142,5 +100,26 @@ class FetchTMDBPopularSerialsService
         Storage::put($path, $image);
 
         return $publicPath;
+    }
+
+    private function saveSerial(array $serial): Serial
+    {
+        return Serial::query()->create($serial);
+    }
+
+    private function saveSeason(array $seasonRu, array $seasonEn, Serial $serial): void
+    {
+        $serial->serialEpisodeSeasons()->create([
+            'season_number' => $seasonEn['season_number'],
+            'description' => [
+                'en' => $seasonEn['overview'],
+                'ru' => $seasonRu['overview'],
+            ],
+            'rate' => 0,
+            'external_id' => $seasonEn['id'],
+            'year' => date("Y", strtotime($seasonEn['air_date'])),
+        ]);
+
+//        $this->saveEpisodes($seasonRu, $seasonEn, $season);
     }
 }

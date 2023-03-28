@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\App;
  * @property string $name
  * @property string $description
  * @property float $rate
- * @property bool $is_final
+ * @property int $year
+ * TODO: Убрать в админке поле is_final
  * @property int $serial_id
  * @property-read Serial $serial
  * @property-read SerialEpisode[] $serialEpisodes
@@ -39,7 +40,6 @@ class SerialEpisodeSeason extends Model
         'season_number',
         'description',
         'rate',
-        'is_final',
         'year',
         'serial_id',
     ];
