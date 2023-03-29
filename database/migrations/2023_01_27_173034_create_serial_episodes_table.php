@@ -18,7 +18,7 @@ return new class extends Migration
             $table->json('name');
             $table->json('description');
             $table->integer('episode_number');
-            $table->decimal('rate', 2, 1);
+            $table->decimal('rate', 3, 1);
             $table->foreignId('season_id')->constrained('serial_episode_seasons')->onDelete('CASCADE');
             $table->foreignId('serial_id')->constrained()->onDelete('CASCADE');
             $table->timestamps();

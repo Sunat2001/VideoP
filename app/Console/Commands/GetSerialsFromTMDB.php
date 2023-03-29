@@ -32,7 +32,7 @@ class GetSerialsFromTMDB extends Command
         /** @var FetchTMDBPopularSerialsService $service */
         $service = app(FetchTMDBPopularSerialsService::class);
 
-        $service->perform();
+        $service->perform($this);
 
         $this->info('Serials from TMDB was successfully fetched');
 
