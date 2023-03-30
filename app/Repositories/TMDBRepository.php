@@ -30,7 +30,8 @@ class TMDBRepository
                 'verify' => false
             ])->get(config('services.tmdb.endpoint') . 'tv/' . $id, [
                 'api_key' => config('services.tmdb.token'),
-                'language' => $language
+                'language' => $language,
+                'append_to_response' => 'credits',
             ])->json();
         } catch (Exception $exception) {
             dd($exception->getMessage());

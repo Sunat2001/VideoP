@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Enum\ExternalSerialResources;
 use App\Enum\Languages;
+use App\Models\Attribute;
+use App\Models\AttributeValue;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
 use App\Repositories\TMDBRepository;
@@ -42,6 +44,9 @@ class FetchTMDBPopularSerialsService
 
             $serialDetailRu = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::RU);
             $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::EN);
+
+            $this->saveAttributes($serial, $serialDetailRu, $serialDetailEn);
+            dd('here');
 
             $this->saveTrailer($serial);
 
@@ -184,6 +189,34 @@ class FetchTMDBPopularSerialsService
                 ]);
                 break;
             }
+        }
+    }
+
+    private function saveAttributes(Serial $serial, array $serialRu, array $serialEn): void
+    {
+        $genresRU = $serialRu['genres'];
+        $genresEN = $serialEn['genres'];
+
+        $production_countriesRU = $serialRu['production_countries'];
+        $production_countriesEN = $serialEn['production_countries'];
+
+        $production_companiesRU = $serialRu['production_companies'];
+        $production_companiesEN = $serialEn['production_companies'];
+
+        $networksRU = $serialRu['networks'];
+        $networksEN = $serialEn['networks'];
+
+        foreach ($genresRU as $key => $genre) {
+            $attributeValue = AttributeValue::query()->firstOrCreate([
+                'attribute_id' => Attribute::query()->where('name->en', 'Genre')->first()->id,
+                'name' => [
+                    Languages::EN => $genresEN[$key]['name'],
+                    Languages::RU => $genre['name'],
+                ],
+                'is_active' => true,
+            ]);
+
+            $serial->attributeValues()->attach($attributeValue->id);
         }
     }
 }

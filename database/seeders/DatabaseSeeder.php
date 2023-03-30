@@ -27,19 +27,20 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => 'password',
+            'is_admin' => 1,
         ]);
 
-        Serial::factory(30)->create();
-        SerialEpisodeSeason::factory(30)->create();
-        SerialEpisode::factory(30)->create();
-        SerialEpisodeVideo::factory(30)->create();
+//        Serial::factory(30)->create();
+//        SerialEpisodeSeason::factory(30)->create();
+//        SerialEpisode::factory(30)->create();
+//        SerialEpisodeVideo::factory(30)->create();
 
-        Review::factory(20)->create();
+//        Review::factory(20)->create();
 
         $this->call([
             AttributeSeeder::class,
             AttributeValueSeeder::class,
-            SerialAtrributeValueSeed::class,
+//            SerialAtrributeValueSeed::class,
 //            RecomendedGenerateDataSeed::class,
         ]);
     }
