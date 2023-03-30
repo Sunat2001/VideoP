@@ -19,7 +19,9 @@ class FetchTMDBPopularSerialsService
 
     public function __construct(
         protected TMDBRepository $TMDBRepository,
-    ){}
+    )
+    {
+    }
 
     public function perform(Command $command): void
     {
@@ -116,7 +118,7 @@ class FetchTMDBPopularSerialsService
             $episodesRu[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonRu['season_number'], $i, Languages::RU);
             $episodesEn[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonEn['season_number'], $i, Languages::EN);
         }
-        return  [
+        return [
             'episodes_ru' => $episodesRu,
             'episodes_en' => $episodesEn,
         ];
@@ -213,10 +215,68 @@ class FetchTMDBPopularSerialsService
                     Languages::EN => $genresEN[$key]['name'],
                     Languages::RU => $genre['name'],
                 ],
-                'is_active' => true,
-            ]);
+            ],
+                [
+                    'is_active' => true,
+                ]);
 
             $serial->attributeValues()->attach($attributeValue->id);
         }
+
+        $this->command->info('Genres synced');
+
+        foreach ($production_countriesRU as $key => $country) {
+            $attributeValue = AttributeValue::query()->firstOrCreate([
+                'attribute_id' => Attribute::query()->where('name->en', 'Country')->first()->id,
+                'name' => [
+                    Languages::EN => $production_countriesEN[$key]['name'],
+                    Languages::RU => $country['name'],
+                ],
+            ],
+                [
+                    'is_active' => true,
+                ]);
+
+            $serial->attributeValues()->attach($attributeValue->id);
+        }
+
+        $this->command->info('Countries synced');
+
+        foreach ($production_companiesRU as $key => $company) {
+            $attributeValue = AttributeValue::query()->firstOrCreate([
+                'attribute_id' => Attribute::query()->where('name->en', 'Production company')->first()->id,
+                'name' => [
+                    Languages::EN => $production_companiesEN[$key]['name'],
+                    Languages::RU => $company['name'],
+                ],
+                'image' => $this->TMDBRepository->getImagePath($production_companiesEN[$key]['logo_path'])
+            ],
+                [
+                    'is_active' => true,
+                ]);
+
+            $serial->attributeValues()->attach($attributeValue->id);
+        }
+
+        $this->command->info('Production companies synced');
+
+        foreach ($networksRU as $key => $network) {
+            $attributeValue = AttributeValue::query()->firstOrCreate([
+                'attribute_id' => Attribute::query()->where('name->en', 'Network')->first()->id,
+                'name' => [
+                    Languages::EN => $networksEN[$key]['name'],
+                    Languages::RU => $network['name'],
+                ],
+                'image' => $this->TMDBRepository->getImagePath($networksEN[$key]['logo_path'])
+            ],
+                [
+                    'is_active' => true,
+                ]);
+
+            $serial->attributeValues()->attach($attributeValue->id);
+        }
+
+        $this->command->info('Networks synced');
+
     }
 }

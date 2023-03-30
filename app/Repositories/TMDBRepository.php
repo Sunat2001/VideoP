@@ -137,8 +137,8 @@ class TMDBRepository
         }
     }
 
-    public function getImagePath(string $path, string $size = 'original'): string
+    public function getImagePath(string $path, string $size = 'original'): string|null
     {
-        return config('services.tmdb.image_url') . $size . $path;
+        return $path ? config('services.tmdb.image_url') . $size . $path : null;
     }
 }
