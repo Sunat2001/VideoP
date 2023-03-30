@@ -19,6 +19,7 @@ return new class extends Migration
             $table->json('description');
             $table->json('image_cover');
             $table->boolean('is_finished')->default(false);
+            $table->string('trailer_link')->nullable();
             $table->string('external_id');
             $table->string('external_resource');
             $table->decimal('rate', 2, 1);

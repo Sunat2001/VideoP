@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enum\ExternalSerialResources;
+use App\Enum\Languages;
 use App\Models\Serial;
 use App\Models\SerialEpisodeSeason;
 use App\Repositories\TMDBRepository;
@@ -26,7 +27,7 @@ class FetchTMDBPopularSerialsService
 
     private function seedToDatabase(): void
     {
-        for ($i = 1; $i <= 10; $i++) {
+        for ($i = 3; $i <= 10; $i++) {
             $this->saveSerialsWithSeasons($this->getSerials($i));
             $this->command->info('Page ' . $i . ' done');
             break;
@@ -39,9 +40,10 @@ class FetchTMDBPopularSerialsService
             $serial = $this->saveSerial($serial);
             $this->command->info('Serial ' . $serial->name . ' done');
 
-            $serialDetailRu = $this->TMDBRepository->getSerialDetails($serial->external_id, 'ru');
-            $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, 'en');
+            $serialDetailRu = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::RU);
+            $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::EN);
 
+            $this->saveTrailer($serial);
 
             $serial->update([
                 'is_finished' => $serialDetailEn['status'] == 'Ended' ? 1 : 0,
@@ -56,10 +58,10 @@ class FetchTMDBPopularSerialsService
     private function getSerials(int $page): array
     {
         // Получаем список популярных сериалов на английском языке
-        $englishSerials = $this->TMDBRepository->getPopularSerials('en', $page);
+        $englishSerials = $this->TMDBRepository->getPopularSerials(Languages::EN, $page);
 
         // Получаем список популярных сериалов на русском языке
-        $russianSerials = $this->TMDBRepository->getPopularSerials('ru', $page);
+        $russianSerials = $this->TMDBRepository->getPopularSerials(Languages::RU, $page);
 
 
         $serials = array();
@@ -78,21 +80,23 @@ class FetchTMDBPopularSerialsService
 
             $serials[] = [
                 'name' => [
-                    'en' => $show['name'],
-                    'ru' => $russianSerials['results'][$key]['name'],
+                    Languages::EN => $show['name'],
+                    Languages::RU => $russianSerials['results'][$key]['name'],
                 ],
                 'description' => [
-                    'en' => $show['overview'],
-                    'ru' => $russianSerials['results'][$key]['overview'],
+                    Languages::EN => $show['overview'],
+                    Languages::RU => $russianSerials['results'][$key]['overview'],
                 ],
                 'image_cover' => [
-                    'en' => $imagePathEn,
-                    'ru' => $imagePathRu,
+                    Languages::EN => $imagePathEn,
+                    Languages::RU => $imagePathRu,
                 ],
                 'rate' => $show['vote_average'],
                 'external_id' => $show['id'],
                 'external_resource' => ExternalSerialResources::TMDB,
             ];
+
+            break;
         }
 
         return $serials;
@@ -100,9 +104,12 @@ class FetchTMDBPopularSerialsService
 
     private function getEpisodes(int $serial_id, array $seasonRu, array $seasonEn): array
     {
+        $episodesRu = [];
+        $episodesEn = [];
+
         for ($i = 1; $i <= $seasonRu['episode_count']; $i++) {
-            $episodesRu[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonRu['season_number'], $i, 'ru');
-            $episodesEn[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonEn['season_number'], $i, 'en');
+            $episodesRu[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonRu['season_number'], $i, Languages::RU);
+            $episodesEn[] = $this->TMDBRepository->getSerialEpisodeDetails($serial_id, $seasonEn['season_number'], $i, Languages::EN);
         }
         return  [
             'episodes_ru' => $episodesRu,
@@ -130,8 +137,8 @@ class FetchTMDBPopularSerialsService
         $season = $serial->serialEpisodeSeasons()->create([
             'season_number' => $seasonEn['season_number'],
             'description' => [
-                'en' => $seasonEn['overview'],
-                'ru' => $seasonRu['overview'],
+                Languages::EN => $seasonEn['overview'],
+                Languages::RU => $seasonRu['overview'],
             ],
             'rate' => 0,
             'external_id' => $seasonEn['id'],
@@ -150,12 +157,12 @@ class FetchTMDBPopularSerialsService
             $season->serialEpisodes()->create([
                 'episode_number' => $episodeEn['episode_number'],
                 'name' => [
-                    'en' => $episodeEn['name'],
-                    'ru' => $episodes['episodes_ru'][$key]['name'],
+                    Languages::EN => $episodeEn['name'],
+                    Languages::RU => $episodes['episodes_ru'][$key]['name'],
                 ],
                 'description' => [
-                    'en' => $episodeEn['overview'],
-                    'ru' => $episodes['episodes_ru'][$key]['overview'],
+                    Languages::EN => $episodeEn['overview'],
+                    Languages::RU => $episodes['episodes_ru'][$key]['overview'],
                 ],
                 'rate' => $episodeEn['vote_average'],
                 'serial_id' => $season->serial->id,
@@ -163,6 +170,20 @@ class FetchTMDBPopularSerialsService
             ]);
 
             $this->command->info('Episode ' . $episodeEn['episode_number'] . ' done');
+        }
+    }
+
+    private function saveTrailer(Serial $serial): void
+    {
+        $videos = $this->TMDBRepository->getSerialVideos($serial->external_id, Languages::EN);
+
+        foreach ($videos['results'] as $video) {
+            if ($video['type'] == 'Trailer' && $video['site'] == 'YouTube') {
+                $serial->update([
+                    'trailer' => "https://www.youtube.com/watch?v={$video['key']}",
+                ]);
+                break;
+            }
         }
     }
 }

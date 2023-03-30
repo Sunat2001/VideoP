@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\App;
  * @property float $rate
  * TODO: Добавить в админке поле is_finished
  * @property bool $is_finished
+ * TODO: Добавить в админке поле trailer_link
+ * @property string $trailer_link
  * @property string $description
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -69,6 +71,7 @@ class Serial extends Model
         'external_id',
         'external_resource',
         'is_finished',
+        'trailer_link',
     ];
 
     protected $casts = [
