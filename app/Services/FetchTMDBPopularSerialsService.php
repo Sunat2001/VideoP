@@ -19,9 +19,7 @@ class FetchTMDBPopularSerialsService
 
     public function __construct(
         protected TMDBRepository $TMDBRepository,
-    )
-    {
-    }
+    ){}
 
     public function perform(Command $command): void
     {
@@ -48,7 +46,6 @@ class FetchTMDBPopularSerialsService
             $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::EN);
 
             $this->getAttributes($serial, $serialDetailRu, $serialDetailEn);
-            dd('here');
 
             $this->saveTrailer($serial);
 
@@ -103,7 +100,6 @@ class FetchTMDBPopularSerialsService
                 'external_resource' => ExternalSerialResources::TMDB,
             ];
 
-            break;
         }
 
         return $serials;
