@@ -47,7 +47,7 @@ class FetchTMDBPopularSerialsService
             $serialDetailRu = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::RU);
             $serialDetailEn = $this->TMDBRepository->getSerialDetails($serial->external_id, Languages::EN);
 
-            $this->saveAttributes($serial, $serialDetailRu, $serialDetailEn);
+            $this->getAttributes($serial, $serialDetailRu, $serialDetailEn);
             dd('here');
 
             $this->saveTrailer($serial);
@@ -194,7 +194,7 @@ class FetchTMDBPopularSerialsService
         }
     }
 
-    private function saveAttributes(Serial $serial, array $serialRu, array $serialEn): void
+    private function getAttributes(Serial $serial, array $serialRu, array $serialEn): void
     {
         $genresRU = $serialRu['genres'];
         $genresEN = $serialEn['genres'];
@@ -208,75 +208,46 @@ class FetchTMDBPopularSerialsService
         $networksRU = $serialRu['networks'];
         $networksEN = $serialEn['networks'];
 
-        foreach ($genresRU as $key => $genre) {
-            $attributeValue = AttributeValue::query()->firstOrCreate([
-                'attribute_id' => Attribute::query()->where('name->en', 'Genre')->first()->id,
-                'name' => [
-                    Languages::EN => $genresEN[$key]['name'],
-                    Languages::RU => $genre['name'],
-                ],
-            ],
-                [
-                    'is_active' => true,
-                ]);
-
-            $serial->attributeValues()->attach($attributeValue->id);
-        }
+        $this->saveAttributes($genresRU, $genresEN, $serial, 'Genre');
 
         $this->command->info('Genres synced');
 
-        foreach ($production_countriesRU as $key => $country) {
-            $attributeValue = AttributeValue::query()->firstOrCreate([
-                'attribute_id' => Attribute::query()->where('name->en', 'Country')->first()->id,
-                'name' => [
-                    Languages::EN => $production_countriesEN[$key]['name'],
-                    Languages::RU => $country['name'],
-                ],
-            ],
-                [
-                    'is_active' => true,
-                ]);
-
-            $serial->attributeValues()->attach($attributeValue->id);
-        }
+        $this->saveAttributes($production_countriesRU, $production_countriesEN, $serial, 'Country');
 
         $this->command->info('Countries synced');
 
-        foreach ($production_companiesRU as $key => $company) {
-            $attributeValue = AttributeValue::query()->firstOrCreate([
-                'attribute_id' => Attribute::query()->where('name->en', 'Production company')->first()->id,
-                'name' => [
-                    Languages::EN => $production_companiesEN[$key]['name'],
-                    Languages::RU => $company['name'],
-                ],
-                'image' => $this->TMDBRepository->getImagePath($production_companiesEN[$key]['logo_path'])
-            ],
-                [
-                    'is_active' => true,
-                ]);
-
-            $serial->attributeValues()->attach($attributeValue->id);
-        }
+        $this->saveAttributes($production_companiesRU, $production_companiesEN, $serial, 'Production company');
 
         $this->command->info('Production companies synced');
 
-        foreach ($networksRU as $key => $network) {
-            $attributeValue = AttributeValue::query()->firstOrCreate([
-                'attribute_id' => Attribute::query()->where('name->en', 'Network')->first()->id,
-                'name' => [
-                    Languages::EN => $networksEN[$key]['name'],
-                    Languages::RU => $network['name'],
-                ],
-                'image' => $this->TMDBRepository->getImagePath($networksEN[$key]['logo_path'])
-            ],
-                [
+        $this->saveAttributes($networksRU, $networksEN, $serial, 'Network');
+
+        $this->command->info('Networks synced');
+    }
+
+    private function saveAttributes(array $attributesRu, array $attributesEn, Serial $serial, string $attributeKey): void
+    {
+        $attributeId = Attribute::query()->where('name->en', $attributeKey)->first()->id;
+
+        foreach ($attributesEn as $key => $attribute) {
+            $attributeValue = AttributeValue::query()
+                ->where('name->en', $attribute['name'])
+                ->where('attribute_id', $attributeId)
+                ->first();
+
+            if (!$attributeValue) {
+                $attributeValue = AttributeValue::query()->create([
+                    'attribute_id' => $attributeId,
+                    'name' => [
+                        Languages::EN => $attribute['name'],
+                        Languages::RU => $attributesRu[$key]['name'],
+                    ],
                     'is_active' => true,
                 ]);
+            }
 
             $serial->attributeValues()->attach($attributeValue->id);
         }
-
-        $this->command->info('Networks synced');
-
     }
+
 }

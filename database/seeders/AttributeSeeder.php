@@ -114,6 +114,21 @@ class AttributeSeeder extends Seeder
                 ],
                 'is_active' => true,
             ],
+
+            [
+                'name' => [
+                    'en' => 'Network',
+                    'ru' => 'Сеть',
+                ],
+                'is_active' => true,
+            ],
+            [
+                'name' => [
+                    'en' => 'Production company',
+                    'ru' => 'Продюсерская компания',
+                ],
+                'is_active' => true,
+            ]
         ];
 
 //        Attribute::query()->insert($attributes);
