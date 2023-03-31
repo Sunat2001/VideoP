@@ -43,6 +43,7 @@
                                     <th>{{ __('dashboard.rate') }}</th>
                                     <th>{{ __('dashboard.serial.episode_count') }}</th>
                                     <th>{{ __('dashboard.serial.season_count') }}</th>
+                                    <th>{{ __('dashboard.serial.is_finished') }}</th>
                                     <th>{{ __('dashboard.serial.created_at') }}</th>
                                     <th>{{ __('dashboard.serial.updated_at') }}</th>
                                     <th>{{ __('dashboard.actions') }}</th>
@@ -57,6 +58,7 @@
                                         <td>{{ $serial->rate }}</td>
                                         <td>{{ $serial->serial_episodes_count }}</td>
                                         <td>{{ $serial->serial_episode_seasons_count }}</td>
+                                        <td>{{ $serial->is_finished == 1 ? __('dashboard.yes') : __('dashboard.no') }}</td>
                                         <td>{{ $serial->created_at }}</td>
                                         <td>{{ $serial->updated_at }}</td>
                                         <td>

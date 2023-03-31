@@ -29,7 +29,7 @@ class FetchTMDBPopularSerialsService
 
     private function seedToDatabase(): void
     {
-        for ($i = 3; $i <= 10; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             $this->saveSerialsWithSeasons($this->getSerials($i));
             $this->command->info('Page ' . $i . ' done');
             break;

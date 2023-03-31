@@ -82,6 +82,7 @@ return [
         'id' => 'ID',
         'name' => 'Name',
         'image' => 'Image',
+        'is_finished' => 'Is Finished',
         'created_at' => 'Created at',
         'updated_at' => 'Updated at',
         'add' => 'Add serial',

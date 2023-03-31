@@ -38,7 +38,6 @@
                                     <th>{{ __('dashboard.episode.serial') }}</th>
                                     <th>{{ __('dashboard.season.season_number') }}</th>
                                     <th>{{ __('dashboard.season.year') }}</th>
-                                    <th>{{ __('dashboard.season.is_final') }}</th>
                                     <th>{{ __('dashboard.rate') }}</th>
                                     <th>{{ __('dashboard.episode.created_at') }}</th>
                                     <th>{{ __('dashboard.episode.updated_at') }}</th>
@@ -56,7 +55,6 @@
                                         </td>
                                         <td>{{ $season->season_number }}</td>
                                         <td>{{ $season->year }}</td>
-                                        <td>{{ $season->is_final == 1 ? __('dashboard.yes') : __('dashboard.no') }}</td>
                                         <td>{{ $season->rate }}</td>
                                         <td>{{ $season->created_at }}</td>
                                         <td>{{ $season->updated_at }}</td>

@@ -58,7 +58,7 @@
                                         <td><a href="{{route('serials_seasons.show', ['serials_season' => $episode->season])}}">
                                                 {{ $episode->season->season_number }}
                                             </a></td>
-                                        <td>{{ $episode->serial_number }}</td>
+                                        <td>{{ $episode->episode_number }}</td>
                                         <td>{{ $episode->rate }}</td>
                                         <td>{{ $episode->created_at }}</td>
                                         <td>{{ $episode->updated_at }}</td>

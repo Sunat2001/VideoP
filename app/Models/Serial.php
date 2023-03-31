@@ -139,7 +139,7 @@ class Serial extends Model
     protected function imageCover(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => json_decode($value, true)[App::currentLocale()],
+            get: fn ($value) => json_decode($value, true)[App::currentLocale()] ?? '',
         );
     }
 }
